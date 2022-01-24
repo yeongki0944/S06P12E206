@@ -1,21 +1,22 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.doctor;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-
-/**
- * 모델 간 공통 사항 정의.
- */
+@Entity
+@NoArgsConstructor
 @Getter
 @Setter
-@MappedSuperclass
-public class BaseEntity {
+public class Disease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id = null;
+    private Long id;
+
+    private String diseaseName;
+
 }
