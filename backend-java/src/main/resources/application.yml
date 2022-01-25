@@ -44,9 +44,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      username: root
-      password: 1234
-    url: jdbc:mysql://localhost:3306/integ_project?serverTimezone=Asia/Seoul
+      username: ssafy6
+      password: SIXMAN1q2w3e4r!
+    url: jdbc:mysql://3.15.140.40:3306/integ_project?serverTimezone=Asia/Seoul
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
@@ -55,7 +55,7 @@ spring:
       hibernate:
         format_sql: true # sql 쿼리문을 정제해서 볼수있음.
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       format_sql: true
   data:
     web:
