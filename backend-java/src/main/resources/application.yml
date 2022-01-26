@@ -55,7 +55,7 @@ spring:
       hibernate:
         format_sql: true # sql 쿼리문을 정제해서 볼수있음.
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       format_sql: true
   data:
     web:

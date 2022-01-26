@@ -8,8 +8,8 @@ import VueAxios from './common/lib/axios'
 import axios from './common/lib/axios'
 import i18n from './common/lib/i18n'
 import router from './common/lib/vue-router'
+import GAuth from 'vue3-google-oauth2'
 
-import 'element-plus/packages/theme-chalk/src/base.scss'
 
 // Element UI Components [시작]
 import {
@@ -200,6 +200,11 @@ app.use(VueAxios, axios)
 app.use(store)
 app.use(i18n)
 app.use(router)
+
+// OAuth2.0
+const gAuthOptions = { clientId:process.env.VUE_APP_OAUTH_CLIENT, scope: 'email', prompt: 'consent', fetch_basic_profile: false }
+app.use(GAuth, gAuthOptions)
+
 
 components.forEach(component => {
   app.component(component.name, component)
