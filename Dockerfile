@@ -1,7 +1,7 @@
 # # JDK8 이미지 사용
-# FROM openjdk:8-jdk
+FROM openjdk:8-jdk
 
-# VOLUME /tmp
+VOLUME /tmp
 
 # # JAR_FILE 변수에 값을 저장
 # ARG JAR_FILE=./build/libs/MyApp-1.0.0.jar
@@ -11,4 +11,4 @@
 # COPY ${JAR_FILE} app.jar
 
 # # 빌드된 이미지가 run될 때 실행할 명령어
-# ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
