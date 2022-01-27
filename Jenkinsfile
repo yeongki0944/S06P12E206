@@ -3,13 +3,14 @@ node {
         def dockerHome = tool 'myDocker'
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
-    
+
      stage('Clone repository') {
         checkout scm
      }
 
      stage('Docker Image make') {
-        sh 'docker build --no-cache -t SignLanguageDoctor .'
+        sh 'docker build --no-cache -t sign-language-doctor .'
+        //invalid argument "SignLanguageDoctor" for t: invalid reference format: repository name must be lowercase
         sh 'echo start build docker image'
      }
 
