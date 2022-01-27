@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="inputPassword3"
-                    >Password</label
+                    >비밀번호</label
                   ><span> </span>
                   <input
                     class="form-control"
@@ -49,29 +49,31 @@
                 </div>
                 <div class="form-group">
                   <div class="rememberchk">
-                    <div class="input-text form-check pl-0">
+                    <!-- 회원가입 페이지에 "아이디 저장"이나 "비밀번호 찾기"는 필요없음 -->
+                    <!-- <div class="input-text form-check pl-0">
                       <input type="checkbox" id="gridCheck1" />
                       <label
                         class="form-check-label ml-2 mr-auto p-0"
-                        for="gridCheck1">Remember Me</label>
+                        for="gridCheck1">아이디 저장</label>
                       <h6><nuxt-link to="/authentication/signup">Forgot Password?</nuxt-link></h6>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="form-group">
+                  <!-- 회원가입 성공 시, 로그인 페이지로 이동시켜야 함 -->
                   <div class="buttons">
                     <a
-                      class="btn btn-primary button-effect signpbtn"
+                      class="btn btn-primary button-effect signpbtn w-100"
                       href="javascript:void(0)"
-                      >Signup</a
+                      >회원가입</a
                     >
-                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/login">
+                    <!-- <nuxt-link class="btn button-effect btn-signup" to="/authentication/login">
                       Login
-                    </nuxt-link>
+                    </nuxt-link> -->
                   </div>
                 </div>
                 <div class="line">
-                  <h6>OR Connect with</h6>
+                  <h6>SNS 계정으로 로그인</h6>
                 </div>
                 <div class="medialogo">
                   <ul>
