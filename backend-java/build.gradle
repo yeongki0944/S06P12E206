@@ -29,7 +29,6 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version "${springBootVer}"
     id 'java-library'
-    id  'application'
 }
 
 
@@ -38,16 +37,15 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
 apply plugin: 'com.github.node-gradle.node'
-apply plugin: 'application'
+// apply plugin: 'application'
 
 // JAR파일 생성을 위한 코드  START
-mainClassName = 'kr.pe.theeye.MyApp'
-sourceCompatibility = 1.7
-version = '1.0'
+ mainClassName = 'com.ssafy.GroupCallApplication'
+
 
 jar {
     manifest {
-        attributes  'Title': 'My Application', 'Version': version, 'Main-Class': mainClassName
+        attributes  'Title': 'My Application', 'Version': '1.0.0', 'Main-Class': mainClassName
     }
     archiveName 'MyApp.jar'
     dependsOn configurations.runtime
@@ -56,9 +54,9 @@ jar {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
-}
+// task wrapper(type: Wrapper) {
+//     gradleVersion = '1.10'
+// }
 // JAR파일 생성을 위한 코드  END
 
 
