@@ -4,7 +4,7 @@ node {
      }
 
      stage('Docker Image make') {
-        sh 'make build'
+        sh 'docker build --no-cache -t SignLanguageDoctor .'
         sh 'echo start build docker image'
      }
 
@@ -13,7 +13,7 @@ node {
      }
 
      stage('Docker deploy complete') {
-        sh 'make up'
+        sh 'docker-compose up -d'
         sh 'echo deploy complete'
      }
  }
