@@ -32,7 +32,7 @@ plugins {
 
 
 
-
+apply plugin:'base'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
 apply plugin: 'com.github.node-gradle.node'
