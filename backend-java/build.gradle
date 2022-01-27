@@ -25,6 +25,7 @@ buildscript{
 }
 
 plugins {
+    id "base"
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version "${springBootVer}"
