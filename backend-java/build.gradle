@@ -28,11 +28,41 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version "${springBootVer}"
+    id 'java-library'
+    id  'application'
 }
+
+
+
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
 apply plugin: 'com.github.node-gradle.node'
+apply plugin: 'application'
+
+// JAR파일 생성을 위한 코드  START
+mainClassName = 'kr.pe.theeye.MyApp'
+sourceCompatibility = 1.7
+version = '1.0'
+
+jar {
+    manifest {
+        attributes  'Title': 'My Application', 'Version': version, 'Main-Class': mainClassName
+    }
+    archiveName 'MyApp.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
+// JAR파일 생성을 위한 코드  END
+
+
+
 //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요.
 //apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
@@ -50,6 +80,12 @@ group 'com.ssafy'
 version '1.0-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+tasks.named('jar') {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                   'Implementation-Version': project.version)
+    }
+}
 //node {
 //    download = true
 //    version = '14.17.0'
