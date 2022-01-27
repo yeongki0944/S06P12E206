@@ -4,7 +4,7 @@ node {
      }
 
      stage('Docker Image make') {
-        sh 'make build'
+        // sh 'make build'
         sh 'echo start build docker image'
      }
 
@@ -13,7 +13,7 @@ node {
      }
 
      stage('Docker deploy complete') {
-        sh 'make up'
+        // sh 'make up'
         sh 'echo deploy complete'
      }
  }
