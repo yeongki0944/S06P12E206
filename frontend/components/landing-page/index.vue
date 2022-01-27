@@ -10,8 +10,8 @@
       <SecureApp />
       <Collaboration />
       
-
-      <section class="section-py-space light-bg">
+      <!-- 나중에 우리팀 팀원들 넣기 -->
+      <!-- <section class="section-py-space light-bg">
         <div class="landing-title">
           <div>
             <h1>Team</h1>
@@ -24,11 +24,11 @@
           </div>
         </div>
         <Testimonial />
-      </section>
+      </section> -->
 
       
-      <PricingPlan />
-      <SubscribeUpdate />
+      <!-- <PricingPlan /> -->
+      <!-- <SubscribeUpdate /> -->
       <Footer />
       <TapTop />
     </div>

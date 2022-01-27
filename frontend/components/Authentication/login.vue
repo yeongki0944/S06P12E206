@@ -32,7 +32,7 @@
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="inputPassword3"
-                    >Password</label
+                    >비밀번호</label
                   ><span> </span>
                   <input
                     class="form-control"
@@ -52,9 +52,9 @@
                         type="checkbox"
                       />
                       <label class="form-check-label" for="gridCheck1"
-                        >Remember Me</label
+                        >아이디 저장</label
                       >
-                      <h6><nuxt-link to="/authentication/login">Forgot Password?</nuxt-link></h6>
+                      <h6><nuxt-link to="/authentication/login">비밀번호를 잊으셨나요?</nuxt-link></h6>
                     </div>
                   </div>
                 </div>
@@ -64,16 +64,16 @@
                       class="btn btn-primary button-effect"
                       href="javascript:void(0)"
                       @click="signUp"
-                      >Login</a
+                      >로그인</a
                     >
                     <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup">
-                      SignUp
+                      회원가입
                     </nuxt-link>
                   </div>
                 </div>
               </form>
               <div class="line">
-                <h6>OR Connect with</h6>
+                <h6>SNS 계정으로 로그인</h6>
               </div>
               <div class="medialogo">
                 <ul>

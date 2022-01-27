@@ -183,7 +183,7 @@
       />
     </div>
     <div class="container copyright-footer">
-      <div class="row copyright">
+      <!-- <div class="row copyright">
         <div class="col-md-6 col-sm-12">
           <p class="footer-left">© 2021 Chitchat. All Rights Reserved</p>
         </div>
@@ -192,7 +192,7 @@
             Made with <span>&hearts; </span>By Theme Pixelstrap
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
   </footer>
   <!--Footer end -->
