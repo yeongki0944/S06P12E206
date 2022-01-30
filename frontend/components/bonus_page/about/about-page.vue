@@ -3,6 +3,9 @@
     <div class="custom-container">
       <div class="row">
         <div class="col-sm-8 offset-sm-2 text-center">
+
+          <Camera />
+
           <img
             class="img-fluid w-100 pb-4"
             src="../../../assets/images/about/1.jpg"
@@ -27,3 +30,16 @@
     </div>
   </section>
 </template>
+
+
+<script>
+import Camera from './Camera.vue';
+
+export default {
+  name: 'about-page',
+
+  components: {
+    Camera,
+  }
+}
+</script>
