@@ -9,6 +9,7 @@ npm run dev
 오류 있을시 
 npm uninstall node-sass
 npm i -D sass
+npm install -g @vue/cli @vue/cli-init
 npm run dev 
 
 # build for production and launch server
