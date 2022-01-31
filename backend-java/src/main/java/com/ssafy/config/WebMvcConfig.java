@@ -47,16 +47,27 @@ public class WebMvcConfig implements WebMvcConfigurer {
     		 * Front-end에서 참조하는 URL을 /dist로 매핑
     		 * 
     		 */
+//        registry.addResourceHandler("/css/**")
+//                .addResourceLocations("classpath:/dist/css/");
+//        registry.addResourceHandler("/fonts/**")
+//                .addResourceLocations("classpath:/dist/fonts/");
+//        registry.addResourceHandler("/icons/**")
+//                .addResourceLocations("classpath:/dist/icons/");
+//        registry.addResourceHandler("/img/**")
+//                .addResourceLocations("classpath:/dist/img/");
+//        registry.addResourceHandler("/**")
+//                .addResourceLocations("classpath:/dist/");
+
         registry.addResourceHandler("/css/**")
         			.addResourceLocations("classpath:/dist/css/");
         	registry.addResourceHandler("/fonts/**")
-        			.addResourceLocations("classpath:/dist/fonts/");
+        			.addResourceLocations("classpath:/dist/_nuxt/fonts/");
         registry.addResourceHandler("/icons/**")
 				.addResourceLocations("classpath:/dist/icons/");
         registry.addResourceHandler("/img/**")
-			.addResourceLocations("classpath:/dist/img/");
-        registry.addResourceHandler("/js/**")
-				.addResourceLocations("classpath:/dist/js/");
+			.addResourceLocations("classpath:/dist/_nuxt/img/");
+        registry.addResourceHandler("/chitchat/_nuxt/**")
+				.addResourceLocations("classpath:/dist/_nuxt/");
     }
 
     public Filter requestLoggingFilter() {

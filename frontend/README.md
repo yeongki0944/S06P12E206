@@ -1,24 +1,56 @@
-# ssafy-vue
+# chitchat-nuxt
 
-## Project setup
-```
+## Build Setup
+
+```bash
 npm install
+npm run dev
+==========
+오류 있을시 
+npm uninstall node-sass
+npm i -D sass
+npm install -g @vue/cli @vue/cli-init
+npm run dev 
+
+# build for production and launch server
+$ npm run build
+$ npm run start
+
+# generate static project
+$ npm run generate
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[documentation](https://nuxtjs.org)
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Special Directories
 
-### Lints and fixes files
-```
-npm run lint
-```
+### `assets`
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets)
+
+### `components`
+
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components)
+
+### `layouts`
+
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts)
+
+
+### `pages`
+
+[the documentation](https://nuxtjs.org/docs/2.x/get-started/routing)
+
+### `plugins`
+
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins)
+
+### `static`
+
+Example: `/static/robots.txt` is mapped as `/robots.txt`.
+
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static)
+
+### `store`
+
+[the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store)
