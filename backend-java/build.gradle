@@ -84,10 +84,10 @@ configurations {
     args = ['install']
 }*/
 
-task npmGenerate(type: NpmTask) {
-   args = ['run','generate']
-}
-processResources.dependsOn 'npmGenerate'
+//task npmGenerate(type: NpmTask) {
+//   args = ['run','generate']
+//}
+//processResources.dependsOn 'npmGenerate'
 
 //build.dependsOn npmGenerate
 
