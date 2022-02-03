@@ -20,7 +20,10 @@ server:
     enabled: 'true'
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
 
-
+naver:
+  serviceid: ncp:sms:kr:279856955477:integproject
+  accesskey: HIDncMGBKqu5AUI6sjxz
+  secretkey: fouu4u2cBxZZB1SEIKeRAzReGnswE6KflPkn6pry
 
 spa:
   default-file: /dist/index.html
