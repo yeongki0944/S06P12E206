@@ -46,7 +46,7 @@ spring:
     hikari:
       username: ssafy6
       password: SIXMAN1q2w3e4r!
-    url: jdbc:mysql://SIXMAN1q2w3e4r!:3306/integ_project?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://3.133.8.139:3306/integ_project?serverTimezone=Asia/Seoul
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
