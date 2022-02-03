@@ -530,10 +530,10 @@
     header {
       .landing-header {
         .btn {
-          color: rgba($black, 0.7) !important;
+          color: rgba(#0471f9, 1) !important;
           padding: 3px 0;
           a {
-            color: rgba($black, 0.7);
+            color: rgba(#0471f9, 1);
           }
           &.active, &:active {
             color: $primary-color !important;
