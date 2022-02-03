@@ -14,7 +14,7 @@
                 />
               </div>
               <h3>Hello Everyone , We are Chitchat</h3>
-              <h4>Welcome to chitchat please login to your account.</h4>
+              <h4>Welcome to chitchat please login to your account1.</h4>
               <form class="form1">
                 <div class="form-group">
                   <label class="col-form-label" for="inputEmail3"
@@ -76,7 +76,13 @@
                 <h6>SNS 계정으로 로그인</h6>
               </div>
               <div class="medialogo">
-                <ul>
+                <div class="google-btn" @click="handleClickGetAuth">
+                  <div class="google-icon-wrapper">
+                    <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                  </div>
+                  <p class="btn-text"><b>Sign in with Google</b></p>
+                </div>
+                <!-- <ul>
                   <li>
                     <a
                       class="icon-btn btn-danger button-effect"
@@ -98,7 +104,7 @@
                       ><i class="fa fa-facebook-f"></i
                     ></a>
                   </li>
-                </ul>
+                </ul> -->
               </div>
               <div class="termscondition">
                 <h4 class="mb-0">
@@ -192,7 +198,7 @@
 
 <script>
 import firebase from "firebase";
-
+import http from "@/components/common/axios.js";
 export default {
   data() {
     return {
@@ -201,6 +207,46 @@ export default {
     };
   },
   methods: {
+
+    async handleClickGetAuth() {
+      const googleUser = await this.$gAuth.signIn()
+      if (!googleUser) {
+          return null;
+       }
+      http
+        .post("/api/v1/oauth/login", {
+          idToken: googleUser.getAuthResponse().id_token
+        })
+        .then(({ data }) => {
+          console.log("LoginVue: data : ");
+          console.log(data);
+
+          localStorage.setItem("jwtToken", data.accessToken);
+
+
+          this.$store.commit("SET_LOGIN", {
+            userSeq: data.userSeq,
+            isLogin: true,
+            userName: data.userName,
+            userProfileImageUrl: data.userProfileImageUrl,
+          });
+          
+          this.$router.replace("/");
+
+          
+        })
+        .catch(error => {
+          console.log("LoginVue: error : ");
+          console.log(error);
+          if (error.response.status == "404") {
+            this.$alertify.error("이메일 또는 비밀번호를 확인하세요.");
+          } else {
+            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
+          }
+        });
+
+      },
+
     signUp: function() {
       if (this.email === "" && this.password === "") {
         this.email = "test@admin.com";
@@ -234,5 +280,5 @@ export default {
       }
     },
   },
-};
+}
 </script>

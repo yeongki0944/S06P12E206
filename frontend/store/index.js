@@ -5,7 +5,7 @@ import groupchat from './modules/groupchat'
 import common from './modules/common'
 import sidebar from './modules/sidebar'
 import layout from './modules/layout'
-
+import user from './modules/user'
 Vue.use(Vuex);
 
 const createStore = () => {
@@ -15,7 +15,8 @@ const createStore = () => {
       groupchat,
       common,
       sidebar,
-      layout
+      layout,
+      user
     }
   })
 }
