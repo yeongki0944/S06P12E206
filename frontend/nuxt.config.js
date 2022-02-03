@@ -65,6 +65,7 @@ export default {
   axios: {
   },
   generate: {
+    dir: '../backend-java/src/main/resources/dist',
     fallback: true
   },
 
