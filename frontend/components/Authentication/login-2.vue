@@ -40,7 +40,7 @@
           />
         </div>
         <h3>Hello Everyone , We are Chitchat</h3>
-        <h4>Welcome to chitchat please, login to your account.</h4>
+        <h4>Welcome to chitchat please, login to your accountsssssssssssssss.</h4>
         <form class="form2">
           <div class="form-group">
             <label class="col-form-label" for="inputEmail3"

@@ -39,6 +39,7 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/scss/app.scss',
+    '@/assets/scss/gologin.scss',
     'swiper/css/swiper.css'
   ],
 
@@ -46,6 +47,7 @@ export default {
   plugins: [
     { src: '~/plugins/plugin.js', ssr:false },
     { src: "@/plugins/vue-lightbox.js",  ssr: false },
+    { src: '~/plugins/google.js'}
  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -53,6 +55,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
