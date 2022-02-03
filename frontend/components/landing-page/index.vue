@@ -1,17 +1,17 @@
 <template>
-  <!--Landing Page start -->
-  <client-only>
-    <div class="theme-landing">
-      <Header />
-      <Slider />
-      <AppDesign />
-      <ChitChat />
+    <!--Landing Page start -->
+    <client-only>
+        <div class="theme-landing">
+            <Header />
+            <Slider />
+            <AppDesign />
+            <!-- <ChitChat />
       <TeamWork />
       <SecureApp />
-      <Collaboration />
-      
-      <!-- 나중에 우리팀 팀원들 넣기 -->
-      <!-- <section class="section-py-space light-bg">
+      <Collaboration /> -->
+
+            <!-- 나중에 우리팀 팀원들 넣기 -->
+            <!-- <section class="section-py-space light-bg">
         <div class="landing-title">
           <div>
             <h1>Team</h1>
@@ -26,14 +26,13 @@
         <Testimonial />
       </section> -->
 
-      
-      <!-- <PricingPlan /> -->
-      <!-- <SubscribeUpdate /> -->
-      <Footer />
-      <TapTop />
-    </div>
-  </client-only>
-  <!--Landing Page end -->
+            <!-- <PricingPlan /> -->
+            <!-- <SubscribeUpdate /> -->
+            <Footer />
+            <TapTop />
+        </div>
+    </client-only>
+    <!--Landing Page end -->
 </template>
 
 <script>
@@ -53,30 +52,28 @@ import Footer from "../common/footer/footer.vue";
 import TapTop from "../common/tap-to-top/taptop.vue";
 
 export default {
-  components: {
-    Header,
-    Logo,
-    Navbar,
-    Slider,
-    AppDesign,
-    ChitChat,
-    TeamWork,
-    Collaboration,
-    Testimonial,
-    SecureApp,
-    PricingPlan,
-    SubscribeUpdate,
-    Footer,
-    TapTop,
-  },
-  head() {
-    return {
-      bodyAttrs: {
-        class: 'theme-landing-main',
-      },
-    };
-  },
+    components: {
+        Header,
+        Logo,
+        Navbar,
+        Slider,
+        AppDesign,
+        ChitChat,
+        TeamWork,
+        Collaboration,
+        Testimonial,
+        SecureApp,
+        PricingPlan,
+        SubscribeUpdate,
+        Footer,
+        TapTop,
+    },
+    head() {
+        return {
+            bodyAttrs: {
+                class: "theme-landing-main",
+            },
+        };
+    },
 };
 </script>
-
-
