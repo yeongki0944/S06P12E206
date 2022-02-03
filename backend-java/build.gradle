@@ -21,6 +21,7 @@ buildscript{
 //        classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
         //[끝] 
         classpath "com.github.node-gradle:gradle-node-plugin:3.1.0"
+        
     }
 }
 
@@ -29,6 +30,8 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version "${springBootVer}"
+    //id "com.moowork.node" version "1.2.0"
+    
 }
 
 
@@ -37,6 +40,7 @@ apply plugin: 'base'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
 apply plugin: 'com.github.node-gradle.node'
+//apply plugin: 'com.moowork.node'
 
 
 
@@ -63,27 +67,38 @@ tasks.named('jar') {
                    'Implementation-Version': project.version)
     }
 }
-//node {
-//    download = true
-//    version = '14.17.0'
-//    // Set the work directory where node_modules should be located
-//    nodeModulesDir = file("${project.projectDir}/../frontend")
-//}
-//
-//configurations {
-//    providedRuntime
-//}
-//
-///*task npmInstall(type: NpmTask, overwrite: true) {
-//    args = ['install']
-//}*/
-//
-//task webpack(type: NpmTask, dependsOn: 'npmInstall') {
-//    args = ['run','build']
-//}
-//
-//// processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
-//processResources.dependsOn 'webpack'
+
+
+node {
+    download = true
+    version = '14.17.0'
+    // Set the work directory where node_modules should be located
+    nodeModulesDir = file("${project.projectDir}/../frontend")
+}
+
+configurations {
+    providedRuntime
+}
+
+/*task npmInstall(type: NpmTask, overwrite: true) {
+    args = ['install']
+}*/
+
+task npmGenerate(type: NpmTask) {
+   args = ['run','generate']
+}
+processResources.dependsOn 'npmGenerate'
+
+//build.dependsOn npmGenerate
+
+
+
+task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+    args = ['run','build']
+}
+
+// processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
+processResources.dependsOn 'webpack'
 
 //set build time and inject value to application.properties
 def buildTime() {
