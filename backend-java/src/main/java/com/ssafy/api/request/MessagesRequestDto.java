@@ -15,3 +15,4 @@ public class MessagesRequestDto {
     private String to;
     private String content;
 }
+
