@@ -79,12 +79,13 @@ node {
 configurations {
     providedRuntime
 }
-
+/*
 task npmInstall(type: NpmTask, overwrite: true) {
     args = ['install']
 }
-
+*/
 task npmGenerate(type: NpmTask) {
+   args = ['install']
    args = ['run','generate']
 }
 processResources.dependsOn 'npmGenerate'
