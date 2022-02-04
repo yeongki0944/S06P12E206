@@ -80,9 +80,9 @@ configurations {
     providedRuntime
 }
 
-/*task npmInstall(type: NpmTask, overwrite: true) {
+task npmInstall(type: NpmTask, overwrite: true) {
     args = ['install']
-}*/
+}
 
 task npmGenerate(type: NpmTask) {
    args = ['run','generate']
