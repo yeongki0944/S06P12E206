@@ -7,10 +7,10 @@
         <LeftSideBar />
         <Chat />
         <Profile />
-        <RightSideBar />
+        <!-- <RightSideBar /> -->
       </div>
-      <CustomizerSetting />
-      <Customizer />
+      <!-- <CustomizerSetting /> -->
+      <!-- <Customizer /> -->
     </client-only>
   </div>
   <!-- Main Chat container end -->

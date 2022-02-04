@@ -31,7 +31,7 @@
                 </template>
                 <b-dropdown-item href="javascript:void(0)"><feather type="image"></feather>gallery</b-dropdown-item>
                 <b-dropdown-item href="javascript:void(0)"><feather type="camera"></feather>camera</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)" @click="showsnippetmodal()"><feather type="code"></feather>Code Snippest</a></b-dropdown-item>
+                <b-dropdown-item href="javascript:void(0)" @click="showsnippetmodal()"><feather type="code"></feather>Code Snippest</b-dropdown-item>
                 <b-dropdown-item href="javascript:void(0)"><feather type="user"></feather>contact</b-dropdown-item>
                 <b-dropdown-item href="javascript:void(0)"><feather type="map-pin"></feather>location</b-dropdown-item>
                 <b-dropdown-item href="javascript:void(0)"><feather type="clipboard"></feather>document</b-dropdown-item>
