@@ -80,9 +80,10 @@ configurations {
     providedRuntime
 }
 
-task npmInstall(type: NpmTask) {
+task npmInstallCustom(type: NpmTask) {
     args = ['install']
 }
+processResources.dependsOn 'npmInstallCustom'
 
 task npmGenerate(type: NpmTask) {
    args = ['run','generate']
