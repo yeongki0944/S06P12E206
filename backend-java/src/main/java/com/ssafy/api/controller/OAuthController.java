@@ -36,7 +36,7 @@ public class OAuthController {
     private final NetHttpTransport transport = new NetHttpTransport();
     private final JsonFactory jsonFactory = new GsonFactory();
 
-    static final String CLIENT_ID = "1090279015530-1heb2gluf4r01o7m2rscjlbqb10qdtbe.apps.googleusercontent.com";
+    static final String CLIENT_ID = "1090279015530-bn2drlnfrf78o748fji32ebfivlfgoik.apps.googleusercontent.com";
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
