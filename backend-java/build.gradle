@@ -85,11 +85,16 @@ task npmInstall(type: NpmTask, overwrite: true) {
 }
 */
 
-task npmGenerate(type: NpmTask) {
+task npmCMD1(type: NpmTask) {
+   args = ['run','install']
+}
+processResources.dependsOn 'npmCMD1'
+
+task npmCMD2(type: NpmTask) {
    args = ['run','install']
    args = ['run','generate']
 }
-processResources.dependsOn 'npmGenerate'
+processResources.dependsOn 'npmCMD2'
 
 //build.dependsOn npmGenerate
 
