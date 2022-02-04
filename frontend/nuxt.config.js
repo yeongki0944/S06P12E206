@@ -1,8 +1,8 @@
 export default {
   ssr: false,
-  subdirectory: '/',
+  subdirectory: '/chitchat',
 
-    // Global page headers: https://go.nuxtjs.dev/config-head
+  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Chitchat - chat messenger html templlete',
     htmlAttrs: {
@@ -24,7 +24,7 @@ export default {
 
 
   router: {
-    base: '/',
+    base: '/chitchat/',
     mode: 'hash',
     extendRoutes(routes, resolve) {
       routes.push({
@@ -44,10 +44,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/plugin.js', ssr:false },
-    { src: "@/plugins/vue-lightbox.js",  ssr: false },
-    { src: '~/plugins/google.js'}
- ],
+    { src: '~/plugins/plugin.js', ssr: false },
+    { src: "@/plugins/vue-lightbox.js", ssr: false },
+    { src: '~/plugins/google.js' }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
