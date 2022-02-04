@@ -49,10 +49,10 @@
         <user-video :stream-manager="mainStreamManager" />
       </div> -->
       <div id="video-container" class="col-md-6">
-        <user-video
+        <!-- <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
-        />
+        /> -->
         <user-video
           v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
@@ -62,7 +62,6 @@
       </div>
       <div>
         <canvas id = "canvas"></canvas>
-        <video id = "video"></video>
       </div>
     </div>
   </div>
@@ -248,16 +247,16 @@ export default {
 							video.play();
 							var signVideoTrack = canvas.captureStream(FRAME_RATE).getVideoTracks()[0];
 
-							var publisher = this.OV.initPublisher(
+							var publisher = self.OV.initPublisher(
 								undefined,
 								{
 									audioSource: false,
 									videoSource: signVideoTrack,
 								});
-								this.publisher = publisher;
+								self.publisher = publisher;
 								// --- Publish your stream ---
 
-								this.session.publish(this.publisher);
+								self.session.publish(self.publisher);
               };
             })
             .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
