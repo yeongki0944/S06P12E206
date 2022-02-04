@@ -86,12 +86,11 @@ task npmInstall(type: NpmTask, overwrite: true) {
 */
 
 task npmCMD1(type: NpmTask) {
-   args = ['run','install']
+   args = ['install']
 }
 processResources.dependsOn 'npmCMD1'
 
 task npmCMD2(type: NpmTask) {
-   args = ['run','install']
    args = ['run','generate']
 }
 processResources.dependsOn 'npmCMD2'
