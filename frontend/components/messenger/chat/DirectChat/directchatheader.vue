@@ -73,61 +73,13 @@
           </div>
         </div>
       </div>
-      <div class="col">
-        <ul class="calls text-right">
-          <li>
-            <a
-              class="icon-btn btn-light button-effect"
-              @click="showAudioModal()"
-              v-b-tooltip.hover.bottomleft
-              title="Quick Audio Call"
-              href="javascript:void(0)"
-              data-tippy-content="Quick Audio Call"
-              data-toggle="modal"
-              data-target="#audiocall"
-              ><feather type="phone" size="15" height="15"></feather
-            ></a>
-          </li>
-          <li>
-            <a
-              class="icon-btn btn-light button-effect"
-              @click="showVedioModal()"
-              v-b-tooltip.hover.bottomleft
-              title="Quick Video Call"
-              href="javascript:void(0)"
-              data-tippy-content="Quick Video Call"
-              data-toggle="modal"
-              data-target="#videocall"
-              ><feather type="video" size="15" height="15"></feather
-            ></a>
-          </li>
-          <li>
-            <a
-              class="icon-btn btn-light button-effect apps-toggle"
-              @click="togglerightside()"
-              v-b-tooltip.hover.bottomleft
-              title="All Apps"
-              href="javascript:void(0)"
-              data-tippy-content="All Apps"
-              ><i class="ti-layout-grid2"></i
-            ></a>
-          </li>
-          <Profile />
-        </ul>
-      </div>
     </div>
-
-    <VedioCall ref="vedioComponent" />
-    <AudioCall ref="audioComponent" />
   </div>
   <!--Direct Chat Header end -->
 </template>
 
 <script>
 import { mapState } from "vuex";
-import VedioCall from "../../modals/vediocall.vue";
-import AudioCall from "../../modals/audiocall1.vue";
-import Profile from "../../common/profile.vue";
 
 export default {
   components: {
@@ -170,19 +122,7 @@ export default {
         document.body.classList.add("menu-active");
         document.querySelector(".app-sidebar").classList.remove("active");
       }
-    },
-    togglerightside() {
-      this.$store.state.common.togglerightside =
-        !this.$store.state.common.togglerightside;
-      if (this.$store.state.common.togglerightside == false) {
-        document.getElementById("body").classList.remove("sidebar-active");
-        document.getElementById("body").classList.add("main-page");
-      } else {
-        document.getElementById("body").classList.remove("menu-active");
-        document.getElementById("body").classList.remove("main-page");
-        document.getElementById("body").classList.add("sidebar-active");
-      }
-    },
+    },    
     backtochat() {
       document.querySelector(".sidebar-toggle").classList.remove("mobile-menu");
     },

@@ -187,7 +187,6 @@ export default {
   mounted() {
     this.$store.state.common.chatwallpaper = this.chatwallpaperIndex !== 0? this.getImgUrl(this.allwallpaper.find((x) => x.id === this.chatwallpaperIndex).img) : '';
     this.$store.state.common.chatwallpapergrandiant = "";
-    this.$store.state.common.togglerightside = true;
     var container = this.$el.querySelector(".scrolltopdirectchat");
     container.scrollTop = container.scrollHeight;
     var containerfluid = this.$el.querySelector(".scrolltopgroupchat");
