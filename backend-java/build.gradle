@@ -79,10 +79,10 @@ node {
 configurations {
     providedRuntime
 }
-/*
-task npmInstall(type: Exec) {
-    commandLine "npm", "install"
-}*/
+
+task npmInstall(type: NpmTask, overwrite: true) {
+    args = ['install']
+}
 
 task npmGenerate(type: NpmTask) {
    args = ['run','generate']
