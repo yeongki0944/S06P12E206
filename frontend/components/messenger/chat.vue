@@ -5,7 +5,7 @@
         <div class="scrolltopdirectchat messages custom-scroll" :class="activechatType == 1 ? 'active' : ''" id="chating" 
           :style="chatwallpaperIndex !== 0? [{'background-image': 'url(' + chatwallpaper + ')'},styleObject] 
           : chatwallpapergrandiant !== '' ? [{'background-image': chatwallpapergrandiant},styleObject] : ''">
-          <DirectChatHeader />
+          <!-- <DirectChatHeader /> -->
           <DirectCustomChat />
         </div>
         <div class="scrolltopgroupchat messages custom-scroll" :class="activechatType == 2 ? 'active' : ''" id="group_chat"
@@ -24,7 +24,7 @@
                   <polygon fill-rule="evenodd" clip-rule="evenodd" points="668.333,1248.667 901.667,1482 941.667,1432 922.498,1237.846                         687,1210.667 "></polygon>
               </svg></a>
             <div class="dot-btn dot-primary mr-3"><a class="icon-btn btn-outline-primary button-effect toggle-emoji" @click="openEmogi()" href="javascript:void(0)"><feather type="smile" size="15" height="15"></feather></a></div>
-            <div class="contact-poll">
+            <!-- <div class="contact-poll">
               <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
                 <template #button-content>
                   <a class="icon-btn btn-outline-primary mr-4 outside" @click="openContactcontent()" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
@@ -38,7 +38,7 @@
                 <b-dropdown-item href="javascript:void(0)" @click="showpollmodal()"><feather type="bar-chart-2"></feather>poll</b-dropdown-item>
                 <b-dropdown-item href="javascript:void(0)"><feather type="paperclip"></feather>attach</b-dropdown-item>
               </b-dropdown>
-            </div>
+            </div> -->
 
             <input class="setemoj" 
                 id="setemoj"

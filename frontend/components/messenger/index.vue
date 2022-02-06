@@ -4,7 +4,7 @@
     <client-only>
       <div class="chitchat-container sidebar-toggle">
         <Navbar />
-        <LeftSideBar />
+        <!-- <LeftSideBar /> -->
         <Chat />
         <Profile />
         <!-- <RightSideBar /> -->
