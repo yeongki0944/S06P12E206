@@ -59,7 +59,17 @@
           @click="audioController"
           value="mute Audio"
         />
-        <p>채팅 내역 {{ message }}</p>
+        <ul>
+          <li v-for="chat in chatList" v-bind:key="chat.chatSeq">
+            <p>chatSeq : {{ chat.chatSeq }}</p>
+            <p>timeStamp : {{ chat.timeStamp }}</p>
+            <p>date : {{ chat.date }}</p>
+            <p>user : {{ chat.user }}</p>
+            <p>message : {{ chat.message }}</p>
+          </li>
+        </ul>
+
+        <input v-model="message" placeholder="message" />
 
         <input
           class="btn btn-large btn-danger"
@@ -92,7 +102,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
-import { Chat } from "vue-quick-chat";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -103,7 +112,6 @@ export default {
 
   components: {
     UserVideo,
-    Chat,
   },
 
   data() {
@@ -113,11 +121,13 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-      videoMute: true,
-      audioMute: true,
+      videoMute: false,
+      audioMute: false,
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       message: "",
+      chatSeq: 0,
+      chatList: [],
     };
   },
 
@@ -152,6 +162,17 @@ export default {
 
       // Receiver of the message (usually before calling 'session.connect')
       this.session.on("signal:my-chat", (event) => {
+        this.chatSeq = this.chatSeq + 1;
+        var chat = {
+          chatSeq: this.chatSeq,
+          timeStamp: Date.now(),
+          date: new Date(),
+          creationTime: event.from.creationTime,
+          user: event.from.data,
+          message: event.data,
+        };
+        this.chatList.push(chat);
+        // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
         console.log("Message :" + event.data); // Message
         console.log("Connection object of the sender :" + event.from); // Connection object of the sender
         console.log("The type of message :" + event.type); // The type of message ("my-chat")
@@ -175,7 +196,7 @@ export default {
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
+              mirror: true, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;
@@ -300,18 +321,21 @@ export default {
       this.publisher.publishAudio(this.audioMute);
     },
     sendChat() {
-      this.session
-        .signal({
-          data: "My custom message", // Any string (optional)
-          to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-          type: "my-chat", // The type of message (optional)
-        })
-        .then(() => {
-          console.log("Message successfully sent");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (this.message != "") {
+        this.session
+          .signal({
+            data: this.message, // Any string (optional)
+            to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+            type: "my-chat", // The type of message (optional)
+          })
+          .then(() => {
+            this.message = "";
+            console.log("Message successfully sent");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     },
   },
 };

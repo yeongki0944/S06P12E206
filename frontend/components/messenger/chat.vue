@@ -1,6 +1,8 @@
 <template>
   <!-- Main Chat start -->
+    <!-- <div class="chitchat-main" :class="togglerightside ? 'small-sidebar': ''" id="content"> -->
     <div class="chitchat-main" :class="togglerightside ? 'small-sidebar': ''" id="content">
+
       <div class="chat-content tabto" :class="activechat == 1 ? 'active' : ''">
         <div class="scrolltopdirectchat messages custom-scroll" :class="activechatType == 1 ? 'active' : ''" id="chating" 
           :style="chatwallpaperIndex !== 0? [{'background-image': 'url(' + chatwallpaper + ')'},styleObject] 

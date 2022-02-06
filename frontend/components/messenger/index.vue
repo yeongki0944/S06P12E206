@@ -3,20 +3,23 @@
   <div>
     <client-only>
       <div class="chitchat-container sidebar-toggle">
-        <Navbar />
-        <LeftSideBar />
+        <!-- <Navbar /> -->
+        <videoCall />
         <Chat />
-        <Profile />
-        <RightSideBar />
+        <LeftSideBar />
+
+        <!-- <Profile /> -->
+        <!-- <RightSideBar /> -->
       </div>
-      <CustomizerSetting />
-      <Customizer />
+      <!-- <CustomizerSetting />
+      <Customizer /> -->
     </client-only>
   </div>
   <!-- Main Chat container end -->
 </template>
 
 <script>
+import videoCall from "./modals/videocall.vue";
 import layout from "../../data/layout.json";
 import { mapState } from "vuex";
 import Navbar from "./nav.vue";
@@ -30,6 +33,7 @@ import Customizer from "./customizer/index.vue";
 export default {
   components: {
     Navbar,
+    videoCall,
     LeftSideBar,
     Chat,
     Profile,
