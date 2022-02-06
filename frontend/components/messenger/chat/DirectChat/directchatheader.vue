@@ -74,12 +74,20 @@
         </div>
       </div>
     </div>
+    
+    <VedioCall ref="vedioComponent" />
+    <AudioCall ref="audioComponent" />
+
   </div>
   <!--Direct Chat Header end -->
 </template>
 
 <script>
 import { mapState } from "vuex";
+import VedioCall from "../../modals/vediocall.vue";
+import AudioCall from "../../modals/audiocall1.vue";
+import Profile from "../../common/profile.vue";
+
 
 export default {
   components: {
