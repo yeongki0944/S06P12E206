@@ -24,21 +24,7 @@
                   <polygon fill-rule="evenodd" clip-rule="evenodd" points="668.333,1248.667 901.667,1482 941.667,1432 922.498,1237.846                         687,1210.667 "></polygon>
               </svg></a>
             <div class="dot-btn dot-primary mr-3"><a class="icon-btn btn-outline-primary button-effect toggle-emoji" @click="openEmogi()" href="javascript:void(0)"><feather type="smile" size="15" height="15"></feather></a></div>
-            <!-- <div class="contact-poll">
-              <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
-                <template #button-content>
-                  <a class="icon-btn btn-outline-primary mr-4 outside" @click="openContactcontent()" href="javascript:void(0)"><i class="fa fa-plus"></i></a>
-                </template>
-                <b-dropdown-item href="javascript:void(0)"><feather type="image"></feather>gallery</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)"><feather type="camera"></feather>camera</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)" @click="showsnippetmodal()"><feather type="code"></feather>Code Snippest</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)"><feather type="user"></feather>contact</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)"><feather type="map-pin"></feather>location</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)"><feather type="clipboard"></feather>document</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)" @click="showpollmodal()"><feather type="bar-chart-2"></feather>poll</b-dropdown-item>
-                <b-dropdown-item href="javascript:void(0)"><feather type="paperclip"></feather>attach</b-dropdown-item>
-              </b-dropdown>
-            </div> -->
+            
 
             <input class="setemoj" 
                 id="setemoj"
@@ -57,19 +43,18 @@
                 </ul>
               </div>
             </div>
-            <Stickers />
           </div>
         </div>
       </div>
-      <div class="call-content tabto" :class="activechat == 2 ? 'active' : ''"><a class="icon-btn btn-outline-primary button-effect mobile-back mb-3" @click="backtochat()" href="javascript:void(0)"><i class="ti-angle-left">                       </i></a>
+      <!-- <div class="call-content tabto" :class="activechat == 2 ? 'active' : ''"><a class="icon-btn btn-outline-primary button-effect mobile-back mb-3" @click="backtochat()" href="javascript:void(0)"><i class="ti-angle-left">                       </i></a>
         <CallContent />
-      </div>
-      <div class="contact-content tabto" :class="activechat == 3 ? 'active' : ''">
+      </div> -->
+      <!-- <div class="contact-content tabto" :class="activechat == 3 ? 'active' : ''">
         <ContactContent />
-      </div> 
+      </div>  -->
     
-      <CodeSnippet ref="codesnippet"/>
-      <Poll ref="poll"/>
+      <!-- <CodeSnippet ref="codesnippet"/> -->
+      <!-- <Poll ref="poll"/> -->
 
     </div>
   <!-- Main Chat end -->
