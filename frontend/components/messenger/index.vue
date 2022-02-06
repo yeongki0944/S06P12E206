@@ -27,7 +27,7 @@ import Profile from "./rightsidebar/profile/index.vue";
 import RightSideBar from "../messenger/rightsidebar/index.vue";
 import CustomizerSetting from "./customizer/customizesetting.vue";
 import Customizer from "./customizer/index.vue";
-import Camera from "./camera/index.vue"
+import Camera from "./camera.vue"
 
 export default {
   components: {
