@@ -59,6 +59,15 @@
           @click="audioController"
           value="mute Audio"
         />
+        <p>채팅 내역 {{ message }}</p>
+
+        <input
+          class="btn btn-large btn-danger"
+          type="button"
+          id="buttonSendChat"
+          @click="sendChat"
+          value="SendChat"
+        />
       </div>
       <div id="main-video" class="col-md-6">
         <user-video :stream-manager="mainStreamManager" />
@@ -83,6 +92,7 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
+import { Chat } from "vue-quick-chat";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -93,6 +103,7 @@ export default {
 
   components: {
     UserVideo,
+    Chat,
   },
 
   data() {
@@ -106,6 +117,7 @@ export default {
       audioMute: true,
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
+      message: "",
     };
   },
 
@@ -136,6 +148,13 @@ export default {
       // On every asynchronous exception...
       this.session.on("exception", ({ exception }) => {
         console.warn(exception);
+      });
+
+      // Receiver of the message (usually before calling 'session.connect')
+      this.session.on("signal:my-chat", (event) => {
+        console.log("Message :" + event.data); // Message
+        console.log("Connection object of the sender :" + event.from); // Connection object of the sender
+        console.log("The type of message :" + event.type); // The type of message ("my-chat")
       });
 
       // --- Connect to the session with a valid user token ---
@@ -279,6 +298,20 @@ export default {
     audioController() {
       this.audioMute = !this.audioMute;
       this.publisher.publishAudio(this.audioMute);
+    },
+    sendChat() {
+      this.session
+        .signal({
+          data: "My custom message", // Any string (optional)
+          to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+          type: "my-chat", // The type of message (optional)
+        })
+        .then(() => {
+          console.log("Message successfully sent");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };
