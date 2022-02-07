@@ -1,29 +1,30 @@
 <template>
-  <!--Bonus Page Elements start -->
-  <div class="container">
-    <client-only>
-      <Typography />
-      <SpanPara />
-      <Images />
-      <Fonts />
-      <LabelFonts />
-      <Badge />
-      <BadgeWithIcons />
-      <BadgeWithSamllLabelIcon />
-      <BadgeWithTypography />
-      <BadgeWithStatus />
-      <BackGroundColor />
-      <ButtonBackground />
-      <Icons />
-      <ThemeButtons />
-      <MessageBox />
-      <MainChat />
-      <SharedDoc />
-      <PhoneButton />
-      <Buttons />
-    </client-only>
-  </div>
-  <!--Bonus Page Elements end -->
+    <!--Bonus Page Elements start -->
+    <div class="container">
+        <client-only>
+            <Typography />
+            <SpanPara />
+            <Table />
+            <!-- <Images />
+            <Fonts />
+            <LabelFonts />
+            <Badge />
+            <BadgeWithIcons />
+            <BadgeWithSamllLabelIcon />
+            <BadgeWithTypography />
+            <BadgeWithStatus />
+            <BackGroundColor />
+            <ButtonBackground />
+            <Icons />
+            <ThemeButtons />
+            <MessageBox />
+            <MainChat />
+            <SharedDoc />
+            <PhoneButton /> -->
+            <Buttons />
+        </client-only>
+    </div>
+    <!--Bonus Page Elements end -->
 </template>
 
 <script>
@@ -46,28 +47,30 @@ import MainChat from "./mainChat.vue";
 import SharedDoc from "./sharedDoc.vue";
 import PhoneButton from "./phoneButton.vue";
 import Buttons from "./buttons.vue";
+import Table from "./table.vue";
 
 export default {
-  components: {
-    Typography,
-    SpanPara,
-    Images,
-    Fonts,
-    LabelFonts,
-    Badge,
-    BadgeWithIcons,
-    BadgeWithSamllLabelIcon,
-    BadgeWithTypography,
-    BadgeWithStatus,
-    BackGroundColor,
-    ButtonBackground,
-    Icons,
-    ThemeButtons,
-    MessageBox,
-    MainChat,
-    SharedDoc,
-    PhoneButton,
-    Buttons,
-  },
+    components: {
+        Typography,
+        SpanPara,
+        Images,
+        Fonts,
+        LabelFonts,
+        Badge,
+        BadgeWithIcons,
+        BadgeWithSamllLabelIcon,
+        BadgeWithTypography,
+        BadgeWithStatus,
+        BackGroundColor,
+        ButtonBackground,
+        Icons,
+        ThemeButtons,
+        MessageBox,
+        MainChat,
+        SharedDoc,
+        PhoneButton,
+        Buttons,
+        Table,
+    },
 };
 </script>
