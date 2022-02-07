@@ -17,155 +17,88 @@
               </nuxt-link>
             </div>
             <p>
-              Contrary to popular belief, Lorem Ipsum is not simply random text.
-              It has roots in a piece Lorem fugit on looked ipsum.
+              SSAFY 6기 부울경 2반 6팀 「SIXMAN」
             </p>
-            <ul class="social-group">
-              <li>
-                <a class="icon-btn btn-google button-effect btn-sm" href="https://www.facebook.com/">
-                  <i class="fa fa-facebook"></i>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-3">
+          <div class="links">
+            <div class="footer-title">
+              <h3>AI</h3>
+            </div>
+            <div class="footer-contant">          
+              <p class="text-black align-items-center">
+                반형동
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
+                  <i class="fa fa-google"></i>
                 </a>
-              </li>
-              <li>
-                <a
-                  class="icon-btn btn-twiter button-effect btn-sm"
-                  href="https://twitter.com/"
-                  ><i class="fa fa-twitter"></i
-                ></a>
-              </li>
-              <li>
-                <a
-                  class="icon-btn btn-linkedin button-effect btn-sm"
-                  href="https://www.linkedin.com/"
-                  ><i class="fa fa-linkedin"></i
-                ></a>
-              </li>
-              <li>
-                <a
-                  class="icon-btn btn-instagram button-effect btn-sm"
-                  href="https://www.instagram.com/"
-                  ><i class="fa fa-instagram"></i
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-2 col-md-3">
-          <div class="links">
-            <div class="footer-title">
-              <h3>Useful Links</h3>
-            </div>
-            <div class="footer-contant">
-              <ul>
-                <li>
-                  <nuxt-link to="/messenger/messenger"
-                    >Home</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/bonus/about"
-                    >About us</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/bonus/faq"
-                    >FAQ</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/bonus/elements"
-                    >Elements</nuxt-link
-                  >
-                </li>
-              </ul>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
+              <p class="text-black align-items-center">
+                손한기
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
             </div>
           </div>
         </div>
         <div class="col-lg-2 col-md-3">
           <div class="links">
             <div class="footer-title">
-              <h3>Blog Links</h3>
+              <h3>Backend</h3>
             </div>
             <div class="footer-contant">
-              <ul>
-                <li>
-                  <nuxt-link to="/blogs/blog_no-sidebar"
-                    >No sidebar</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/blogs/blog_left-sidebar"
-                    >Left sidebar</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/blogs/blog_right-sidebar"
-                    >Right sidebar</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/blogs/blog_details"
-                    >Details page</nuxt-link
-                  >
-                </li>
-              </ul>
+              <p class="text-black align-items-center">
+                김영기
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
+              <p class="text-black align-items-center">
+                김창민
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
             </div>
           </div>
         </div>
         <div class="col-lg-2 col-md-4">
           <div class="links">
             <div class="footer-title">
-              <h3>Authentication</h3>
+              <h3>Frontend</h3>
             </div>
             <div class="footer-contant">
-              <ul>
-                <li>
-                  <nuxt-link to="/authentication/login"
-                    >Signin</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/authentication/login-2"
-                    >Signin classic</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/authentication/signup"
-                    >Signup</nuxt-link
-                  >
-                </li>
-                <li>
-                  <nuxt-link to="/authentication/signup-2"
-                    >Signup classic</nuxt-link
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-4">
-          <div class="downlaod">
-            <div>
-              <div class="footer-title">
-                <h3>Download Apps</h3>
-              </div>
-              <div class="footer-contant">
-                <div class="footer-btn">
-                  <a class="btn active" href="https://www.apple.com/in/itunes/"
-                    ><i class="fa fa-apple"></i>
-                    <div>
-                      <h6>Available on the</h6>
-                      <h4>App store</h4>
-                    </div></a
-                  ><a class="btn" href="https://play.google.com/store"
-                    ><i class="fa fa-play"></i>
-                    <div>
-                      <h6>Available on the</h6>
-                      <h4>Google play</h4>
-                    </div></a
-                  >
-                </div>
-              </div>
+              <p class="text-black align-items-center">
+                윤찬호
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
+              <p class="text-black align-items-center">
+                이정원
+                <a class="icon-btn btn-google button-effect btn-sm" href="mailto:sorrow4468@gmail.com">
+                  <i class="fa fa-google"></i>
+                </a>
+                <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/sorrow4468/">
+                  <i class="fa fa-github"></i>
+                </a>
+              </p>
             </div>
           </div>
         </div>
