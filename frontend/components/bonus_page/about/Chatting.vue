@@ -83,10 +83,10 @@
         <user-video :stream-manager="mainStreamManager" />
       </div>
       <div id="video-container" class="col-md-6">
-        <!-- <user-video
+        <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
-        /> -->
+        />
         <user-video
           v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
@@ -196,7 +196,7 @@ export default {
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: true, // Whether to mirror your local video or not
+              mirror: false, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;
