@@ -1,4 +1,4 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.doctor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,10 +24,6 @@ public class DoctorResume {
     private String phone;
 
     private String userId;
-
-    @OneToOne
-    @JoinColumn(name="fileId")
-    DoctorFile doctorFile;
 
     private String status;
 

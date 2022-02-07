@@ -3,14 +3,14 @@
   <div class="login-page2 animat-rate">
     <div class="login-content-main">
 
-      <div class="login-content" style="height:970px">
+      <div class="login-content">
         <div class="login-content-header">
           <img
             src="../../assets/images/logo/landing-logo.png"
             alt="sign-logo"
           />
         </div>
-        <h4>회원님 환영합니다! 정보를 입력해주세요. </h4>
+        <h4>의사님 환영합니다! 정보를 입력해주세요. </h4>
         <form class="form2">
           <div class="form-group">
             <input
@@ -62,23 +62,14 @@
               id="inputname"
               type="text"
               placeholder="이름"
-              v-model="userName"
+              :class="{ 'is-valid': isUserNameFocusAndValid , 'is-invalid': isUserNameFocusAndInValid  }" 
+              v-model="userName" 
+              @input="validateName" 
+              @focus="isUserNameFocus = true"
             />
           </div>
 
-          <div class="form-group">
-            <input
-              class="form-control"
-              id="email"
-              type="email"
-              placeholder="이메일"
-              :class="{ 'is-valid': isUserEmailFocusAndValid , 'is-invalid': isUserEmailFocusAndInValid  }" 
-                        v-model="userEmail" 
-                        @input="validateEmail" 
-                        @focus="isUserEmailFocus = true"
-            />
-            <h5 style="margin-left:10px; margin-top:10px">이메일 형식으로 입력해주세요. </h5>
-          </div>
+
 
           <div class="form-group">
             <input
@@ -87,10 +78,11 @@
               type="text"
               placeholder="휴대전화번호 입력"
               style="width:250px; display: inline-block"
+              v-model="userPhone"
             />
           <a
                 class="ml-1 btn button-effect btn-info signpbtn"
-                href="javascript:void(0)"
+                @click="getSms"
                 >인증번호 받기</a>
 
             <input
@@ -98,27 +90,11 @@
               id="inputname"
               type="text"
               placeholder="인증번호 입력하세요"
+                :class="{ 'is-valid': isSecretFocusAndValid , 'is-invalid': isSecretFocusAndInvalid  }" 
+                v-model="secretNumber" 
+                @blur="validateSecret" 
+
             />
-          </div>
-          <div class="form-group">
-
-            <label class="col-form-label">진료 과목</label>
-            <select class="ml-3" style="height:30px; width:100px;" id="subject" @change="onChange($event)">
-              <option :value="1">내과</option>
-              <option :value="2">치과</option>
-              <option :value="3">소아과</option>
-              <option :value="4">이비인후과</option>
-              <option :value="5">외과</option>
-              <option :value="6">안과</option>
-              <option :value="7" selected>선택</option>
-              
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="col-form-label">의사 자격증을 첨부해주세요.</label>
-
-          <input @change="changeFile" type="file" class="form-control-file" id="exampleFormControlFile1">
-
           </div>
           
           <div class="form-group mb-0">
@@ -209,26 +185,30 @@ export default {
     data() {
       return {
         image: '',
+        originalSN: '',
         // v-model
         userName: '',
         subject: '',
         userId: '',
+        userPhone: '',
         userEmail: '',
         userPassword: '',
         userPassword2: '',
-        doctorfile: '',
-
+        secretNumber: '',
         // focus
         isUserIdFocus: false,
         isUserEmailFocus: false,
         isUserPasswordFocus: false,
         isUserPassword2Focus: false,
-
+        isSecretFocus: false,
+        isUserNameFocus: false,
         // validation
         isUserIdValid: false,
         isUserEmailValid: false,
         isUserPasswordValid: false,
         isUserPassword2Valid: false,
+        isSecretValid: false,
+        isUserNameValid: false
       }
     },
   computed: {
@@ -237,6 +217,12 @@ export default {
     },
     isUserIdFocusAndInvalid(){
       return this.isUserIdFocus && ! this.isUserIdValid;
+    },
+    isUserNameFocusAndValid() {
+      return this.isUserNameFocus && this.isUserNameValid;
+    },
+    isUserNameFocusAndInValid() {
+      return this.isUserNameFocus && ! this.isUserNameValid;
     },
     isUserEmailFocusAndValid(){
       return this.isUserEmailFocus && this.isUserEmailValid;
@@ -255,12 +241,51 @@ export default {
     },
     isUserPassword2FocusAndInvalid(){
       return this.isUserPassword2Focus && ! this.isUserPassword2Valid;
-    }
+    },
+    isSecretFocusAndValid(){
+      return ! this.isSecretFocus && this.isSecretValid;
+    },
+    isSecretFocusAndInvalid(){
+      return ! this.isSecretFocus && ! this.isSecretValid;
+    }    
   },
   methods: {
+    validateSecret() {
+      if(this.isSecretValid && this.secretNumber == this.originalSN) {
+        return;
+      }
+
+      if(this.isSecretValid && this.secretNumber != this.originalSN) {
+        this.$alertify.warning('인증번호가 만료되었습니다 다시 발급해주세요.');
+        this.isSecretValid = false;
+        return;
+      }
+
+      http.post(
+        "/api/v1/users/sms/confirms",
+        {
+          to: this.userPhone,
+          number: this.secretNumber
+        }
+      )
+      .then(({ data }) => {
+        this.isSecretValid = true;
+        this.originalSN = this.secretNumber;
+      })
+      .catch( error => {
+        console.log("RegisterVue: error : ");
+        this.$alertify.error('인증번호가 틀렸습니다.');
+        this.isSecretValid = false;
+      });      
+    },
+
     validateUserId() {
-      this.isUserIdValid = this.userId.length > 5 ? true : false;
+      this.isUserIdValid = this.userId.length >= 5 ? true : false;
       console.log(this.isUserIdValid)
+    },
+
+    validateName() {
+      this.isUserNameValid = this.userName.length > 1 ? true : false;
     },
     validateEmail() {
       // ^ 시작일치, $ 끝 일치
@@ -288,46 +313,63 @@ export default {
     validatePassword2() {
         this.isUserPassword2Valid = ( this.userPassword == this.userPassword2 ) ? true : false;
     },
-    onChange(event) {
+    getSms() {
+      this.$alertify.success('문자가 발송되었습니다!'); 
+      http.post(
+        "/api/v1/users/sms/sends",
+        {
+          to: this.userPhone,
+        }
+      )
+      .then(({ data }) => {
+        console.log(data);
 
-      if(event.target.value == 1) {
-        this.subject = '내과'
-        console.log(this.subject)
-      }else if(event.target.value == 2) {
-        this.subject = '치과'
-      }else if(event.target.value == 3) {
-        this.subject = '소아과'        
-      }else if(event.target.value == 4) {
-        this.subject = '이비인후과'
-      }else if(event.target.value == 5) {
-        this.subject = '외과'
-      }else if(event.target.value == 6) {
-        this.subject = '안과'
-      }
-      this.subject = event.target.value;
-    },
-
-    changeFile(fileEvent) {
-      console.log(fileEvent)
-        if( fileEvent.target.files && fileEvent.target.files.length > 0 ){
-          const file = fileEvent.target.files[0];
-          this.doctorfile = URL.createObjectURL(file)
-
-        }      
+      })
+      .catch( error => {
+        console.log("RegisterVue: error : ");
+        this.$alertify.error('서버 오류 발생.');
+      });
     },
 
     register(){
-      if( ! this.isUserEmailValid || ! this.isUserPasswordValid || ! this.isUserPassword2Valid || this.isUserIdValid || this.userName == '' || this.subject == '' ) {
+      if(! this.isUserPasswordValid || ! this.isUserPassword2Valid || ! this.isUserIdValid || this.userName == '' || ! this.isSecretValid ) {
         this.$alertify.error('정보를 정확하게 입력해주세요');
         return;
       }
+      console.log("register");
+      
+      // var formData = new FormData();
+      // formData.append("name", this.userName);
+      // formData.append("email", this.userEmail);
+      // formData.append("phone", this.userPhone);
+      // formData.append("userId", this.userId);
+      // formData.append("departName", this.subject);
+      // formData.append("password", this.userPassword);
+      // var attachFiles = document.querySelector("#inputFileUploadInsert");
+      // var cnt = attachFiles.files.length;
+      //   for (var i = 0; i < cnt; i++) {
+      //     formData.append("file", attachFiles.files[i]);
+      //   }
+      // console.log(formData);
+      //   http.post(
+      //     '/api/v1/users/resume',
+      //     formData,
+      //     { headers: { 'Content-Type': 'multipart/form-data' } })
+      //     .then(({ data }) => {
+      //       console.log(data);
+      //       alert('가입 신청이 되었습니다! \n의사 확인이 되면 이메일로 알려드리겠습니다.')
+      //       this.$nuxt.$options.router.push('/')            
+      //     })
+      //     .catch((error) => {
+      //       console.log("doctor apply : error ");
+      //       console.log(error);
+      //     });
       http.post(
-        "/user/register",
+        "/api/v1/users",
         {
           userName: this.userName,
-          userEmail: this.userEmail,
           userPassword: this.userPassword,
-          userClsf: this.userClsf
+          userId: this.userId
         }
       )
       .then(({ data }) => {
@@ -339,9 +381,10 @@ export default {
         this.$alertify.alert(
           '회원가입을 축하합니다. 로그인 페이지로 이동합니다',
           function() {
-            $this.$router.push({ path: '/login' });
+
           }
-        );    
+        );
+        this.$nuxt.$options.router.push('/authentication/login');
       })
       .catch( error => {
         console.log("RegisterVue: error : ");
@@ -352,7 +395,6 @@ export default {
           
       });
     }
-
   }
 }
 </script>

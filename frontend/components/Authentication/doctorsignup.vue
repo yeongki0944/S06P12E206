@@ -124,7 +124,7 @@
           <div class="form-group">
             <label class="col-form-label">의사 자격증을 첨부해주세요.</label>
 
-          <input type="file" class="form-control-file" id="exampleFormControlFile1">
+          <input @change="changeFile" type="file" class="form-control-file" id="inputFileUploadInsert" multiple>
 
           </div>
           
@@ -217,6 +217,7 @@ export default {
       return {
         image: '',
         originalSN: '',
+        fileList:[],
         // v-model
         userName: '',
         subject: '',
@@ -346,9 +347,31 @@ export default {
     },
     onChange(event) {
       this.subject = event.target.value;
+      if(event.target.value == '1'){
+      this.subject = "내과";
+      }else if(event.target.value == '2'){
+      this.subject = "치과";
+      }else if(event.target.value == '3'){
+      this.subject = "소아과";
+      }else if(event.target.value == '4'){
+      this.subject = "이비인후과";
+      }else if(event.target.value == '5'){
+      this.subject = "외과";
+      }else if(event.target.value == '6'){
+      this.subject = "안과";
+      }
     },
+    changeFile(fileEvent) {
+        if( fileEvent.target.files && fileEvent.target.files.length > 0 ){
 
+          for( var i=0; i<fileEvent.target.files.length; i++ ){
+            const file = fileEvent.target.files[i];
+            this.fileList.push(URL.createObjectURL(file));
+          }
+        }      
+    },
     getSms() {
+      this.$alertify.success('문자가 발송되었습니다!'); 
       http.post(
         "/api/v1/users/sms/sends",
         {
@@ -356,7 +379,6 @@ export default {
         }
       )
       .then(({ data }) => {
-
         console.log(data);
 
       })
@@ -372,7 +394,38 @@ export default {
         return;
       }
       console.log("register");
-
+      
+      var formData = new FormData();
+      formData.append("name", this.userName);
+      formData.append("email", this.userEmail);
+      formData.append("phone", this.userPhone);
+      formData.append("userId", this.userId);
+      formData.append("departName", this.subject);
+      formData.append("password", this.userPassword);
+      var attachFiles = document.querySelector("#inputFileUploadInsert");
+      var cnt = attachFiles.files.length;
+        for (var i = 0; i < cnt; i++) {
+          formData.append("file", attachFiles.files[i]);
+        }
+      console.log(formData);
+        http.post(
+          '/api/v1/users/resume',
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } })
+          .then(({ data }) => {
+            console.log(data);
+          this.$alertify.alert(
+            '가입 신청이 완료되었습니다. \n인증이 완료되면 이메일로 알려드리겠습니다',
+            function() {
+   
+            }
+          );
+            this.$nuxt.$options.router.push('/')
+          })
+          .catch((error) => {
+            console.log("doctor apply : error ");
+            console.log(error);
+          });
       // http.post(
       //   "/user/register",
       //   {
@@ -404,7 +457,9 @@ export default {
           
       // });
     }
-
+  },
+  mounted() {
+    this.fileList = [];
   }
 }
 </script>

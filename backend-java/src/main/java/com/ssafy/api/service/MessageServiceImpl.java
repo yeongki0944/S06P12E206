@@ -89,7 +89,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     private String makeRandomNumber() {
-        int authNo = (int)(Math.random() * (99999 - 10000 + 1)) + 10000;
+        int authNo = (int)(Math.random() * (9999 - 1000 + 1)) + 1000;
 
         return Integer.toString(authNo);
     }

@@ -5,7 +5,7 @@ import com.ssafy.api.request.MessagesRequestDto;
 import com.ssafy.api.response.SendSmsResponseDto;
 import com.ssafy.api.service.MessageService;
 import com.ssafy.api.service.ResumeService;
-import com.ssafy.db.entity.DoctorResume;
+import com.ssafy.db.entity.doctor.DoctorResume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -30,6 +30,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -76,8 +77,8 @@ public class UserController {
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
 	public ResponseEntity<? extends BaseResponseBody> resume(
-			@RequestBody @ApiParam(value="회원신청 정보", required = true) DoctorResume doctorResume,
-			MultipartHttpServletRequest request) {
+			@ApiParam(value="회원신청 정보", required = true) DoctorResume doctorResume,
+			MultipartHttpServletRequest request) throws IOException {
 
 		if(resumeService.resume(doctorResume, request)) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

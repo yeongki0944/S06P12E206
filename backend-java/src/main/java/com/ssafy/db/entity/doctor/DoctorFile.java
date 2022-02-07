@@ -1,17 +1,15 @@
-package com.ssafy.db.entity;
+package com.ssafy.db.entity.doctor;
 
-import com.ssafy.db.entity.board.Board;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class DoctorFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,3 +30,4 @@ public class DoctorFile {
     @JoinColumn(name="doctorId")
     DoctorResume doctorResume;
 }
+
