@@ -3,16 +3,15 @@
   <div>
     <client-only>
       <div class="chitchat-container sidebar-toggle">
-        <!-- <Navbar /> -->
-        <videoCall />
+        <Navbar />
+        <!-- <LeftSideBar /> -->
+        <Camera />
         <Chat />
-        <LeftSideBar />
-
         <!-- <Profile /> -->
         <!-- <RightSideBar /> -->
       </div>
-      <!-- <CustomizerSetting />
-      <Customizer /> -->
+      <!-- <CustomizerSetting /> -->
+      <!-- <Customizer /> -->
     </client-only>
   </div>
   <!-- Main Chat container end -->
@@ -29,6 +28,7 @@ import Profile from "./rightsidebar/profile/index.vue";
 import RightSideBar from "../messenger/rightsidebar/index.vue";
 import CustomizerSetting from "./customizer/customizesetting.vue";
 import Customizer from "./customizer/index.vue";
+import Camera from "./camera.vue"
 
 export default {
   components: {
@@ -40,6 +40,7 @@ export default {
     RightSideBar,
     CustomizerSetting,
     Customizer,
+    Camera,
   },
   data() {
     return {
