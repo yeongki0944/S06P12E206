@@ -59,7 +59,7 @@
                         <nuxt-link to="/authentication/login">로그인</nuxt-link>
                     </button>
                     <button type="button" class="btn btn-primary">
-                        <nuxt-link to="/authentication/signup"
+                        <nuxt-link to="/authentication/signup-2"
                             >회원가입</nuxt-link
                         >
                     </button>

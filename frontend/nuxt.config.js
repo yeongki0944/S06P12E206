@@ -39,7 +39,8 @@ export default {
   css: [
     '@/assets/scss/app.scss',
     'swiper/css/swiper.css',
-    '@/assets/scss/gologin.scss'
+    '@/assets/scss/gologin.scss',
+    '@/assets/scss/signup.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

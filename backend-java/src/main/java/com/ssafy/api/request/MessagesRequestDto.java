@@ -13,6 +13,6 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 public class MessagesRequestDto {
     private String to;
-    private String content;
+    private String number;
 }
 

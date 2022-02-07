@@ -5,8 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.api.request.MessagesRequestDto;
 import com.ssafy.api.request.SmsRequestDto;
 import com.ssafy.api.response.SendSmsResponseDto;
+import com.ssafy.db.repository.SmsCertificationRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class MessageServiceImpl implements MessageService {
 
@@ -36,12 +40,19 @@ public class MessageServiceImpl implements MessageService {
     @Value("${naver.secretkey}")
     private String sk;
 
+    private final SmsCertificationRepository smsCertificationRepository;
+
     @Override
-    public SendSmsResponseDto sendSms(String recipientPhoneNumber, String content) throws ParseException, JsonProcessingException, UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException, URISyntaxException {
+    public SendSmsResponseDto sendSms(String recipientPhoneNumber) throws ParseException, JsonProcessingException, UnsupportedEncodingException, InvalidKeyException, NoSuchAlgorithmException, URISyntaxException {
         Long time = System.currentTimeMillis();
         List<MessagesRequestDto> messages = new ArrayList<>(); // 보내는 사람에게 내용을 보냄.
+
+        String randomNumber = makeRandomNumber();
+
+        String content = "인증번호는 " + randomNumber + " 입니다";
+
         messages.add(new MessagesRequestDto(recipientPhoneNumber,content)); // content부분이 내용임 // 전체 json에 대해 메시지를 만든다.
-        SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", "01073085445", "MangoLtd", messages); // 쌓아온 바디를 json 형태로 변환시켜준다.
+        SmsRequestDto smsRequestDto = new SmsRequestDto("SMS", "COMM", "82", "01073085445", content, messages); // 쌓아온 바디를 json 형태로 변환시켜준다.
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBody = objectMapper.writeValueAsString(smsRequestDto); // 헤더에서 여러 설정값들을 잡아준다.
         HttpHeaders headers = new HttpHeaders();
@@ -56,7 +67,31 @@ public class MessageServiceImpl implements MessageService {
         RestTemplate restTemplate = new RestTemplate();
         SendSmsResponseDto sendSmsResponseDto = restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/"+serviceId+"/messages"), body, SendSmsResponseDto.class);
         System.out.println(sendSmsResponseDto.getStatusCode());
+
+        smsCertificationRepository.createSmsCertification(recipientPhoneNumber, randomNumber);
         return sendSmsResponseDto;
+    }
+
+    @Override
+    public boolean verifySms(MessagesRequestDto messageRequest) {
+        if (isVerify(messageRequest.getTo(), messageRequest.getNumber())) {
+            return false;
+        }
+        smsCertificationRepository.removeSmsCertification(messageRequest.getTo());
+        return true;
+    }
+
+    @Override
+    public boolean isVerify(String recipientPhoneNumber, String certificationNumber) {
+        return !(smsCertificationRepository.hasKey(recipientPhoneNumber) &&
+                smsCertificationRepository.getSmsCertification(recipientPhoneNumber)
+                        .equals(certificationNumber));
+    }
+
+    private String makeRandomNumber() {
+        int authNo = (int)(Math.random() * (99999 - 10000 + 1)) + 10000;
+
+        return Integer.toString(authNo);
     }
 
 
