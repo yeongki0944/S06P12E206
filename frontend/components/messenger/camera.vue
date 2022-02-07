@@ -83,6 +83,8 @@ const [modelWeight, modelHeight] = [640, 640];
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
 export default {
@@ -178,16 +180,19 @@ export default {
               video.srcObject = new MediaStream([videoTrack]);
               
               var canvas = document.getElementById('canvas');
+
               canvas.width = 640
               canvas.height = 640
               var ctx = canvas.getContext('2d');
+              
               video.onloadedmetadata = function(e) {
                 video.addEventListener('play', () => {
                   var loop = () => {
                     if (!video.paused && !video.ended) {
                       self.cropToCanvas(video, canvas, ctx);
+                      tf.engine().startScope()
                       const input = tf.tidy(() => {
-                        return tf.image.resizeBilinear(tf.browser.fromPixels(canvas), [modelWeight, modelHeight]).div(255.0).expandDims(0);
+                        return tf.image.resizeBilinear(tf.browser.fromPixels(video), [modelWeight, modelHeight]).div(255.0).expandDims(0);
                       });
                       self.state.model.executeAsync(input).then(res => {
                         const font = "16px sans-serif";
@@ -239,6 +244,7 @@ export default {
                       })
                       ctx.drawImage(video, 0, 0, 640, 640);
                       setTimeout(loop, 1000/ FRAME_RATE); // Drawing at 10 fps
+                      tf.engine().endScope()
                     }
                   };
                   loop();
@@ -246,6 +252,9 @@ export default {
                 video.msHorizontalMirror = true
 							video.play();
 							var signVideoTrack = canvas.captureStream(FRAME_RATE).getVideoTracks()[0];
+              canvas.addEventListener('webglcontextlost', function(e) {
+                console.log("tttttttttttttttttttttttttttttttttttttttttttttttt");
+              }, false);
 
 							var publisher = self.OV.initPublisher(
 								undefined,
@@ -255,7 +264,6 @@ export default {
 								});
 								self.publisher = publisher;
 								// --- Publish your stream ---
-
 								self.session.publish(self.publisher);
               };
             })
