@@ -44,10 +44,44 @@
           @click="leaveSession"
           value="Leave session"
         />
+        <input
+          class="btn btn-large btn-danger"
+          type="button"
+          id="buttonVideo"
+          @click="videoController"
+          value="mute Video"
+        />
+
+        <input
+          class="btn btn-large btn-danger"
+          type="button"
+          id="buttonAudio"
+          @click="audioController"
+          value="mute Audio"
+        />
+        <ul>
+          <li v-for="chat in chatList" v-bind:key="chat.chatSeq">
+            <p>chatSeq : {{ chat.chatSeq }}</p>
+            <p>timeStamp : {{ chat.timeStamp }}</p>
+            <p>date : {{ chat.date }}</p>
+            <p>user : {{ chat.user }}</p>
+            <p>message : {{ chat.message }}</p>
+          </li>
+        </ul>
+
+        <input v-model="message" placeholder="message" />
+
+        <input
+          class="btn btn-large btn-danger"
+          type="button"
+          id="buttonSendChat"
+          @click="sendChat"
+          value="SendChat"
+        />
       </div>
-      <!-- <div id="main-video" class="col-md-6">
+      <div id="main-video" class="col-md-6">
         <user-video :stream-manager="mainStreamManager" />
-      </div> -->
+      </div>
       <div id="video-container" class="col-md-6">
         <!-- <user-video
           :stream-manager="publisher"
@@ -60,9 +94,6 @@
           @click.native="updateMainVideoStreamManager(sub)"
         />
       </div>
-      <div>
-        <canvas id = "canvas"></canvas>
-      </div>
     </div>
   </div>
 </template>
@@ -71,20 +102,10 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
-
-import * as tf from '@tensorflow/tfjs'
-
-const weights = '/web_model/model.json';
-// var start = null;
-// let video = undefined;
-const names = ['ache', 'cough', 'head', 'snot']
-
-const [modelWeight, modelHeight] = [640, 640];
+import { mapState, mapMutations } from "vuex";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
-// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
 export default {
@@ -97,50 +118,38 @@ export default {
   data() {
     return {
       OV: undefined,
-      session: undefined,
+      session: undefined, // store??? 저장하면 되지 않을까??
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-
+      videoMute: false,
+      audioMute: false,
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
-      state: {
-				model: null,
-				preview: "",
-				predictions: [],
-			}
+      message: "",
+      chatSeq: 0,
+      chatList: [],
     };
   },
-  mounted() {
-		tf.loadGraphModel(weights).then(model => {
-			this.state.model = model
-		});
-	},
+  computed: {
+    ...mapState(["sessionStore"]),
+  },
   methods: {
-    cropToCanvas: (image, canvas, ctx) => {
-			
-			// canvas.width = image.width;
-			// canvas.height = image.height;
+    // Vuex
+    ...mapMutations(["SET_SESSION"]),
+    // Vuex
 
-			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-			ctx.fillStyle = "#000000";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(
-			image,
-			0,
-			0,
-			640,
-			640
-			);
-
-		},
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
 
       // --- Init a session ---
       this.session = this.OV.initSession();
+      this.$store.commit("SET_SESSION", {
+        session: this.session,
+      });
 
+      console.log("store log - " + this.sessionStore);
       // --- Specify the actions when events take place in the session ---
 
       // On every new Stream received...
@@ -162,8 +171,26 @@ export default {
         console.warn(exception);
       });
 
+      // Receiver of the message (usually before calling 'session.connect')
+      this.session.on("signal:my-chat", (event) => {
+        this.chatSeq = this.chatSeq + 1;
+        var chat = {
+          chatSeq: this.chatSeq,
+          timeStamp: Date.now(),
+          date: new Date(),
+          creationTime: event.from.creationTime,
+          user: event.from.data,
+          message: event.data,
+        };
+        this.chatList.push(chat);
+        // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
+        console.log("Message :" + event.data); // Message
+        console.log("Connection object of the sender :" + event.from); // Connection object of the sender
+        console.log("The type of message :" + event.type); // The type of message ("my-chat")
+      });
+
       // --- Connect to the session with a valid user token ---
-      var self = this;
+
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
@@ -171,127 +198,35 @@ export default {
           .connect(token, { clientData: this.myUserName })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
-            var constraints = { audio: true, video: { width: 640, height: 640 } };
-            var FRAME_RATE = 30;
-            navigator.mediaDevices.getUserMedia(constraints)
-            .then(function(mediaStream) {
-              var videoTrack = mediaStream.getVideoTracks()[0];
-              var video = document.createElement('video');
-              video.srcObject = new MediaStream([videoTrack]);
-              
-              var canvas = document.getElementById('canvas');
 
-              canvas.width = 640
-              canvas.height = 640
-              var ctx = canvas.getContext('2d');
-              
-              video.onloadedmetadata = function(e) {
-                video.addEventListener('play', () => {
-                  var loop = () => {
-                    if (!video.paused && !video.ended) {
-                      self.cropToCanvas(video, canvas, ctx);
-                      tf.engine().startScope()
-                      const input = tf.tidy(() => {
-                        return tf.image.resizeBilinear(tf.browser.fromPixels(video), [modelWeight, modelHeight]).div(255.0).expandDims(0);
-                      });
-                      self.state.model.executeAsync(input).then(res => {
-                        const font = "16px sans-serif";
-                        ctx.font = font;
-                        ctx.textBaseline = "top";
+            let publisher = this.OV.initPublisher(undefined, {
+              audioSource: undefined, // The source of audio. If undefined default microphone
+              videoSource: undefined, // The source of video. If undefined default webcam
+              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+              publishVideo: true, // Whether you want to start publishing with your video enabled or not
+              resolution: "640x480", // The resolution of your video
+              frameRate: 30, // The frame rate of your video
+              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+              mirror: true, // Whether to mirror your local video or not
+            });
 
-                        const [boxes, scores, classes, valid_detections] = res;
-                        const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
-                        const scores_data = scores.dataSync(); //검출 정확도
-                        const classes_data = classes.dataSync();//해당하는 클래스
-                        const valid_detections_data = valid_detections.dataSync()[0]; // 검축된 박스의 개수
-                        tf.dispose(res)
-                        var i;
-                        for (i = 0; i < valid_detections_data; ++i){
-                          let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
-                          x1 *= canvas.width;
-                          x2 *= canvas.width;
-                          y1 *= canvas.height;
-                          y2 *= canvas.height;
-                          const width = x2 - x1;
-                          const height = y2 - y1;
-                          const klass = names[classes_data[i]];
-                          const score = scores_data[i].toFixed(2);
+            this.mainStreamManager = publisher;
+            this.publisher = publisher;
 
-                          // Draw the bounding box.
-                          ctx.strokeStyle = "#00FFFF";
-                          ctx.lineWidth = 4;
-                          ctx.strokeRect(x1, y1, width, height);
+            // --- Publish your stream ---
 
-                          // Draw the label background.
-                          ctx.fillStyle = "#00FFFF";
-                          const textWidth = ctx.measureText(klass + ":" + score).width;
-                          const textHeight = parseInt(font, 10); // base 10
-                          ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
+            this.session.publish(this.publisher);
+          })
+          .catch((error) => {
+            console.log(
+              "There was an error connecting to the session:",
+              error.code,
+              error.message
+            );
+          });
+      });
 
-                        }
-                        for (i = 0; i < valid_detections_data; ++i){
-                          let [x1, y1, , ] = boxes_data.slice(i * 4, (i + 1) * 4);
-                          x1 *= canvas.width;
-                          y1 *= canvas.height;
-                          const klass = names[classes_data[i]];
-                          const score = scores_data[i].toFixed(2);
-
-                          // Draw the text last to ensure it's on top.
-                          ctx.fillStyle = "#000000";
-                          ctx.fillText(klass + ":" + score, x1, y1);
-
-                        }
-                      })
-                      ctx.drawImage(video, 0, 0, 640, 640);
-                      setTimeout(loop, 1000/ FRAME_RATE); // Drawing at 10 fps
-                      tf.engine().endScope()
-                    }
-                  };
-                  loop();
-                });
-                video.msHorizontalMirror = true
-							video.play();
-							var signVideoTrack = canvas.captureStream(FRAME_RATE).getVideoTracks()[0];
-              canvas.addEventListener('webglcontextlost', function(e) {
-                console.log("tttttttttttttttttttttttttttttttttttttttttttttttt");
-              }, false);
-
-							var publisher = self.OV.initPublisher(
-								undefined,
-								{
-									audioSource: false,
-									videoSource: signVideoTrack,
-								});
-								self.publisher = publisher;
-								// --- Publish your stream ---
-								self.session.publish(self.publisher);
-              };
-            })
-            .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
-						// --- Get your own camera stream with the desired properties ---
-						// let publisher = this.OV.initPublisher(undefined, {
-						// 	audioSource: undefined, // The source of audio. If undefined default microphone
-						// 	videoSource: undefined, // The source of video. If undefined default webcam
-						// 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-						// 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-						// 	resolution: '640x480',  // The resolution of your video
-						// 	frameRate: 30,			// The frame rate of your video
-						// 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-						// 	mirror: false       	// Whether to mirror your local video or not
-						// });
-						// this.mainStreamManager = publisher;
-						// this.publisher = publisher;
-						// console.log(this.publisher)
-						// --- Publish your stream ---
-
-						this.session.publish(this.publisher);
-					})
-					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
-					});
-			});
-
-			window.addEventListener('beforeunload', this.leaveSession)
+      window.addEventListener("beforeunload", this.leaveSession);
     },
 
     leaveSession() {
@@ -386,6 +321,32 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
+    },
+
+    videoController() {
+      this.videoMute = !this.videoMute;
+      this.publisher.publishVideo(this.videoMute);
+    },
+    audioController() {
+      this.audioMute = !this.audioMute;
+      this.publisher.publishAudio(this.audioMute);
+    },
+    sendChat() {
+      if (this.message != "") {
+        this.session
+          .signal({
+            data: this.message, // Any string (optional)
+            to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+            type: "my-chat", // The type of message (optional)
+          })
+          .then(() => {
+            this.message = "";
+            console.log("Message successfully sent");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     },
   },
 };
