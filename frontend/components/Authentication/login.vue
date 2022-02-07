@@ -13,21 +13,20 @@
                   alt="images"
                 />
               </div>
-              <h3>Hello Everyone , We are Chitchat</h3>
-              <h4>Welcome to chitchat please login to your account1.</h4>
+              <h3>반갑습니다. 수화닥터 입니다.</h3>
+              <h4>Welcome to handDoctor please login to your account.</h4>
               <form class="form1">
                 <div class="form-group">
                   <label class="col-form-label" for="inputEmail3"
-                    >Email Address</label
+                    >아이디</label
                   >
                   <input
                     class="form-control"
                     id="inputEmail3"
-                    type="email"
+                    type="id"
                     v-model="email"
-                    required
-                    email
-                    placeholder="Demo@123gmail.com"
+
+                    placeholder="아이디 입력"
                   />
                 </div>
                 <div class="form-group">
@@ -39,8 +38,7 @@
                     id="inputPassword3"
                     type="password"
                     v-model="password"
-                    required
-                    placeholder="Password"
+                    placeholder="***********"
                   />
                 </div>
                 <div class="form-group">
@@ -76,7 +74,7 @@
                 <h6>SNS 계정으로 로그인</h6>
               </div>
               <div class="medialogo">
-                <div class="google-btn" @click="handleClickGetAuth">
+                <div class="google-btn" @click="handleClickGetAuth"  style="margin-left:180px">
                   <div class="google-icon-wrapper">
                     <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
                   </div>
@@ -150,16 +148,12 @@
                   src="../../assets/images/login_signup/4.png"
                   alt="login logo"
                 /><img
-                  class="login-img"
-                  src="../../assets/images/login_signup/1.png"
+                  class="login-img" width="320px" style="left:120px; top:400px" 
+                  src="../../assets/images/login_signup/login2.png"
                   alt="login logo"
                 /><img
-                  class="boy-logo"
-                  src="../../assets/images/login_signup/6.png"
-                  alt="login boy logo"
-                /><img
-                  class="girl-logo"
-                  src="../../assets/images/login_signup/7.png"
+                  class="girl-logo"  width="375px" style="right:450px"
+                  src="../../assets/images/login_signup/login1.png"
                   alt="girllogo"
                 /><img
                   class="cloud-logo"
@@ -182,8 +176,8 @@
                   src="../../assets/images/login_signup/2.png"
                   alt="login logo"
                 /><img
-                  class="has-logo1"
-                  src="../../assets/images/login_signup/4.png"
+                  class="heart-logo" style="left:90px; top:400px"
+                  src="../../assets/images/login_signup/5.png"
                   alt="login logo"
                 />
               </div>
@@ -202,8 +196,8 @@ import http from "@/components/common/axios.js";
 export default {
   data() {
     return {
-      email: "test@admin.com",
-      password: "test@123456",
+      id: "",
+      password: "",
     };
   },
   methods: {
@@ -230,8 +224,8 @@ export default {
             userName: data.userName,
             userProfileImageUrl: data.userProfileImageUrl,
           });
-          
-          this.$router.replace("/");
+        this.$alertify.success('로그인 성공!'); 
+        this.$nuxt.$options.router.push('/');
 
           
         })

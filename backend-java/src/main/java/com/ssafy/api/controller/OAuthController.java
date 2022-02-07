@@ -99,6 +99,7 @@ public class OAuthController {
                         .userId(userId)
                         .password(bCryptPasswordEncoder.encode("겟인데어"))
                         .email(email)
+                        .role("ROLE_USER")
 //                        .provider(googleUser.getProvider())
 //                        .providerId(googleUser.getProviderId())
                         .build();
