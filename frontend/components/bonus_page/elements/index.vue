@@ -2,25 +2,27 @@
   <!--Bonus Page Elements start -->
   <div class="container">
     <client-only>
-      <Typography />
-      <SpanPara />
-      <Images />
-      <Fonts />
-      <LabelFonts />
-      <Badge />
-      <BadgeWithIcons />
-      <BadgeWithSamllLabelIcon />
-      <BadgeWithTypography />
-      <BadgeWithStatus />
-      <BackGroundColor />
-      <ButtonBackground />
-      <Icons />
-      <ThemeButtons />
-      <MessageBox />
-      <MainChat />
-      <SharedDoc />
-      <PhoneButton />
-      <Buttons />
+      <Table />
+      <!-- <Typography />
+            <SpanPara />
+            <Images />
+            <Fonts />
+            <LabelFonts />
+            <Badge />
+            <BadgeWithIcons />
+            <BadgeWithSamllLabelIcon />
+            <BadgeWithTypography />
+            <BadgeWithStatus />
+            <BackGroundColor />
+            <ButtonBackground />
+            <Icons />
+            <ThemeButtons />
+            <MessageBox />
+            <MainChat />
+            <SharedDoc />
+            <PhoneButton />
+            <Buttons /> -->
+      <ForEmptySpace />
     </client-only>
   </div>
   <!--Bonus Page Elements end -->
@@ -47,6 +49,9 @@ import SharedDoc from "./sharedDoc.vue";
 import PhoneButton from "./phoneButton.vue";
 import Buttons from "./buttons.vue";
 
+import Table from "./table.vue";
+import ForEmptySpace from "./ForEmptySpace.vue";
+
 export default {
   components: {
     Typography,
@@ -68,6 +73,8 @@ export default {
     SharedDoc,
     PhoneButton,
     Buttons,
+    Table,
+    ForEmptySpace,
   },
 };
 </script>
