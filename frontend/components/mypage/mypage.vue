@@ -1,124 +1,166 @@
 <template>
-<!--Bonus Page FAQ start -->
   <section class="section-py-space faq-section">
       <ul class="page-decore">
         <li class="top"><img class="img-fluid inner2" src="../../assets/images/landing/footer/2.png" alt="footer-back-img"></li>
         <li class="bottom"><img class="img-fluid inner2" src="../../assets/images/landing/footer/2.png" alt="footer-back-img"></li>
       </ul>
-      <div class="container">
-        <div class="row faq-block">
-          <div class="col-sm-12">
-            <div class="media">
-              <div>
-                <h2>Frequently Asked Questions</h2>
-                <p>Discover you question from underneath or present your inquiry fromt tahe submit box.</p>
-              </div>
-              <div class="media-body"><a class="icon-btn btn-outline-primary btn-sm search contact-search float-right" href="javascript:void(0)"><i @click="toggelsearchbar()" class="fa fa-search"></i></a>
-                <form class="form-inline search-form" :class="{ 'open': opensearchbar }">
-                  <div class="form-group">
-                    <input class="form-control-plaintext" type="search" placeholder="Search..">
-                    <div @click="opensearchbar = false" class="icon-close close-search"></div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="accordion theme-accordion" role="tablist">
-              <div class="card faq-block accordion theme-accordion">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-1 class="btn-link" type="button">How can I downgrade to an earlier ?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-              <div class="card">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-2 class="btn-link collapsed" type="button">How can I upgrade from Shopify 2.5 to shopify 3?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-              <div class="card">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-3 class="btn-link collapsed" type="button">Under what license are Regular Labs released?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-              <div class="card">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-4 class="btn-link collapsed">What is the Regular Labs Library?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-4" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-              <div class="card">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-5 class="btn-link collapsed" type="button">Can I turn on/off some blocks on the page?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-5" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-              <div class="card">
-                <b-card-header role="tab">
-                  <h5 class="mb-0">
-                    <b-button v-b-toggle.accordion-6 class="btn-link collapsed" type="button">What is included in the theme package?</b-button>
-                  </h5>
-                </b-card-header>
-                <b-collapse id="accordion-6" accordion="my-accordion" role="tabpanel">
-                  <b-card-body>
-                    <p><img class="img-fluid faq-decor" src="../../assets/images/landing/chitchat/2.png" alt="chit-chat-back-img"/>{{ text }}</p>
-                  </b-card-body>
-                </b-collapse>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Test />
+      <div class="container d-flex">
+        <!-- 프로필 -->
+        <Profile class="left"/>
+        <!-- 의사일 시 : 진료 가능 시간 -->
+        <DoctorTime class="right"/>
       </div>
+      <!-- 회원정보 수정버튼, 탈퇴버튼 -->
+      <center>
+        <b-button variant="primary mr-3">비밀번호 변경</b-button>
+        <b-button variant="danger ml-3">회원탈퇴</b-button>
+      </center>
   </section>
-<!--Bonus Page FAQ end -->
 </template>
 
 <script>
+import Test from "./test.vue"
+import Profile from "./profile.vue"
+import DoctorTime from "./doctor_time.vue"
+
 export default {
+  components: {
+    Test,
+    Profile,
+    DoctorTime,
+  },
   data() {
       return {
-        text: `
-          it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &apos;lorem ipsum&apos; will uncover many web sites still in their infancy. Various versions have evolved over the years,All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures
-        `,
-        opensearchbar: false
+        
       }
     },
     methods: {
-    toggelsearchbar() {
-      this.opensearchbar = !this.opensearchbar
-    }
+
     }
 };
 </script>
+
+<style>
+.left {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+}
+.right {
+  width: 50%;
+  float: right;
+  box-sizing: border-box;
+}
+.card-header:first-child {
+  border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+.card-header {
+  position: relative;
+  padding: 2rem 2rem;
+  border-bottom: none;
+  background-color: white;
+  box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%);
+  z-index: 2;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  border-radius: 1rem;
+}
+.bg-gray-100 {
+  background-color: #f8f9fa !important;
+}
+/* body{
+  font-family: 'Poppins'!important;
+} */
+/* .text-primary {
+  color: #4650dd !important;
+} */
+/* h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+ 
+  line-height: 1.2;
+} */
+.text-muted {
+  color: #6c757d !important;
+}
+.lead {
+  font-size: 1.125rem;
+  font-weight: 300;
+}
+.text-sm {
+  font-size: .7875rem !important;
+}
+/* h3, .h3 {
+  font-size: 1.575rem;
+} */
+.page-holder {
+  display: flex;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: calc(100vh - 72px);
+ 
+  flex-wrap: wrap;
+}
+/* a {
+  color: #4650dd!important;
+  text-decoration: underline!important;
+  cursor: pointer;
+} */
+.card-profile-img {
+  position: relative;
+  max-width: 8rem;
+  margin-top: -6rem;
+  margin-bottom: 1rem;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  z-index: 2;
+}
+img, svg {
+  vertical-align: middle;
+}
+.avatar.avatar-lg {
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: #dee2e6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 15%);
+  line-height: 3rem;
+}
+.form-control
+{
+  color: #343a40;
+}
+.page-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 300;
+}
+.contentDiv
+{
+  padding-top: 4rem;
+}
+.card-profile .card-header {
+  height: 9rem;
+  background-position: center center;
+  background-size: cover;
+}
+</style>
+

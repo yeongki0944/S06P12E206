@@ -12,6 +12,7 @@
     "@nuxtjs/bootstrap-vue": "^2.0.4",
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/toast": "^3.3.1",
+    "@popperjs/core": "^2.11.2",
     "@tensorflow/tfjs": "^3.13.0",
     "@tensorflow/tfjs-node-gpu": "^3.13.0",
     "axios": "^0.25.0",
