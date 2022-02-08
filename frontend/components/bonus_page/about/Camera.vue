@@ -113,10 +113,11 @@ export default {
   },
   async mounted() {
     // const model = await tf.loadGraphModel("indexeddb://my-model");
-    await tf.loadGraphModel(weights).then((model) => {
-      this.state.model = model;
-      model.save("indexeddb://sign-doctor");
-      model.save("downloads://sign-doctor");
+    tf.loadGraphModel(weights).then((model) => {
+      model.save("indexeddb://my-model");
+      tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+        this.state.model = model2;
+      });
     });
     //   this.state.model = model;
     //   // model.save("localstorage://my-model");
