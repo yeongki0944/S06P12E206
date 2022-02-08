@@ -4,11 +4,11 @@
     <div class="theme-landing">
       <Header />
       <Slider />
-      <AppDesign />
+      <!-- <AppDesign /> -->
       <ChitChat />
-      <TeamWork />
-      <SecureApp />
       <Collaboration />
+      <TeamWork />
+      <!-- <SecureApp /> -->
       
       <!-- 나중에 우리팀 팀원들 넣기 -->
       <!-- <section class="section-py-space light-bg">

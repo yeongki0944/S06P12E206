@@ -10,15 +10,14 @@
                 <div class="ply-content">
                   <div class="ply-sub-content"><i class="fa fa-play"></i></div>
                 </div>
-                <h3>See Our <span>Team work</span></h3>
+                <h3>저희 <span>사이트는요</span></h3>
               </div>
-              <h1>Efficient teamwork for every enterprise</h1>
+              <h1>이런 분들을 생각하며 만들었어요</h1>
               <h4>
-                Big companies save time with Slack by securely collaborating
-                across teams, departments, offices and countries.
+                저희 사이트를 통해 농인분들의 병원 진료가 조금이라도 더 수월해질 수 있었으면 하는 바람입니다
               </h4>
               <nuxt-link class="btn pricing-btn" to="/messenger/messenger">
-                Chitchat for enterprise</nuxt-link
+                팀원 소개 보기</nuxt-link
               >
             </div>
           </div>

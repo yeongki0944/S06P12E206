@@ -1,19 +1,6 @@
 <template>
   <!-- chit chat start -->
   <section class="section-py-space chitchat-main light-bg">
-    <div class="container-fluid">
-      <div class="landing-title">
-        <div>
-          <h1>why chooce</h1>
-        </div>
-        <div class="sub-title">
-          <div>
-            <h4>Why Chooce Chitchat</h4>
-            <h2>Chitchat is fully responsive excellent choice</h2>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="custom-container">
       <div class="row chit-chat-block">
         <div class="col-md-6">
@@ -35,26 +22,23 @@
                   alt="landing-logo"
                 />
               </div>
-              <h3>Easy to use<span> Our Application</span></h3>
-              <h1>All-in-one responsive app for you</h1>
+              <h1>수화닥터란?</h1>
               <h4>
-                It is about us being able to offer help with the branding
-                campaign, product presentation, and advertisement running across
-                social media.
+                의사선생님에게 농인분들의 수어를 실시간으로 번역하여 
+                <br>
+                보다 나은 진료를 도와드리기 위해 만들어졌어요
               </h4>
               <ul class="detial-price">
                 <li>
-                  <i class="fa fa-check"></i>Customer First Content-focused
-                  Displaying Effects
+                  <i class="fa fa-check"></i>농인분의 수화를 인공지능을 통해 번역해요
                 </li>
                 <li>
-                  <i class="fa fa-check"> </i>High Definition Full-screen
-                  Sliders & Backgrounds
+                  <i class="fa fa-check"> </i>최신 WebRTC기술을 활용하여, 앱 설치 없이 사용할 수 있어요
                 </li>
-                <li><i class="fa fa-check"> </i>Try for free, Forever!</li>
+                <li><i class="fa fa-check"> </i>간편 회원가입 후 바로 이용해보세요!</li>
               </ul>
               <nuxt-link to="/messenger/messenger" class="btn pricing-btn">
-                view more</nuxt-link>
+                회원가입</nuxt-link>
 
             </div>
           </div>
