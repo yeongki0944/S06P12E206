@@ -112,9 +112,16 @@ export default {
     };
   },
   async mounted() {
-    tf.loadGraphModel(weights).then((model) => {
+    // const model = await tf.loadGraphModel("indexeddb://my-model");
+    await tf.loadGraphModel(weights).then((model) => {
       this.state.model = model;
+      model.save("indexeddb://sign-doctor");
     });
+    //   this.state.model = model;
+    //   // model.save("localstorage://my-model");
+    //   model.save("indexeddb://my-model");
+    //   model.save("downloads://my-model");
+    // });
   },
   methods: {
     cropToCanvas: (image, canvas, ctx) => {
