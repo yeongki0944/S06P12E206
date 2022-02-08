@@ -64,6 +64,9 @@
           <button type="button" class="btn btn-primary">
             <nuxt-link to="/authentication/signup">회원가입</nuxt-link>
           </button>
+          <button type="button" class="btn btn-primary">
+            <nuxt-link to="/authentication/mypage">마이페이지</nuxt-link>
+          </button>
           <!-- 로그인과 회원가입만 사용함 -->
           <!-- <b-dropdown id="dropdown-3" text="Authentication">
                         <b-dropdown-item class="nav-link"
