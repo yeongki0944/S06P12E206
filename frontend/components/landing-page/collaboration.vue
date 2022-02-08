@@ -10,8 +10,7 @@
             </div>
             <div class="sub-title">
               <div>
-                <h4>Exclusive Features</h4>
-                <h2>Put collaboration at your fingertips</h2>
+                <h2>사이트를 한 눈에 파악할 수 있어요</h2>
               </div>
             </div>
           </div>
@@ -32,8 +31,8 @@
                   <div class="tab-main">
                     <div class="tab-img"><i class="ti-thought"></i></div>
                     <div class="tab-content">
-                      <h3>Organise</h3>
-                      <p>conversation</p>
+                      <h3>기능</h3>
+                      <p>1</p>
                     </div>
                   </div></a
                 >
@@ -47,8 +46,8 @@
                   <div class="tab-main">
                     <div class="tab-img"><i class="ti-zip"></i></div>
                     <div class="tab-content">
-                      <h3>Shared</h3>
-                      <p>file and etc</p>
+                      <h3>기능</h3>
+                      <p>2</p>
                     </div>
                   </div></a
                 >
@@ -62,13 +61,13 @@
                   <div class="tab-main">
                     <div class="tab-img"><i class="ti-search"></i></div>
                     <div class="tab-content">
-                      <h3>Search</h3>
-                      <p>everything</p>
+                      <h3>기능</h3>
+                      <p>3</p>
                     </div>
                   </div></a
                 >
               </li>
-              <li class="nav-item" @click="activemenu(4)">
+              <!-- <li class="nav-item" @click="activemenu(4)">
                 <a
                   class="nav-link"
                   data-toggle="pill"
@@ -82,7 +81,7 @@
                     </div>
                   </div></a
                 >
-              </li>
+              </li> -->
             </ul>
           </div>
           <div class="tab-detail">
@@ -105,7 +104,7 @@
               >
                 <img
                   class="img-fluid"
-                  src="../../assets/images/landing/finger-tips/main.jpg"
+                  src="../../assets/images/landing/finger-tips/main2.jpg"
                   alt="tab-detail-img"
                 />
               </div>
