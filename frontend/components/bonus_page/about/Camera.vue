@@ -113,12 +113,22 @@ export default {
   },
   async mounted() {
     // const model = await tf.loadGraphModel("indexeddb://my-model");
-    tf.loadGraphModel(weights).then((model) => {
+
+    var model_url =
+      "http://i6e206.p.ssafy.io:7777/release/web_model/model.json";
+    await tf.loadGraphModel(model_url).then((model) => {
       model.save("indexeddb://my-model");
       tf.loadGraphModel("indexeddb://my-model").then((model2) => {
         this.state.model = model2;
       });
     });
+
+    // tf.loadGraphModel(weights).then((model) => {
+    //   model.save("indexeddb://my-model");
+    //   tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+    //     this.state.model = model2;
+    //   });
+    // });
     //   this.state.model = model;
     //   // model.save("localstorage://my-model");
     //   model.save("indexeddb://my-model");
