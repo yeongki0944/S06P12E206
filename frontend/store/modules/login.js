@@ -4,6 +4,7 @@ const state = {
     isManager: false,
     login: {
         userName: "",
+        userRole: "",
         userProfileImageUrl: ""
     }
 };
@@ -14,7 +15,7 @@ const mutations = {
         state.isLogin = true;
         state.isnLogin = false;
         state.login.userName = payload.name;
-        
+        state.login.userRole = payload.role;
     },
     SET_MANAGER: (state) => {
         state.isManager = true;
