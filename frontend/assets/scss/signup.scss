@@ -1,0 +1,7 @@
+.agree ul {margin-top: 10px;}
+.agree ul li {margin-bottom: 15px;}
+.agree ul li:after {display:block; clear:both; content:"";}
+.agree ul li input[type="checkbox"] {display: none;}
+.agree ul li input[type="checkbox"] + label { width:17px; height: 17px; background: #fa3062; cursor: pointer; border-radius: 3px;float: right;}
+.agree ul li input[type="checkbox"]:checked + label {background:url(../images/check.png) #fa3062 no-repeat center/10px 10px; float: right}
+.agree ul li input[type="checkbox"] + label span {position: absolute; left:0px; display: block; }

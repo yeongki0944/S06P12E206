@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.api.request.MessagesRequestDto;
 import com.ssafy.api.response.SendSmsResponseDto;
 import com.ssafy.api.service.MessageService;
+import com.ssafy.api.service.ResumeService;
+import com.ssafy.db.entity.doctor.DoctorResume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -25,8 +27,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -44,6 +48,8 @@ public class UserController {
 	UserService userService;
 	@Autowired
 	MessageService messageService;
+	@Autowired
+	ResumeService resumeService;
 
 	@PostMapping()
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
@@ -61,7 +67,26 @@ public class UserController {
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
-	
+
+	@PostMapping("/resume")
+	@ApiOperation(value = "의사 회원 가입 신청", notes = "<strong>관리자의 승인</strong>을 신청한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> resume(
+			@ApiParam(value="회원신청 정보", required = true) DoctorResume doctorResume,
+			MultipartHttpServletRequest request) throws IOException {
+
+		if(resumeService.resume(doctorResume, request)) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "Failed"));
+
+	}
+
 	@GetMapping("/me")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.") 
     @ApiResponses({
@@ -122,9 +147,20 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
-	@PostMapping("/sms")
-	public ResponseEntity<SendSmsResponseDto> test(@RequestBody MessagesRequestDto messageRequest) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
-		SendSmsResponseDto data = messageService.sendSms(messageRequest.getTo(), messageRequest.getContent());
+	//인증번호 발송
+	@PostMapping("/sms/sends")
+	public ResponseEntity<SendSmsResponseDto> sendSms(@RequestBody MessagesRequestDto messageRequest) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+		SendSmsResponseDto data = messageService.sendSms(messageRequest.getTo());
 		return ResponseEntity.ok().body(data);
+	}
+
+	//인증번호 확인
+	@PostMapping("/sms/confirms")
+	public ResponseEntity<? extends BaseResponseBody> SmsVerification(@RequestBody MessagesRequestDto messageRequest) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+		System.out.println(messageRequest.getNumber());
+		if(messageService.verifySms(messageRequest)) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "failed"));
 	}
 }
