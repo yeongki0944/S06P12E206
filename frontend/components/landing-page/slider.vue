@@ -31,7 +31,8 @@
             class="img-fluid chat-slide"
             src="../../assets/images/landing/2.png"
             alt="inner"
-        /><img
+        />
+        <img
             class="img-fluid inner1"
             src="../../assets/images/landing/header/1.png"
             alt="inner1"
