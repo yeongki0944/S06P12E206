@@ -4,9 +4,9 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Chitchat - chat messenger html templlete',
+    title: '수화닥터',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'ko',
       // class : "style"
     },
     meta: [

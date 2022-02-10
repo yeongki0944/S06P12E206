@@ -7,6 +7,11 @@ const state = {
   chats: Users.chat,
   activeuser: 0,
   typing: false,
+  newChat: {
+    "sender": "s",
+    "time": "t",
+    "text": 't',
+  },
 };
 
 // getters
@@ -79,8 +84,28 @@ const mutations = {
       text: payload,
       lastmsg: true,
     }),
-      (state.typing = true);
+      (state.typing = false);
   },
+
+  /* Add Direct chat Text And Emogi*/
+  addNewChat: (state, payload) => {
+    console.log("run mutations addNewChat");
+    var today = new Date().toLocaleString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    state.addNewChat['sender'] = 0;
+    state.addNewChat['time'] = today.toLowerCase();
+    state.addNewChat['text'] = payload;
+    console.log("payload : " + payload);
+    console.log("end mutations addNewChat");
+
+
+  },
+
+
 
   /* Add Direct Chat AutoResponse */
   addChatResponce: (state) => {
@@ -92,7 +117,7 @@ const mutations = {
     const id = state.activeuser;
     const addchat = state.chats.find((chat) => chat.id == id);
     const ChatUser = state.users.find((user) => user.id == id);
-    setTimeout(function() {
+    setTimeout(function () {
       addchat.messages.push({
         sender: 1,
         lastmsg: true,
@@ -125,10 +150,17 @@ const actions = {
 
   addChat: (context, payload) => {
     context.commit("addChat", payload);
-    setTimeout(function() {
-      context.commit("addChatResponce");
-    }, 1000);
+    // setTimeout(function () {
+    //   context.commit("addChatResponce");
+    // }, 1000);
   },
+
+  addNewChat: (context, payload) => {
+    context.commit("addNewChat", payload);
+    // setTimeout(function () {
+    //   context.commit("addNewChatResponce");
+    // }, 1000);
+  }
 };
 
 export default {

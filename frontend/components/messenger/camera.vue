@@ -2,9 +2,28 @@
   <div id="main-container" class="container">
     <div id="join" v-if="!session">
       <div id="img-div">
-        <img src="resources/images/openvidu_grey_bg_transp_cropped.png" />
+        <!-- <img src="resources/images/openvidu_grey_bg_transp_cropped.png" /> -->
       </div>
-      <div id="join-dialog" class="jumbotron vertical-center">
+      <span
+        class="hov-anim-box"
+        style="width: 80%; height: 80%"
+        @click="joinSession()"
+      >
+        <img
+          src="@/assets/images/videocall/closeDoor.jpg"
+          alt=""
+          class="static"
+          style="width: 80%; heigt: 80%; display: inline"
+        />
+        <img
+          src="@/assets/images/videocall/door.gif"
+          alt=""
+          class="animated"
+          style="display: none; width: 80%; heigt: 80%"
+        />
+      </span>
+
+      <!-- <div id="join-dialog" class="jumbotron vertical-center">
         <h1>Join a video session</h1>
         <div class="form-group">
           <p>
@@ -31,13 +50,38 @@
             </button>
           </p>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <div id="session" v-if="session">
       <div id="session-header">
         <h1 id="session-title">{{ mySessionId }}</h1>
-        <input
+
+        <a v-on:click="leaveSession()">
+          <img src="@/assets/images/videocall/exit.png" />
+        </a>
+
+        <a v-if="videoMute == true" v-on:click="videoOn()">
+          <img
+            src="@/assets/images/videocall/video.png"
+            style="filter: opacity(0.6) drop-shadow(0 0 0 red)"
+          />
+        </a>
+        <a v-else v-on:click="videoOff()">
+          <img src="@/assets/images/videocall/no-video.png" />
+        </a>
+
+        <a v-if="audioMute == true" v-on:click="audioOn()">
+          <img
+            src="@/assets/images/videocall/audio.png"
+            style="filter: opacity(0.6) drop-shadow(0 0 0 blue)"
+          />
+        </a>
+        <a v-else v-on:click="audioOff()">
+          <img src="@/assets/images/videocall/no-audio.png" />
+        </a>
+
+        <!-- <input
           class="btn btn-large btn-danger"
           type="button"
           id="buttonLeaveSession"
@@ -58,7 +102,7 @@
           id="buttonAudio"
           @click="audioController"
           value="mute Audio"
-        />
+        /> -->
         <ul>
           <li v-for="chat in chatList" v-bind:key="chat.chatSeq">
             <p>chatSeq : {{ chat.chatSeq }}</p>
@@ -98,11 +142,25 @@
   </div>
 </template>
 
+<style>
+.hov-anim-box .animated {
+  display: none;
+}
+
+.hov-anim-box:hover .animated {
+  display: inline;
+}
+
+.hov-anim-box:hover .static {
+  display: none;
+}
+</style>
+
 <script>
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -122,8 +180,8 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
-      videoMute: false,
-      audioMute: false,
+      videoMute: true,
+      audioMute: true,
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       message: "",
@@ -132,11 +190,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["sessionStore"]),
+    // ...mapState(["sessionStore"]),
   },
   methods: {
     // Vuex
-    ...mapMutations(["SET_SESSION"]),
+    // ...mapMutations(["SET_SESSION"]),
     // Vuex
 
     joinSession() {
@@ -323,9 +381,22 @@ export default {
       });
     },
 
-    videoController() {
-      this.videoMute = !this.videoMute;
+    videoOn() {
+      this.videoMute = false;
       this.publisher.publishVideo(this.videoMute);
+    },
+    videoOff() {
+      this.videoMute = true;
+      this.publisher.publishVideo(this.videoMute);
+    },
+
+    audioOn() {
+      this.audioMute = false;
+      this.publisher.publishAudio(this.audioMute);
+    },
+    audioOff() {
+      this.audioMute = true;
+      this.publisher.publishAudio(this.audioMute);
     },
     audioController() {
       this.audioMute = !this.audioMute;
@@ -347,6 +418,17 @@ export default {
             console.error(error);
           });
       }
+    },
+  },
+
+  computed: {
+    ...mapState({
+      addNewChat: (state) => state.chat.newChat,
+    }),
+  },
+  watch: {
+    addNewChat() {
+      console.log("new chatting");
     },
   },
 };

@@ -115,7 +115,7 @@ export default {
     // const model = await tf.loadGraphModel("indexeddb://my-model");
 
     var model_url =
-      "http://i6e206.p.ssafy.io:7777/release/web_model/model.json";
+      "https://staticfileserver.herokuapp.com/web_model/model.json";
     await tf.loadGraphModel(model_url).then((model) => {
       model.save("indexeddb://my-model");
       tf.loadGraphModel("indexeddb://my-model").then((model2) => {
@@ -321,7 +321,7 @@ export default {
             // console.log(this.publisher)
             // --- Publish your stream ---
 
-            this.session.publish(this.publisher);
+            // this.session.publish(this.publisher);
           })
           .catch((error) => {
             console.log(

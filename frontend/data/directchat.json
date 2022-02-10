@@ -73,9 +73,9 @@
         {
           "sender": 0,
           "img":"avtar/big/2.jpg",
-          "name":"Alan josheph",
+          "name":"patient",
           "time":"01:40 AM",
-          "text":"Hi I am Alan,",
+          "text":"Hi I am Alan, ",
           "text2":"your personal assistant to help you",
           "read":"R",
           "lastmsg" : false
