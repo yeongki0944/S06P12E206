@@ -20,7 +20,6 @@ import javax.print.Doc;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
 
     DoctorResumeRepository doctorResumeRepository;
