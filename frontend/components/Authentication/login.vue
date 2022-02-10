@@ -17,15 +17,12 @@
               <h4>Welcome to handDoctor please login to your account.</h4>
               <form class="form1">
                 <div class="form-group">
-                  <label class="col-form-label" for="inputEmail3"
-                    >아이디</label
-                  >
+                  <label class="col-form-label" for="inputEmail3">아이디</label>
                   <input
                     class="form-control"
                     id="inputEmail3"
                     type="id"
                     v-model="id"
-
                     placeholder="아이디 입력"
                   />
                 </div>
@@ -52,7 +49,11 @@
                       <label class="form-check-label" for="gridCheck1"
                         >아이디 저장</label
                       >
-                      <h6><nuxt-link to="/authentication/login">비밀번호를 잊으셨나요?</nuxt-link></h6>
+                      <h6>
+                        <nuxt-link to="/authentication/login"
+                          >비밀번호를 잊으셨나요?</nuxt-link
+                        >
+                      </h6>
                     </div>
                   </div>
                 </div>
@@ -64,7 +65,10 @@
                       @click="signUp"
                       >로그인</a
                     >
-                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup-2">
+                    <nuxt-link
+                      class="btn button-effect btn-signup"
+                      to="/authentication/signup-2"
+                    >
                       회원가입
                     </nuxt-link>
                   </div>
@@ -74,9 +78,16 @@
                 <h6>SNS 계정으로 로그인</h6>
               </div>
               <div class="medialogo">
-                <div class="google-btn" @click="handleClickGetAuth"  style="margin-left:180px">
+                <div
+                  class="google-btn"
+                  @click="handleClickGetAuth"
+                  style="margin-left: 180px"
+                >
                   <div class="google-icon-wrapper">
-                    <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
+                    <img
+                      class="google-icon-svg"
+                      src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                    />
                   </div>
                   <p class="btn-text"><b>Sign in with Google</b></p>
                 </div>
@@ -148,13 +159,13 @@
                   src="../../assets/images/login_signup/4.png"
                   alt="login logo"
                 /><img
-                  class="login-img" width="320px" style="left:120px; top:400px" 
+                  class="login-img"
                   src="../../assets/images/login_signup/login2.png"
                   alt="login logo"
                 /><img
-                  class="girl-logo"  width="375px" style="right:450px"
+                  class="girl-logo"
                   src="../../assets/images/login_signup/login1.png"
-                  alt="girllogo"
+                  alt="girl logo"
                 /><img
                   class="cloud-logo"
                   src="../../assets/images/login_signup/2.png"
@@ -176,7 +187,8 @@
                   src="../../assets/images/login_signup/2.png"
                   alt="login logo"
                 /><img
-                  class="heart-logo" style="left:90px; top:400px"
+                  class="heart-logo"
+                  style="left: 90px; top: 400px"
                   src="../../assets/images/login_signup/5.png"
                   alt="login logo"
                 />
@@ -191,7 +203,6 @@
 </template>
 
 <script>
-
 import http from "@/components/common/axios.js";
 import jwt_decode from "jwt-decode";
 import { mapMutations } from "vuex";
@@ -204,13 +215,13 @@ export default {
   },
   methods: {
     async handleClickGetAuth() {
-      const googleUser = await this.$gAuth.signIn()
+      const googleUser = await this.$gAuth.signIn();
       if (!googleUser) {
-          return null;
-       }
+        return null;
+      }
       http
         .post("/api/v1/oauth/login", {
-          idToken: googleUser.getAuthResponse().id_token
+          idToken: googleUser.getAuthResponse().id_token,
         })
         .then(({ data }) => {
           console.log("LoginVue: data : ");
@@ -225,63 +236,55 @@ export default {
             isnLogin: false,
           });
 
-          
-        this.$alertify.success('로그인 성공!'); 
-        this.$nuxt.$options.router.push('/');
-
-          
+          this.$alertify.success("로그인 성공!");
+          this.$nuxt.$options.router.push("/");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("LoginVue: error : ");
           console.log(error);
           this.$alertify.error("아이디 또는 비밀번호를 확인하세요.");
           if (error.response.status == "500") {
-            
           } else {
             this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
           }
         });
+    },
 
-      },
-
-    signUp: function() {
-      http.post(
-        "/api/v1/auth/login",
-        {
+    signUp: function () {
+      http
+        .post("/api/v1/auth/login", {
           id: this.id,
           password: this.password,
-        }
-      )
-      .then(({ data }) => {
-        console.log("RegisterVue: data : ");
-        console.log(data);
+        })
+        .then(({ data }) => {
+          console.log("RegisterVue: data : ");
+          console.log(data);
 
-        localStorage.setItem("jwtToken", data.accessToken);        
-        let info = jwt_decode(data.accessToken);
-        console.log(info);
-        this.$store.commit("login/SET_LOGIN", {
-          name: info.name,
-          isLogin: true,
-          isnLogin: false,
+          localStorage.setItem("jwtToken", data.accessToken);
+          let info = jwt_decode(data.accessToken);
+          console.log(info);
+          this.$store.commit("login/SET_LOGIN", {
+            name: info.name,
+            isLogin: true,
+            isnLogin: false,
+          });
+
+          if (info.role == "ROLE_MANAGER") {
+            this.$store.commit("login/SET_MANAGER");
+          }
+
+          this.$alertify.success("로그인 성공!");
+
+          this.$nuxt.$options.router.push("/");
+        })
+        .catch((error) => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+          if (error.response.status == "401") {
+            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
+          }
         });
-
-        if(info.role=="ROLE_MANAGER"){
-          this.$store.commit("login/SET_MANAGER")
-        }
-
-        this.$alertify.success('로그인 성공!'); 
-
-        this.$nuxt.$options.router.push('/');
-      })
-      .catch( error => {
-        console.log("RegisterVue: error : ");
-        console.log(error);
-        if( error.response.status == '401'){
-          this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
-        }
-          
-      });
     },
   },
-}
+};
 </script>
