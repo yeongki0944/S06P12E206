@@ -9,6 +9,8 @@ import com.ssafy.db.repository.DoctorFileRepository;
 import com.ssafy.db.repository.DoctorResumeRepository;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.doctor.DoctorInfoRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,22 +19,20 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.print.Doc;
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
 
-    @Autowired
     DoctorResumeRepository doctorResumeRepository;
 
-    @Autowired
     DoctorFileRepository doctorFileRepository;
 
-    @Autowired
     UserRepository userRepository;
 
-    @Autowired
     DoctorInfoRepository doctorInfoRepository;
 
-    @Autowired
     PasswordEncoder passwordEncoder;
+
     public ResumeRes resumeList() {
         ResumeRes resumeRes = new ResumeRes();
 
