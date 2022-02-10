@@ -115,7 +115,10 @@
                   >승인됨</b-button
                 >
                 <b-button disabled variant="danger" size="sm" class="mr-2"
-                  >취소됨</b-button
+                  >거절됨</b-button
+                >
+                <b-button disabled variant="warning" size="sm" class="mr-2"
+                  >승인대기</b-button
                 >
                 <!-- <b-badge variant="success">승인됨</b-badge>
                 <b-badge variant="danger">취소됨</b-badge> -->
@@ -145,15 +148,41 @@
                     <b-col>{{ row.item.본인증상입력 }}</b-col>
                   </b-row>
 
-                  <b-button variant="info" size="sm" @click="row.toggleDetails"
-                    >접기</b-button
-                  >
+                  <b-row>
+                    <b-col>
+                      <b-button
+                        variant="info"
+                        size="sm"
+                        @click="row.toggleDetails"
+                        >접기</b-button
+                      >
+                    </b-col>
+                    <b-col />
+                    <b-col>
+                      <b-button variant="success" size="sm">날짜 변경</b-button>
+                      <b-button v-b-modal.modal-lg variant="danger" size="sm"
+                        >예약 취소</b-button
+                      >
+
+                      <b-modal id="modal-lg" title="test">
+                        <p class="my-4">Hello from modal!</p>
+                      </b-modal>
+                    </b-col>
+                  </b-row>
                 </b-card>
               </template>
             </b-table>
           </div>
         </div>
       </div>
+    </div>
+
+    <div>
+      <b-button v-b-modal.modal-1>Launch demo modal</b-button>
+
+      <b-modal id="modal-1" title="BootstrapVue">
+        <p class="my-4">Hello from modal!</p>
+      </b-modal>
     </div>
   </section>
 </template>

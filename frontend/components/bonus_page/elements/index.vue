@@ -4,24 +4,24 @@
     <client-only>
       <Table />
       <!-- <Typography />
-            <SpanPara />
-            <Images />
-            <Fonts />
-            <LabelFonts />
-            <Badge />
-            <BadgeWithIcons />
-            <BadgeWithSamllLabelIcon />
-            <BadgeWithTypography />
-            <BadgeWithStatus />
-            <BackGroundColor />
-            <ButtonBackground />
-            <Icons />
-            <ThemeButtons />
-            <MessageBox />
-            <MainChat />
-            <SharedDoc />
-            <PhoneButton />
-            <Buttons /> -->
+      <SpanPara />
+      <Images />
+      <Fonts />
+      <LabelFonts />
+      <Badge />
+      <BadgeWithIcons />
+      <BadgeWithSamllLabelIcon />
+      <BadgeWithTypography />
+      <BadgeWithStatus />
+      <BackGroundColor />
+      <ButtonBackground />
+      <Icons />
+      <ThemeButtons />
+      <MessageBox />
+      <MainChat />
+      <SharedDoc />
+      <PhoneButton />
+      <Buttons /> -->
       <ForEmptySpace />
     </client-only>
   </div>
