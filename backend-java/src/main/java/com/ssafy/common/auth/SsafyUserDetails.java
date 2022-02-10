@@ -56,7 +56,9 @@ public class SsafyUserDetails implements UserDetails {
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles;
+		Collection<GrantedAuthority> collect = new ArrayList<GrantedAuthority>();
+		collect.add(()->{ return user.getRole();});
+		return collect;
 	}
 	public void setAuthorities(List<GrantedAuthority> roles) {
 		this.roles = roles;

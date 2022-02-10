@@ -13,21 +13,20 @@
                   alt="images"
                 />
               </div>
-              <h3>Hello Everyone , We are Chitchat</h3>
-              <h4>Welcome to chitchat please login to your account1.</h4>
+              <h3>반갑습니다. 수화닥터 입니다.</h3>
+              <h4>Welcome to handDoctor please login to your account.</h4>
               <form class="form1">
                 <div class="form-group">
                   <label class="col-form-label" for="inputEmail3"
-                    >Email Address</label
+                    >아이디</label
                   >
                   <input
                     class="form-control"
                     id="inputEmail3"
-                    type="email"
-                    v-model="email"
-                    required
-                    email
-                    placeholder="Demo@123gmail.com"
+                    type="id"
+                    v-model="id"
+
+                    placeholder="아이디 입력"
                   />
                 </div>
                 <div class="form-group">
@@ -39,8 +38,7 @@
                     id="inputPassword3"
                     type="password"
                     v-model="password"
-                    required
-                    placeholder="Password"
+                    placeholder="***********"
                   />
                 </div>
                 <div class="form-group">
@@ -66,7 +64,7 @@
                       @click="signUp"
                       >로그인</a
                     >
-                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup">
+                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup-2">
                       회원가입
                     </nuxt-link>
                   </div>
@@ -76,7 +74,7 @@
                 <h6>SNS 계정으로 로그인</h6>
               </div>
               <div class="medialogo">
-                <div class="google-btn" @click="handleClickGetAuth">
+                <div class="google-btn" @click="handleClickGetAuth"  style="margin-left:180px">
                   <div class="google-icon-wrapper">
                     <img class="google-icon-svg" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"/>
                   </div>
@@ -150,16 +148,12 @@
                   src="../../assets/images/login_signup/4.png"
                   alt="login logo"
                 /><img
-                  class="login-img"
-                  src="../../assets/images/login_signup/1.png"
+                  class="login-img" width="320px" style="left:120px; top:400px" 
+                  src="../../assets/images/login_signup/login2.png"
                   alt="login logo"
                 /><img
-                  class="boy-logo"
-                  src="../../assets/images/login_signup/6.png"
-                  alt="login boy logo"
-                /><img
-                  class="girl-logo"
-                  src="../../assets/images/login_signup/7.png"
+                  class="girl-logo"  width="375px" style="right:450px"
+                  src="../../assets/images/login_signup/login1.png"
                   alt="girllogo"
                 /><img
                   class="cloud-logo"
@@ -182,8 +176,8 @@
                   src="../../assets/images/login_signup/2.png"
                   alt="login logo"
                 /><img
-                  class="has-logo1"
-                  src="../../assets/images/login_signup/4.png"
+                  class="heart-logo" style="left:90px; top:400px"
+                  src="../../assets/images/login_signup/5.png"
                   alt="login logo"
                 />
               </div>
@@ -197,17 +191,18 @@
 </template>
 
 <script>
-import firebase from "firebase";
+
 import http from "@/components/common/axios.js";
+import jwt_decode from "jwt-decode";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
-      email: "test@admin.com",
-      password: "test@123456",
+      id: "",
+      password: "",
     };
   },
   methods: {
-
     async handleClickGetAuth() {
       const googleUser = await this.$gAuth.signIn()
       if (!googleUser) {
@@ -222,24 +217,26 @@ export default {
           console.log(data);
 
           localStorage.setItem("jwtToken", data.accessToken);
-
-
-          this.$store.commit("SET_LOGIN", {
-            userSeq: data.userSeq,
+          let info = jwt_decode(data.accessToken);
+          console.log(info);
+          this.$store.commit("login/SET_LOGIN", {
+            name: info.name,
             isLogin: true,
-            userName: data.userName,
-            userProfileImageUrl: data.userProfileImageUrl,
+            isnLogin: false,
           });
+
           
-          this.$router.replace("/");
+        this.$alertify.success('로그인 성공!'); 
+        this.$nuxt.$options.router.push('/');
 
           
         })
         .catch(error => {
           console.log("LoginVue: error : ");
           console.log(error);
-          if (error.response.status == "404") {
-            this.$alertify.error("이메일 또는 비밀번호를 확인하세요.");
+          this.$alertify.error("아이디 또는 비밀번호를 확인하세요.");
+          if (error.response.status == "500") {
+            
           } else {
             this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
           }
@@ -248,36 +245,42 @@ export default {
       },
 
     signUp: function() {
-      if (this.email === "" && this.password === "") {
-        this.email = "test@admin.com";
-        this.password = "test@123456";
-      } else {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(this.email, this.password)
-          .then(
-            (result) => {
-              console.log("Result", result);
-              this.$toasted.show("Login Success", {
-                theme: "bubble",
-                position: "top-right",
-                type: "success",
-                duration: 2000,
-              });
-              this.$router.replace("/");
-            },
-            (err) => {
-              this.email = "test@admin.com";
-              this.password = "test@123456";
-              this.$toasted.show("Oops..." + err.message, {
-                theme: "bubble",
-                position: "top-right",
-                type: "error",
-                duration: 2000,
-              });
-            }
-          );
-      }
+      http.post(
+        "/api/v1/auth/login",
+        {
+          id: this.id,
+          password: this.password,
+        }
+      )
+      .then(({ data }) => {
+        console.log("RegisterVue: data : ");
+        console.log(data);
+
+        localStorage.setItem("jwtToken", data.accessToken);        
+        let info = jwt_decode(data.accessToken);
+        console.log(info);
+        this.$store.commit("login/SET_LOGIN", {
+          name: info.name,
+          isLogin: true,
+          isnLogin: false,
+        });
+
+        if(info.role=="ROLE_MANAGER"){
+          this.$store.commit("login/SET_MANAGER")
+        }
+
+        this.$alertify.success('로그인 성공!'); 
+
+        this.$nuxt.$options.router.push('/');
+      })
+      .catch( error => {
+        console.log("RegisterVue: error : ");
+        console.log(error);
+        if( error.response.status == '401'){
+          this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
+        }
+          
+      });
     },
   },
 }

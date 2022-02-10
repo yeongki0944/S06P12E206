@@ -32,6 +32,8 @@ public class User{
 
     private String userId;
 
+    private String role;
+
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

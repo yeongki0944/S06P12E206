@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 
+import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,8 @@ public class JwtTokenUtil {
 		this.secretKey = secretKey;
 		this.expirationTime = expirationTime;
 	}
+
+
     
 	public void setExpirationTime() {
     		//JwtTokenUtil.expirationTime = Integer.parseInt(expirationTime);
@@ -47,12 +50,14 @@ public class JwtTokenUtil {
                 .build();
     }
     
-    public static String getToken(String userId) {
+    public static String getToken(String userId, String userName, String role) {
     		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
+                .withClaim("name",userName)
+                .withClaim("role",role)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }

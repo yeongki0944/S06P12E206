@@ -20,9 +20,7 @@ public class DoctorInfo {
     @JoinColumn(name="userId")
     User user;
 
-    @OneToOne
-    @JoinColumn(name="departId")
-    Department department;
+    String departName;
 
     private String status;
     private int hosName;
