@@ -3,7 +3,7 @@
     <client-only>
       <div class="inner-page">
         <Header />
-        <Breadcrumbs main="Home" title="Elements" />
+        <!-- <Breadcrumbs main="Home" title="Elements" /> -->
       </div>
       <ul class="page-decore">
         <li class="top">
