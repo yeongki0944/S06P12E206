@@ -2,6 +2,7 @@ package com.ssafy.api.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,14 @@ public class UserServiceImpl implements UserService {
 
 	UserRepositorySupport userRepositorySupport;
 
-	PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
 		user.setUserId(userRegisterInfo.getUserId());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
-		user.setPassword(passwordEncoder.encode(userRegisterInfo.getUserPassword()));
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+		user.setPassword(bCryptPasswordEncoder.encode(userRegisterInfo.getUserPassword()));
 		user.setName(userRegisterInfo.getUserName());
 		user.setRole("ROLE_USER");
 		return userRepository.save(user);

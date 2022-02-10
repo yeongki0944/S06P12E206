@@ -12,6 +12,7 @@ import com.ssafy.db.repository.doctor.DoctorInfoRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,6 @@ public class ManagerServiceImpl implements ManagerService {
 
     DoctorInfoRepository doctorInfoRepository;
 
-    PasswordEncoder passwordEncoder;
 
     public ResumeRes resumeList() {
         ResumeRes resumeRes = new ResumeRes();
@@ -68,7 +68,8 @@ public class ManagerServiceImpl implements ManagerService {
         User user = new User();
         user.setName(doctorResume.getName());
         user.setUserId(doctorResume.getUserId());
-        user.setPassword(passwordEncoder.encode(doctorResume.getPassword()));
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(bCryptPasswordEncoder.encode(doctorResume.getPassword()));
         user.setEmail(doctorResume.getEmail());
         user.setRole("ROLE_DOCTOR");
 
