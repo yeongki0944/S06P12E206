@@ -33,7 +33,7 @@ app:
 
   lfileupload:
     uploadDir: upload
-    uploadPath: /home/ec2-user/sign-doctor/files
+    uploadPath: /home
 
 spa:
   default-file: /dist/index.html
