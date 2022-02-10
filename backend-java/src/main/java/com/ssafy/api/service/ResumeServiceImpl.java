@@ -82,6 +82,34 @@ public class ResumeServiceImpl implements ResumeService {
                 }
                 return true;
             } else {
+                File uploadDir = new File(lUploadPath + File.separator + lUploadFolder);
+                if (!uploadDir.exists()) uploadDir.mkdir();
+
+                for (MultipartFile part : fileList) {
+
+                    String fileName = part.getOriginalFilename();
+
+                    //Random File Id
+                    UUID uuid = UUID.randomUUID();
+
+                    // file extension
+                    String extension = FilenameUtils.getExtension(fileName); // vs FilenameUtils.getBaseName()
+                    String savingFileName = uuid + "." + extension;
+                    File destFile = new File(lUploadPath + File.separator + lUploadFolder + File.separator + savingFileName);
+
+                    System.out.println(lUploadPath + File.separator + lUploadFolder + File.separator + savingFileName);
+                    part.transferTo(destFile);
+                    DoctorFile doctorFile = new DoctorFile();
+                    doctorFile.setDoctorResume(doctorResume);
+                    doctorFile.setFileName(fileName);
+                    doctorFile.setFileSize(part.getSize());
+                    doctorFile.setFileContentType(part.getContentType());
+                    String fileUrl = lUploadFolder + "/" + savingFileName;
+                    doctorFile.setFileUrl(fileUrl);
+
+                    doctorFileRepository.save(doctorFile);
+                }
+
                 return true;
             }
         }catch(IOException e) {
