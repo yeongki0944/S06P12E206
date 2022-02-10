@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoctorFileRepository extends JpaRepository<DoctorFile, Long> {
+
+    DoctorFile findByDoctorResumeId(int id);
+
+    void deleteByDoctorResumeId(int id);
 }

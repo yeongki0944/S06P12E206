@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
@@ -31,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

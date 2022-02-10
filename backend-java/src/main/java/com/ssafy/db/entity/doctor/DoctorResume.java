@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class DoctorResume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String name;
 

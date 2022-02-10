@@ -10,7 +10,7 @@
             alt="sign-logo"
           />
         </div>
-        <h4>의사님 환영합니다! 정보를 입력해주세요. </h4>
+        <h4>회원님 환영합니다! 정보를 입력해주세요. </h4>
         <form class="form2">
           <div class="form-group">
             <input

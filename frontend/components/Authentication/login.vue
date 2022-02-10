@@ -24,7 +24,7 @@
                     class="form-control"
                     id="inputEmail3"
                     type="id"
-                    v-model="email"
+                    v-model="id"
 
                     placeholder="아이디 입력"
                   />
@@ -64,7 +64,7 @@
                       @click="signUp"
                       >로그인</a
                     >
-                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup">
+                    <nuxt-link class="btn button-effect btn-signup" to="/authentication/signup-2">
                       회원가입
                     </nuxt-link>
                   </div>
@@ -191,8 +191,10 @@
 </template>
 
 <script>
-import firebase from "firebase";
+
 import http from "@/components/common/axios.js";
+import jwt_decode from "jwt-decode";
+import { mapMutations } from "vuex";
 export default {
   data() {
     return {
@@ -201,7 +203,6 @@ export default {
     };
   },
   methods: {
-
     async handleClickGetAuth() {
       const googleUser = await this.$gAuth.signIn()
       if (!googleUser) {
@@ -216,14 +217,15 @@ export default {
           console.log(data);
 
           localStorage.setItem("jwtToken", data.accessToken);
-
-
-          this.$store.commit("SET_LOGIN", {
-            userSeq: data.userSeq,
+          let info = jwt_decode(data.accessToken);
+          console.log(info);
+          this.$store.commit("login/SET_LOGIN", {
+            name: info.name,
             isLogin: true,
-            userName: data.userName,
-            userProfileImageUrl: data.userProfileImageUrl,
+            isnLogin: false,
           });
+
+          
         this.$alertify.success('로그인 성공!'); 
         this.$nuxt.$options.router.push('/');
 
@@ -232,8 +234,9 @@ export default {
         .catch(error => {
           console.log("LoginVue: error : ");
           console.log(error);
-          if (error.response.status == "404") {
-            this.$alertify.error("이메일 또는 비밀번호를 확인하세요.");
+          this.$alertify.error("아이디 또는 비밀번호를 확인하세요.");
+          if (error.response.status == "500") {
+            
           } else {
             this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
           }
@@ -242,36 +245,42 @@ export default {
       },
 
     signUp: function() {
-      if (this.email === "" && this.password === "") {
-        this.email = "test@admin.com";
-        this.password = "test@123456";
-      } else {
-        firebase
-          .auth()
-          .signInWithEmailAndPassword(this.email, this.password)
-          .then(
-            (result) => {
-              console.log("Result", result);
-              this.$toasted.show("Login Success", {
-                theme: "bubble",
-                position: "top-right",
-                type: "success",
-                duration: 2000,
-              });
-              this.$router.replace("/");
-            },
-            (err) => {
-              this.email = "test@admin.com";
-              this.password = "test@123456";
-              this.$toasted.show("Oops..." + err.message, {
-                theme: "bubble",
-                position: "top-right",
-                type: "error",
-                duration: 2000,
-              });
-            }
-          );
-      }
+      http.post(
+        "/api/v1/auth/login",
+        {
+          id: this.id,
+          password: this.password,
+        }
+      )
+      .then(({ data }) => {
+        console.log("RegisterVue: data : ");
+        console.log(data);
+
+        localStorage.setItem("jwtToken", data.accessToken);        
+        let info = jwt_decode(data.accessToken);
+        console.log(info);
+        this.$store.commit("login/SET_LOGIN", {
+          name: info.name,
+          isLogin: true,
+          isnLogin: false,
+        });
+
+        if(info.role=="ROLE_MANAGER"){
+          this.$store.commit("login/SET_MANAGER")
+        }
+
+        this.$alertify.success('로그인 성공!'); 
+
+        this.$nuxt.$options.router.push('/');
+      })
+      .catch( error => {
+        console.log("RegisterVue: error : ");
+        console.log(error);
+        if( error.response.status == '401'){
+          this.$alertify.error('Opps!! 서버에 문제가 발생했습니다.');
+        }
+          
+      });
     },
   },
 }

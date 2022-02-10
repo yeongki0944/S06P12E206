@@ -47,6 +47,17 @@ springfox:
 
 
 spring:
+  mail :
+    host : smtp.gmail.com
+    port : 587
+    username : 'sky6min@gmail.com'
+    password : '@2sotkfkd'
+    properties :
+      mail :
+        smtp :
+          auth : true
+          starttls :
+            enable : true
   redis:
     host: 3.133.8.139
     port: 6379
@@ -73,6 +84,9 @@ spring:
     hibernate:
       ddl-auto: update
       format_sql: true
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   data:
     web:
       pageable:

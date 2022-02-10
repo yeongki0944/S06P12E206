@@ -414,7 +414,9 @@ export default {
           { headers: { 'Content-Type': 'multipart/form-data' } })
           .then(({ data }) => {
             console.log(data);
-          this.$alertify.alert(
+
+            
+            this.$alertify.alert(
             '가입 신청이 완료되었습니다. \n인증이 완료되면 이메일로 알려드리겠습니다',
             function() {
    

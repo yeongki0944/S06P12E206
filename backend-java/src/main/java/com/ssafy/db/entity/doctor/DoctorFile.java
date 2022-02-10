@@ -26,8 +26,7 @@ public class DoctorFile {
     @CreatedDate
     private LocalDateTime regDt;
 
-    @ManyToOne
-    @JoinColumn(name="doctorId")
+    @ManyToOne(fetch = FetchType.LAZY)
     DoctorResume doctorResume;
 }
 
