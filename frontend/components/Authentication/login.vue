@@ -14,7 +14,7 @@
                 />
               </div>
               <h3>반갑습니다. 수화닥터 입니다.</h3>
-              <h4>Welcome to handDoctor please login to your account.</h4>
+              <h4>Welcome to SignDoctor please login to your account.</h4>
               <form class="form1">
                 <div class="form-group">
                   <label class="col-form-label" for="inputEmail3">아이디</label>
@@ -74,14 +74,13 @@
                   </div>
                 </div>
               </form>
-              <div class="line">
+              <center class="">
                 <h6>SNS 계정으로 로그인</h6>
-              </div>
-              <div class="medialogo">
+              </center>
+              <div class="d-flex justify-content-center">
                 <div
                   class="google-btn"
                   @click="handleClickGetAuth"
-                  style="margin-left: 180px"
                 >
                   <div class="google-icon-wrapper">
                     <img
@@ -91,65 +90,12 @@
                   </div>
                   <p class="btn-text"><b>Sign in with Google</b></p>
                 </div>
-                <!-- <ul>
-                  <li>
-                    <a
-                      class="icon-btn btn-danger button-effect"
-                      href="https://www.google.com/"
-                      ><i class="fa fa-google"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a
-                      class="icon-btn btn-primary button-effect"
-                      href="https://twitter.com/"
-                      ><i class="fa fa-twitter"></i
-                    ></a>
-                  </li>
-                  <li>
-                    <a
-                      class="icon-btn btn-facebook button-effect"
-                      href="https://www.facebook.com/"
-                      ><i class="fa fa-facebook-f"></i
-                    ></a>
-                  </li>
-                </ul> -->
-              </div>
-              <div class="termscondition">
-                <h4 class="mb-0">
-                  <span>*</span>Terms and condition<b>&amp;</b>Privacy policy
-                </h4>
-              </div>
+              </div>              
             </div>
           </div>
           <div class="right-page">
             <div class="right-login animat-rate">
               <div class="animation-block">
-                <div class="bg_circle">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
-                <div class="cross"></div>
-                <div class="cross1"></div>
-                <div class="cross2"></div>
-                <div class="dot"></div>
-                <div class="dot1"></div>
-                <div class="maincircle"></div>
-                <div class="top-circle"></div>
-                <div class="center-circle"></div>
-                <div class="bottom-circle"></div>
-                <div class="bottom-circle1"></div>
-                <div class="right-circle"></div>
-                <div class="right-circle1"></div>
                 <img
                   class="heart-logo"
                   src="../../assets/images/login_signup/5.png"
@@ -205,7 +151,6 @@
 <script>
 import http from "@/components/common/axios.js";
 import jwt_decode from "jwt-decode";
-import { mapMutations } from "vuex";
 export default {
   data() {
     return {
