@@ -2,7 +2,7 @@
   <div>
     <div class="inner-page">
       <Header />
-      <Breadcrumbs main="Home" title="About" />
+      <!-- <Breadcrumbs main="Home" title="About" /> -->
     </div>
     <div>
       <About />
