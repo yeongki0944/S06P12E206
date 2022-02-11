@@ -1,6 +1,7 @@
 const state = {
     isLogin: false,
     isnLogin: true,
+    isDoctor: false,
     isManager: false,
     login: {
         userName: "",
@@ -19,6 +20,9 @@ const mutations = {
     },
     SET_MANAGER: (state) => {
         state.isManager = true;
+    },
+    SET_DOCTOR: (state) => {
+        state.isDoctor = true;
     }
 };
 
@@ -35,6 +39,9 @@ const getters = {
     isManager: function(state) {
         return state.isManager;
     },
+    isDoctor: function(state) {
+        return state.isDoctor;
+    }
 };
 
 export default {

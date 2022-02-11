@@ -41,8 +41,10 @@
             </nav>
     <div class="login-content-main mt-5" style="z-index:2; bottom:100px; right:30px">
 
-    <h3>의사 회원 신청 목록</h3>
+    <h3 class="mt-5">의사 회원 신청 목록</h3>
+    
       <div id="mainbody" class="login-content" style="width:950px">
+          
         <table class="table table-hover" >
         <thead class="thead-blue">
             <tr>
@@ -50,7 +52,7 @@
             <th class="text-center" scope="col">이름</th>
             <th class="text-center" scope="col">&nbsp;&nbsp;&nbsp;&nbsp; 진료과</th>
             <th class="text-center" scope="col">이메일</th>
-            <th class="text-center" scope="col" style="text-indent: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;파일</th>
+            <th class="text-center" scope="col" style="text-indent: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;파일</th>
             <th class="text-center" scope="col" style="text-indent: 55px;">확인</th>
             <th class="text-center" scope="col"></th>
             
@@ -67,7 +69,7 @@
             <td class="text-center">{{ resume.name }}</td>
             <td class="text-center">{{ resume.departName }}</td>
             <td class="text-center">{{resume.email}}</td>
-            <td class="text-center"><a @click="downloadFile(resume.email)" style="color: #4b70fd;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[다운로드]</a></td>
+            <td class="text-center"><a @click="downloadFile(resume.email)" style="color: #4b70fd;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[다운로드]</a></td>
             <td class="text-center">
                 <a
                 class="badge badge-outline-primary font_label"
@@ -80,7 +82,9 @@
             </tr>
         </tbody>
         </table>
+        
       </div>
+      
     </div>
     <div class="animation-block">
       <div class="bg_circle">
@@ -134,7 +138,9 @@
       />
     </div>
   </div>
+  
   </div>
+  
 </template>
 <style scoped>
 @media(max-width: 850px) {

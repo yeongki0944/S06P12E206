@@ -114,6 +114,16 @@
                             >관리자페이지</nuxt-link
                         >
                     </button>
+                    <button  v-if="isLoginGetters && ! isManagerGetters " id="mystate" type="button" class="btn btn-primary">
+                        <nuxt-link to="/reserve/applyReservation"
+                            >예약신청</nuxt-link
+                        >
+                    </button>
+                    <button v-if="isLoginGetters && ! isManagerGetters" id="mystate" type="button" class="btn btn-primary">
+                        <nuxt-link to="/reserve/checkReservation"
+                            >예약확인</nuxt-link
+                        >
+                    </button>  
 
                     <button v-if="isLoginGetters" id="mystate" type="button" class="btn btn-primary">
                     <h5 style="float:left"
@@ -157,15 +167,22 @@ export default ({
         isManagerGetters() {
             return this.$store.getters["login/isManager"];
         }
+
+
     },
 
     methods: {
         logout: function() {
-            this.$store.state.login.isLogin=false
-            this.$store.state.login.isnLogin=true
-            this.$store.state.login.isManager=false
+//            localStorage.removeItem('login')
+            this.$store.state.login.isLogin = false;
+            this.$store.state.login.isnLogin = true;
+            this.$store.state.login.isDoctor = false;
+            this.$store.state.login.isManager = false;
+            
+            
+            localStorage.removeItem('vuex');
             localStorage.removeItem('jwtToken');
-            this.$alertify.success('로그아웃되었습니다. 감사합니다!'); 
+            this.$alertify.success('로그아웃되었습니다. 감사합니다!');
             this.$nuxt.$options.router.push('/authentication/login');
             
         }
