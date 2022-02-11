@@ -111,7 +111,7 @@
           <div class="form-group">
 
             <label class="col-form-label">진료 과목</label>
-            <select class="ml-3" style="height:30px; width:100px;" id="subject" @change="onChange($event)">
+            <select class="ml-3 custom-select" style="height:30px; width:200px;" id="subject" @change="onChange($event)">
               <option :value="1">내과</option>
               <option :value="2">치과</option>
               <option :value="3">소아과</option>
