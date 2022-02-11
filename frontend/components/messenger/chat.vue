@@ -1,5 +1,6 @@
 <template>
   <!-- Main Chat start -->
+
   <div
     class="chitchat-main"
     :class="togglerightside ? 'small-sidebar' : ''"
@@ -42,7 +43,7 @@
         <GroupChatHeader />
         <GroupCustomChat />
       </div>
-      <div class="message-input">
+      <div class="message-input" v-if="this.session === true">
         <div class="wrap emojis-main">
           <div class="dot-btn dot-primary mr-3">
             <a
@@ -52,6 +53,7 @@
               ><feather type="smile" size="15" height="15"></feather
             ></a>
           </div>
+
           <input
             class="setemoj"
             id="setemoj"
@@ -140,6 +142,7 @@ export default {
             )
           : "";
     },
+    session() {},
   },
   methods: {
     openSticker() {
@@ -172,7 +175,10 @@ export default {
     addChat: function () {
       if (this.text != "") {
         if (this.activechatType == 1) {
-          this.$store.dispatch("chat/addChat", this.text);
+          this.$store.dispatch("chat/addChat", {
+            sender: 0,
+            msg: this.text,
+          });
           this.$store.dispatch("chat/addNewChat", this.text);
           var container = this.$el.querySelector(".scrolltopdirectchat");
           setTimeout(function () {
@@ -199,7 +205,7 @@ export default {
 
     addNewChat: function () {
       if (this.text != "") {
-        this.$store.commit("chat/addNewChat", this.text);
+        // this.$store.commit("chat/addNewChat", this.text);
         // this.$store.dispatch("chat/addNewChat", this.text);
       }
     },
@@ -244,6 +250,8 @@ export default {
       allwallpaper: (state) => state.common.allwallpaper,
       chatwallpapergrandiant: (state) => state.common.chatwallpapergrandiant,
       chatwallpaperIndex: (state) => state.common.chatwallpaperIndex,
+      session: (state) => state.chat.session,
+      activeuser: (state) => state.chat.activeuser,
     }),
   },
 };

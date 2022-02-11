@@ -40,7 +40,7 @@
                       </div>
                     <div class="media-body">
                       <div class="contact-name">
-                        <h5>{{ chat.sender == 0 ? 'Alan josheph' : chat.name ? chat.name : 'Josephin water'}}</h5>
+                        <h5>{{ chat.sender == 0 ? 'Alan josheph name2' : chat.name ? chat.name : 'Josephin water'}}</h5>
                         <h6>{{ chat.time }}</h6>
                         <ul class="msg-box" v-if="currentChat.chat.id == 0 && !chat.stickerpath">
                           <li class="msg-setting-main">

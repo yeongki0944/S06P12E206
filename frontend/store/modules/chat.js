@@ -12,6 +12,10 @@ const state = {
     "time": "t",
     "text": 't',
   },
+  session: false,
+  localName: "",
+  romoteName: "",
+
 };
 
 // getters
@@ -30,6 +34,14 @@ const getters = {
 
 // mutations
 const mutations = {
+
+  setLocalName: (state, payload) => {
+    state.localName = payload;
+  },
+  setRemoteName: (state, payload) => {
+    state.romoteName = payload;
+  },
+
   /* Set Active Direct Chat */
   setActiveuser: (state, payload) => {
     state.activeuser = payload;
@@ -79,13 +91,14 @@ const mutations = {
     const id = state.activeuser;
     const addchat = state.chats.find((chat) => chat.id == id);
     addchat.messages.push({
-      sender: 0,
+      sender: payload.sender,
       time: today.toLowerCase(),
-      text: payload,
+      text: payload.msg,
       lastmsg: true,
     }),
       (state.typing = false);
   },
+
 
   /* Add Direct chat Text And Emogi*/
   addNewChat: (state, payload) => {
@@ -96,14 +109,19 @@ const mutations = {
       hour12: true,
     });
 
-    state.addNewChat['sender'] = 0;
-    state.addNewChat['time'] = today.toLowerCase();
-    state.addNewChat['text'] = payload;
+    state.newChat.sender = 0;
+    state.newChat.time = today.toLowerCase();
+    state.newChat.text = payload;
+    state.test = payload;
     console.log("payload : " + payload);
     console.log("end mutations addNewChat");
 
 
   },
+  addSession: (state, payload) => {
+    state.session = payload;
+  },
+
 
 
 

@@ -10,7 +10,8 @@
                       </div>
                     <div class="media-body">
                       <div class="contact-name">
-                        <h5>{{ chat.sender == 0 ? 'Alan josheph' : currentChat.name }}</h5>
+                        <!-- <h5>{{ currentChat.name }}</h5> -->
+                        <h5>{{ chat.sender == 0 ? localName : romoteName }}</h5>
                         <h6>{{ chat.time }}</h6>
                         <ul class="msg-box" v-if="currentChat.chat.id == 0 && !chat.stickerpath">
                           <li class="msg-setting-main">
@@ -151,6 +152,8 @@ methods : {
     currentChat() {
       return (this.currentchat = this.$store.getters["chat/currentChat"]);
     },
+    localName: state => state.chat.localName,
+    romoteName: state => state.chat.romoteName,
 
   }),
  },
