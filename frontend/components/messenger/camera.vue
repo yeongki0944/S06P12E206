@@ -1,27 +1,129 @@
 <template>
   <div id="main-container" class="container">
-    <div id="join" v-if="!session">
-      <div id="img-div">
-        <!-- <img src="resources/images/openvidu_grey_bg_transp_cropped.png" /> -->
-      </div>
-      <span
+    <div
+      id="join"
+      v-if="!session"
+      style="height: 100%; width: 100%; display: flex; justify-content: center"
+    >
+      <div
         class="hov-anim-box"
-        style="width: 80%; height: 80%"
-        @click="joinSession()"
+        style="
+          width: 100%;
+          height: 100%;
+          display: table-cell;
+          vertical-align: middle;
+        "
       >
-        <img
+        <!--SignUp Classic start -->
+        <div class="login-page2 animat-rate">
+          <div class="login-content-main" style="">
+            <div class="login-content">
+              <div class="login-content-header">
+                <img
+                  src="@/assets/images/logo/landing-logo.png"
+                  alt="sign-logo"
+                />
+              </div>
+              <h3 class="mt-3">예약 환자를 선택해주세요.</h3>
+              <select class="custom-select" id="gender2">
+                <option selected>Choose...</option>
+                <option value="1">이아경 4:00 예약</option>
+                <option value="2">김순신 6:00 예약</option>
+              </select>
+
+              <div class="card mt-4">
+                <div class="card-header">
+                  <h5>환자 이아경</h5>
+                </div>
+                <img
+                  style="height: 200px"
+                  src="../../assets/images/profile1.png"
+                  alt=""
+                />
+                <div class="card-body">
+                  <h5 class="card-title">환자 증상</h5>
+                  <p class="card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Nullam egestas sed sem ut malesuada.
+                  </p>
+                  <button
+                    class="btn btn-primary btn-block"
+                    @click="joinSession()"
+                  >
+                    진료실 입장
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="animat-block">
+            <div class="bg_circle">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+            <div class="cross"></div>
+            <div class="cross1"></div>
+            <div class="cross2"></div>
+            <div class="dot"></div>
+            <div class="dot1"></div>
+            <div class="top-circle"></div>
+            <div class="center-circle"></div>
+            <div class="bottom-circle1"></div>
+            <div class="right-circle"></div>
+            <div class="right-circle1"></div>
+            <div class="quarterCircle"></div>
+            <img
+              class="cloud-logo"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            /><img
+              class="cloud-logo1"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            /><img
+              class="cloud-logo2"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            /><img
+              class="cloud-logo3"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            /><img
+              class="cloud-logo4"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            /><img
+              class="cloud-logo5"
+              src="@/assets/images/login_signup/2.png"
+              alt="login logo"
+            />
+          </div>
+        </div>
+        <!--SignUp Classic end -->
+        <!-- <img
           src="@/assets/images/videocall/closeDoor.jpg"
           alt=""
           class="static"
           style="width: 80%; heigt: 80%; display: inline"
-        />
-        <img
-          src="@/assets/images/videocall/door.gif"
+          onmouseover="this.style.display='none';"
+          onmouseout="this.style.display='inline';"
+        /> -->
+        <!-- <img
+          src="@/assets/images/videocall/heaven-opendoor.gif"
           alt=""
           class="animated"
-          style="display: none; width: 80%; heigt: 80%"
-        />
-      </span>
+          style="display: inline-block; width: 80%; heigt: 80%"
+        /> -->
+      </div>
 
       <!-- <div id="join-dialog" class="jumbotron vertical-center">
         <h1>Join a video session</h1>
@@ -81,6 +183,16 @@
           <img src="@/assets/images/videocall/no-audio.png" />
         </a>
 
+        <a v-if="sttOff == true" v-on:click="audioOn()">
+          <img
+            src="@/assets/images/videocall/audio.png"
+            style="filter: opacity(0.6) drop-shadow(0 0 0 blue)"
+          />
+        </a>
+        <a v-else v-on:click="audioOff()">
+          <img src="@/assets/images/videocall/no-audio.png" />
+        </a>
+
         <!-- <input
           class="btn btn-large btn-danger"
           type="button"
@@ -103,7 +215,7 @@
           @click="audioController"
           value="mute Audio"
         /> -->
-        <ul>
+        <!-- <ul>
           <li v-for="chat in chatList" v-bind:key="chat.chatSeq">
             <p>chatSeq : {{ chat.chatSeq }}</p>
             <p>timeStamp : {{ chat.timeStamp }}</p>
@@ -111,7 +223,7 @@
             <p>user : {{ chat.user }}</p>
             <p>message : {{ chat.message }}</p>
           </li>
-        </ul>
+        </ul> -->
 
         <input v-model="message" placeholder="message" />
 
@@ -119,8 +231,8 @@
           class="btn btn-large btn-danger"
           type="button"
           id="buttonSendChat"
-          @click="sendChat"
-          value="SendChat"
+          @click="sendChatTest"
+          value="sendChatTest"
         />
       </div>
       <div id="main-video" class="col-md-6">
@@ -161,6 +273,7 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
 import { mapState } from "vuex";
+import CreateRoom from "@/components/room/createRoom.vue";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -168,9 +281,9 @@ const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
 export default {
   name: "App",
-
   components: {
     UserVideo,
+    CreateRoom,
   },
 
   data() {
@@ -182,6 +295,7 @@ export default {
       subscribers: [],
       videoMute: true,
       audioMute: true,
+      sttOff: true,
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       message: "",
@@ -203,10 +317,9 @@ export default {
 
       // --- Init a session ---
       this.session = this.OV.initSession();
-      this.$store.commit("SET_SESSION", {
-        session: this.session,
-      });
-
+      this.addSessionOn();
+      // this.setActiveUser;
+      this.setLocalName(this.myUserName);
       console.log("store log - " + this.sessionStore);
       // --- Specify the actions when events take place in the session ---
 
@@ -214,6 +327,18 @@ export default {
       this.session.on("streamCreated", ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
+
+        // remote user
+        // console.log("[sub] : " + JSON.stringify(subscriber));
+        // for (output in subscriber) {
+        //   console.log("노드 값: " + JSON.stringify(output));
+        // }
+
+        // console.log("[sub] : " + subscriber.stream.connection.data);
+        var afterStr = subscriber.stream.connection.data.split(":");
+        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+        // console.log("[userName] " + userName);
+        this.setRomoteName(userName);
       });
 
       // On every Stream destroyed...
@@ -241,6 +366,16 @@ export default {
           message: event.data,
         };
         this.chatList.push(chat);
+        var afterStr = event.from.data.split(":");
+        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+        if (this.myUserName == userName) {
+        } else {
+          this.$store.dispatch("chat/addChat", {
+            sender: 1,
+            msg: event.data,
+          });
+        }
+
         // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
         console.log("Message :" + event.data); // Message
         console.log("Connection object of the sender :" + event.from); // Connection object of the sender
@@ -298,6 +433,7 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
+      this.addSessionOff();
     },
 
     updateMainVideoStreamManager(stream) {
@@ -402,7 +538,24 @@ export default {
       this.audioMute = !this.audioMute;
       this.publisher.publishAudio(this.audioMute);
     },
-    sendChat() {
+    sendChat(msg) {
+      if (msg != "") {
+        this.session
+          .signal({
+            data: msg, // Any string (optional)
+            to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+            type: "my-chat", // The type of message (optional)
+          })
+          .then(() => {
+            // this.message = "";
+            console.log("Message successfully sent");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    },
+    sendChatTest() {
       if (this.message != "") {
         this.session
           .signal({
@@ -419,15 +572,32 @@ export default {
           });
       }
     },
+
+    addSessionOn: function () {
+      this.$store.commit("chat/addSession", true);
+    },
+    addSessionOff: function () {
+      this.$store.commit("chat/addSession", false);
+    },
+    setActiveUser: function () {
+      this.$store.commit("chat/setActiveuser", 0);
+    },
+    setLocalName: function (payload) {
+      this.$store.commit("chat/setLocalName", payload);
+    },
+    setRomoteName: function (payload) {
+      this.$store.commit("chat/setRemoteName", payload);
+    },
   },
 
   computed: {
     ...mapState({
-      addNewChat: (state) => state.chat.newChat,
+      addNewChat: (state) => state.chat.newChat.text,
     }),
   },
   watch: {
     addNewChat() {
+      this.sendChat(this.addNewChat);
       console.log("new chatting");
     },
   },
