@@ -1,19 +1,4 @@
 /*!
- * EventEmitter v5.2.9 - git.io/ee
- * Unlicense - http://unlicense.org/
- * Oliver Caldwell - https://oli.me.uk/
- * @preserve
- */
-
-/*!
- * Platform.js v1.3.6
- * Copyright 2014-2020 Benjamin Tan
- * Copyright 2011-2013 John-David Dalton
- * Available under MIT license
- */
-
-
-/*!
   Copyright (c) 2016 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
@@ -711,38 +696,6 @@ and limitations under the License.
 
 
 /*!
-  * Bootstrap v4.6.1 (https://getbootstrap.com/)
-  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
-  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-  */
-
-/*!
- * Sizzle CSS Selector Engine v2.3.6
- * https://sizzlejs.com/
- *
- * Copyright JS Foundation and other contributors
- * Released under the MIT license
- * https://js.foundation/
- *
- * Date: 2021-02-16
- */
-
-/*!
- * jQuery JavaScript Library v3.6.0
- * https://jquery.com/
- *
- * Includes Sizzle.js
- * https://sizzlejs.com/
- *
- * Copyright OpenJS Foundation and other contributors
- * Released under the MIT license
- * https://jquery.org/license
- *
- * Date: 2021-03-02T17:08Z
- */
-
-
-/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <http://feross.org>
@@ -988,3 +941,50 @@ and limitations under the License.
 */
 
 /** @license See the LICENSE file. */
+
+
+/*!
+ * EventEmitter v5.2.9 - git.io/ee
+ * Unlicense - http://unlicense.org/
+ * Oliver Caldwell - https://oli.me.uk/
+ * @preserve
+ */
+
+/*!
+ * Platform.js v1.3.6
+ * Copyright 2014-2020 Benjamin Tan
+ * Copyright 2011-2013 John-David Dalton
+ * Available under MIT license
+ */
+
+
+/*!
+  * Bootstrap v4.6.1 (https://getbootstrap.com/)
+  * Copyright 2011-2021 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+  */
+
+/*!
+ * Sizzle CSS Selector Engine v2.3.6
+ * https://sizzlejs.com/
+ *
+ * Copyright JS Foundation and other contributors
+ * Released under the MIT license
+ * https://js.foundation/
+ *
+ * Date: 2021-02-16
+ */
+
+/*!
+ * jQuery JavaScript Library v3.6.0
+ * https://jquery.com/
+ *
+ * Includes Sizzle.js
+ * https://sizzlejs.com/
+ *
+ * Copyright OpenJS Foundation and other contributors
+ * Released under the MIT license
+ * https://jquery.org/license
+ *
+ * Date: 2021-03-02T17:08Z
+ */
