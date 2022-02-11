@@ -76,13 +76,17 @@
               </form>
               <center class="">
                 <h6>SNS 계정으로 로그인</h6>
+
               </center>
-              <div class="d-flex justify-content-center">
+
+              <div class="medialogo d-flex justify-content-center">
+
                 <div
-                  class="google-btn"
+                  class="google-btn btn-block"
                   @click="handleClickGetAuth"
+
                 >
-                  <div class="google-icon-wrapper">
+                  <div class="google-icon-wrapper btn-block">
                     <img
                       class="google-icon-svg"
                       src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
@@ -177,6 +181,7 @@ export default {
           console.log(info);
           this.$store.commit("login/SET_LOGIN", {
             name: info.name,
+            role: info.role,
             isLogin: true,
             isnLogin: false,
           });
@@ -210,12 +215,16 @@ export default {
           console.log(info);
           this.$store.commit("login/SET_LOGIN", {
             name: info.name,
+            role: info.role,
             isLogin: true,
             isnLogin: false,
           });
 
           if (info.role == "ROLE_MANAGER") {
             this.$store.commit("login/SET_MANAGER");
+          }
+          if (info.role == "ROLE_DOCTOR") {
+            this.$store.commit("login/SET_DOCTOR");
           }
 
           this.$alertify.success("로그인 성공!");

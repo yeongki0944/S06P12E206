@@ -1,4 +1,5 @@
 <template>
+<div>
     <!-- slider start -->
     <section class="slider-block">
         <div class="custom-container">
@@ -15,10 +16,18 @@
                             </h4>
                             <div class="downlaod">
                                 <div class="footer-btn">
-                                    <nuxt-link
+                                    <a
+                                        @click="enterRoom"
+                                        v-if="! isDoctor"
                                         class="btn active"
-                                        to="/messenger/messenger"
-                                        >진료실 입장</nuxt-link
+                                        >진료실 입장</a
+                                    >
+
+                                    <a
+                                        @click="makeRoom"
+                                        v-if="isDoctor"
+                                        class="btn active"
+                                        >진료실 생성</a
                                     >
                                 </div>
                             </div>
@@ -38,5 +47,52 @@
             alt="inner1"
         />
     </section>
+
+
+
+    </div>
+
     <!-- slider end -->
 </template>
+
+<script>
+import Vue from "vue";
+import VueAlertify from "vue-alertify";
+
+Vue.use(VueAlertify);
+
+export default {
+
+
+    data() {
+        return {
+            enterRoomModal:null
+        }
+    },
+
+    computed: {
+        isDoctor() {
+            return this.$store.getters["login/isDoctor"];
+        },
+    },
+
+    mounted() {
+
+    },
+    methods: {
+        makeRoom() {
+                this.$nuxt.$options.router.push('/room/createRoom');
+        },
+        enterRoom() {
+            if(! this.$store.state.login.isLogin) {
+                this.$alertify.error("로그인 후 이용해주세요!");
+                this.$nuxt.$options.router.push('/authentication/login');
+            }
+        }
+    }
+}
+</script>
+
+<style>
+
+</style>
