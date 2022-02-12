@@ -1,6 +1,7 @@
 package com.ssafy.db.entity.board;
 
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.doctor.DoctorInfo;
 import com.ssafy.db.entity.reservation.RType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,9 @@ public class ApplyBoard {
     @ManyToOne
     @JoinColumn(name="userId")
     User user;
+
+    @OneToOne
+    DoctorInfo doctorInfo;
 
     @Enumerated(value = EnumType.STRING)
     private RStatus status;

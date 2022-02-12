@@ -50,7 +50,7 @@ public class JwtTokenUtil {
                 .build();
     }
     
-    public static String getToken(String userId, String userName, String role) {
+    public static String getToken(String userId, String userName, String role, Long id) {
     		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
         return JWT.create()
                 .withSubject(userId)
@@ -58,6 +58,7 @@ public class JwtTokenUtil {
                 .withIssuer(ISSUER)
                 .withClaim("name",userName)
                 .withClaim("role",role)
+                .withClaim("id",id)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }

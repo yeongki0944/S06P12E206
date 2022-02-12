@@ -5,4 +5,6 @@ import com.ssafy.db.entity.doctor.DoctorInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DoctorInfoRepository extends JpaRepository<DoctorInfo, Long> {
+
+    DoctorInfo findByUserId(Long id);
 }
