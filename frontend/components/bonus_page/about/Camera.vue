@@ -115,7 +115,7 @@ export default {
     // const model = await tf.loadGraphModel("indexeddb://my-model");
 
     var model_url =
-      "https://staticfileserver.herokuapp.com/web_model/model.json";
+      "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model/model.json";
     await tf.loadGraphModel(model_url).then((model) => {
       model.save("indexeddb://my-model");
       tf.loadGraphModel("indexeddb://my-model").then((model2) => {
