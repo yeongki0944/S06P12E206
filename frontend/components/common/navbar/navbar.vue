@@ -114,7 +114,7 @@
                             >관리자페이지</nuxt-link
                         >
                     </button>
-                    <button  v-if="isLoginGetters && ! isManagerGetters " id="mystate" type="button" class="btn btn-primary">
+                    <button  v-if="isLoginGetters && ! isManagerGetters && ! isDoctorGetters " id="mystate" type="button" class="btn btn-primary">
                         <nuxt-link to="/reserve/applyReservation"
                             >예약신청</nuxt-link
                         >
@@ -127,7 +127,7 @@
 
                     <button v-if="isLoginGetters" id="mystate" type="button" class="btn btn-primary">
                     <h5 style="float:left"
-                        >안녕하세요! {{this.$store.state.login.login.userName}}님                    
+                        >안녕하세요! {{this.$store.state.login.login.userName}} <span style="font-size:14px" v-if="isDoctorGetters">의사</span>님                    
                         <img
                         v-if="isLoginGetters"
                         src="@/assets/images/noProfile.png"
@@ -166,6 +166,9 @@ export default ({
         },
         isManagerGetters() {
             return this.$store.getters["login/isManager"];
+        },
+        isDoctorGetters() {
+            return this.$store.getters["login/isDoctor"];
         }
 
 
