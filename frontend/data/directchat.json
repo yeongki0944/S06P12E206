@@ -1,0 +1,107 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "name": "name",
+      "img": "avtar/big/1.jpg",
+      "profile": "profile online",
+      "date":"22/10/19",
+      "status": "Hi, i am josephin. How are you.. ! There are many variations of passages.",
+      "active": "<h6 class='font-success status'> Seen</h6>",
+      "online" : true
+    },
+    {
+      "id": 1,
+      "name": "name2",
+      "img": "avtar/big/2.jpg",
+      "profile": "profile offline",
+      "date":"30/11/19",
+      "status": "Typing................",
+      "active": " <div class='badge badge-primary sm'>8</div>",
+      "online" : true
+    },
+    {
+      "id": 2,
+      "name": "Sufiya Elija",
+      "img": "avtar/big/3.jpg",
+      "profile": "profile unreachable",
+      "date":"15/06/19",
+      "status": "I need job, please help me.",
+      "active": "<h6 class='font-dark status'> Sending</h6>",
+      "online" : false
+    },
+    {
+      "id": 3,
+      "name": "Mukrani Pabelo",
+      "img": "avtar/big/4.jpg",
+      "profile": "profile busy",
+      "date":"04/06/19",
+      "status": "Hi, i am josephin. How are you.. ! There are many variations of passages.",
+      "active": "<h6 class='font-danger status'> Failed</h6>",
+      "online" : false
+    },
+    {
+      "id": 4,
+      "name": "Jhon Deo",
+      "img": "avtar/big/2.jpg",
+      "profile": "profile busy",
+      "date":"04/06/19",
+      "status": "Hi, i am josephin. How are you.. ! There are many variations of passages.",
+      "active": "<h6 class='font-danger status'> Failed</h6>",
+      "online" : false
+    },
+    {
+      "id": 5,
+      "name": "Pabelo Mukrani",
+      "img": "avtar/big/1.jpg",
+      "profile": "profile busy",
+      "date":"04/06/19",
+      "status": "Hi, i am josephin. How are you.. ! There are many variations of passages.",
+      "active": "<h6 class='font-danger status'> Failed</h6>",
+      "online" : false
+    }
+  ],
+  "chat": [
+    {
+      "id": 0,
+      "users": [
+        0,
+        1
+      ],
+      "lastMessageTime":"Last seen yesterday 05:14",
+      "messages": [
+       
+      ]
+    },
+    {
+      "id": 1,
+      "users": [0,2],
+      "lastMessageTime":"",
+      "messages": []
+    },
+    {
+      "id": 2,
+      "users": [],
+      "lastMessageTime":"",
+      "messages": []
+    },
+    {
+      "id": 3,
+      "users": [],
+      "lastMessageTime":"",
+      "messages": []
+    },
+    {
+      "id": 4,
+      "users": [],
+      "lastMessageTime":"",
+      "messages": []
+    },
+    {
+      "id": 5,
+      "users": [],
+      "lastMessageTime":"",
+      "messages": []
+    }
+  ]
+}
