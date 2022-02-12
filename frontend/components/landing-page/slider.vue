@@ -7,12 +7,12 @@
           <div class="col-12">
             <div class="slider-main">
               <div class="slider-contain">
-                <h1>온라인 진료실</h1>
+                <h1>
+                  반갑습니다<br>
+                  수화닥터입니다
+                </h1>                
                 <h4>
-                  <span>진료 5분 전부터 입장 가능합니다 </span>– Easy to use our
-                  chat app, Attractive and<br />
-                  clean design, with many Features Dark & light, Recent Chat And
-                  many more.......
+                  <span>진료 5분 전부터 입장 가능합니다 </span>
                 </h4>
                 <div class="downlaod">
                   <div class="footer-btn">

@@ -6,20 +6,15 @@
         <div class="col-12">
           <div class="landing-title">
             <div>
-              <h1>finger tips</h1>
-            </div>
-            <div class="sub-title">
-              <div>
-                <h2>사이트를 한 눈에 파악할 수 있어요</h2>
-              </div>
+              <h1 class="mb-5">finger tips</h1>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="custom-container">
+    <div class="custom-container mt-5">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 mt-5">
           <div class="collaboration-content">
             <ul class="collab-tab nav nav-pills">
               <li class="nav-item" @click="activemenu(1)">
@@ -31,8 +26,8 @@
                   <div class="tab-main">
                     <div class="tab-img"><i class="ti-thought"></i></div>
                     <div class="tab-content">
-                      <h3>기능</h3>
-                      <p>1</p>
+                      <h3>가입부터</h3>
+                      <h3>진료까지</h3>
                     </div>
                   </div></a
                 >
@@ -93,7 +88,7 @@
               >
                 <img
                   class="img-fluid"
-                  src="../../assets/images/landing/finger-tips/main.jpg"
+                  src="../../assets/images/landing/finger-tips/001.png"
                   alt="tab-detail-img"
                 />
               </div>

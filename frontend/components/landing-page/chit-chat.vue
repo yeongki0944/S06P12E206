@@ -15,13 +15,6 @@
         <div class="col-md-6">
           <div class="chitchat-contain">
             <div>
-              <div class="chitchat-logo">
-                <img
-                  class="img-fluid"
-                  src="../../assets/images/logo/landing-logo.png"
-                  alt="landing-logo"
-                />
-              </div>
               <h1>수화닥터란?</h1>
               <h4>
                 의사선생님에게 농인분들의 수어를 실시간으로 번역하여 

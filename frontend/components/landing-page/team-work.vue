@@ -10,11 +10,15 @@
                 <div class="ply-content">
                   <div class="ply-sub-content"><i class="fa fa-play"></i></div>
                 </div>
-                <h3>저희 <span>사이트는요</span></h3>
+                <h3>수화닥터는요</h3>
               </div>
-              <h1>이런 분들을 생각하며 만들었어요</h1>
+              <h1>
+                농인분들을 생각하며<br>
+                만들었어요
+              </h1>
               <h4>
-                저희 사이트를 통해 농인분들의 병원 진료가 조금이라도 더 수월해질 수 있었으면 하는 바람입니다
+                수화닥터를 통해 농인분들의 병원 진료가<br> 
+                조금이라도 더 수월해질 수 있기를 바랍니다
               </h4>
               <nuxt-link class="btn pricing-btn" to="/messenger/messenger">
                 팀원 소개 보기</nuxt-link
