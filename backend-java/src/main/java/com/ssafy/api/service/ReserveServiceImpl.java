@@ -11,12 +11,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
 @Service
 @AllArgsConstructor
 public class ReserveServiceImpl implements ReserveService {
 
     ApplyBoardRepository Repository;
     DoctorInfoRepository doctorInfoRepository;
+    EntityManager entityManager;
+
     @Override
     public DoctorReservedRes getDoctorReservedList(Long id) {
 
@@ -44,13 +49,15 @@ public class ReserveServiceImpl implements ReserveService {
     @Override
     @Transactional
     public void AcceptReserve(Long id) {
-        int res = Repository.updateStatus(RStatus.CONFIRM,id);
 
+        int res = Repository.updateStatus(RStatus.CONFIRM,id);
+        entityManager.clear();
     }
 
     @Override
     @Transactional
     public void CancelReserve(Long id) {
         Repository.deleteById(id);
+        entityManager.clear();
     }
 }
