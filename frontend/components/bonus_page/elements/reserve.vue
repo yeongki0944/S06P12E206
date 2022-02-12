@@ -58,6 +58,18 @@
               label-cols="5"
               label-size="lg"
               label-align="center"
+              label="시간"
+              label-for="reserve_time"
+            >
+              <b-form-timepicker
+                v-model="value"
+                locale="en"
+              ></b-form-timepicker>
+            </b-form-group>
+            <b-form-group
+              label-cols="5"
+              label-size="lg"
+              label-align="center"
               label="이름"
               label-for="reserve_name"
             >
@@ -66,9 +78,16 @@
                 placeholder="로그인상태면 사용자 이름 받아오기?"
               ></b-form-input>
               <div class="mt-4"></div>
-            <b-button class="ml-1" style="float:right" type="reset" variant="danger">취소</b-button>
-            <b-button style="float:right" type="submit" variant="success">신청</b-button>
-
+              <b-button
+                class="ml-1"
+                style="float: right"
+                type="reset"
+                variant="danger"
+                >취소</b-button
+              >
+              <b-button style="float: right" type="submit" variant="success"
+                >신청</b-button
+              >
             </b-form-group>
 
             <!-- <b-form-group
