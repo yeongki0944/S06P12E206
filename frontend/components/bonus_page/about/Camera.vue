@@ -35,9 +35,7 @@
     </div>
 
     <div id="session" v-if="session">
-      <new-stt/>
       <div id="session-header">
-        <button class="btn btn-large btn-success" @click="leaveSession">Stt Botton</button>
         <h1 id="session-title">{{ mySessionId }}</h1>
         <input
           class="btn btn-large btn-danger"
@@ -47,7 +45,6 @@
           value="Leave session"
         />
       </div>
-      
       <!-- <div id="main-video" class="col-md-6">
         <user-video :stream-manager="mainStreamManager" />
       </div> -->
@@ -64,7 +61,7 @@
         />
       </div>
       <div>
-        <canvas id = "canvas"></canvas>
+        <canvas id="canvas"></canvas>
       </div>
     </div>
   </div>
@@ -74,19 +71,20 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
-import NewStt from "./components/NewStt.vue"
 
-import * as tf from '@tensorflow/tfjs'
+import * as tf from "@tensorflow/tfjs";
 
-const weights = '/web_model/model.json';
+const weights = "/web_model/model.json";
 // var start = null;
 // let video = undefined;
-const names = ['ache', 'cough', 'head', 'snot']
+const names = ["ache", "cough", "head", "snot"];
 
 const [modelWeight, modelHeight] = [640, 640];
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
+// const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+// const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
 export default {
@@ -94,7 +92,6 @@ export default {
 
   components: {
     UserVideo,
-    NewStt
   },
 
   data() {
@@ -108,35 +105,46 @@ export default {
       mySessionId: "SessionA",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       state: {
-				model: null,
-				preview: "",
-				predictions: [],
-			}
+        model: null,
+        preview: "",
+        predictions: [],
+      },
     };
   },
-  mounted() {
-		tf.loadGraphModel(weights).then(model => {
-			this.state.model = model
-		});
-	},
+  async mounted() {
+    // const model = await tf.loadGraphModel("indexeddb://my-model");
+
+    var model_url =
+      "https://staticfileserver.herokuapp.com/web_model/model.json";
+    await tf.loadGraphModel(model_url).then((model) => {
+      model.save("indexeddb://my-model");
+      tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+        this.state.model = model2;
+      });
+    });
+
+    // tf.loadGraphModel(weights).then((model) => {
+    //   model.save("indexeddb://my-model");
+    //   tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+    //     this.state.model = model2;
+    //   });
+    // });
+    //   this.state.model = model;
+    //   // model.save("localstorage://my-model");
+    //   model.save("indexeddb://my-model");
+    //   model.save("downloads://my-model");
+    // });
+  },
   methods: {
     cropToCanvas: (image, canvas, ctx) => {
-			
-			// canvas.width = image.width;
-			// canvas.height = image.height;
+      // canvas.width = image.width;
+      // canvas.height = image.height;
 
-			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-			ctx.fillStyle = "#000000";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(
-			image,
-			0,
-			0,
-			640,
-			640
-			);
-
-		},
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, 640, 640);
+    },
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -174,121 +182,157 @@ export default {
           .connect(token, { clientData: this.myUserName })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
-            var constraints = { audio: true, video: { width: 640, height: 640 } };
+            var constraints = {
+              audio: true,
+              video: { width: 640, height: 640 },
+            };
             var FRAME_RATE = 30;
-            navigator.mediaDevices.getUserMedia(constraints)
-            .then(function(mediaStream) {
-              var videoTrack = mediaStream.getVideoTracks()[0];
-              var video = document.createElement('video');
-              video.srcObject = new MediaStream([videoTrack]);
-              
-              var canvas = document.getElementById('canvas');
-              canvas.width = 640
-              canvas.height = 640
-              var ctx = canvas.getContext('2d');
-              video.onloadedmetadata = function(e) {
-                video.addEventListener('play', () => {
-                  var loop = () => {
-                    if (!video.paused && !video.ended) {
-                      self.cropToCanvas(video, canvas, ctx);
-                      const input = tf.tidy(() => {
-                        return tf.image.resizeBilinear(tf.browser.fromPixels(canvas), [modelWeight, modelHeight]).div(255.0).expandDims(0);
-                      });
-                      self.state.model.executeAsync(input).then(res => {
-                        const font = "16px sans-serif";
-                        ctx.font = font;
-                        ctx.textBaseline = "top";
+            navigator.mediaDevices
+              .getUserMedia(constraints)
+              .then(function (mediaStream) {
+                var videoTrack = mediaStream.getVideoTracks()[0];
+                var video = document.createElement("video");
+                video.srcObject = new MediaStream([videoTrack]);
 
-                        const [boxes, scores, classes, valid_detections] = res;
-                        const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
-                        const scores_data = scores.dataSync(); //검출 정확도
-                        const classes_data = classes.dataSync();//해당하는 클래스
-                        const valid_detections_data = valid_detections.dataSync()[0]; // 검축된 박스의 개수
-                        tf.dispose(res)
-                        var i;
-                        for (i = 0; i < valid_detections_data; ++i){
-                          let [x1, y1, x2, y2] = boxes_data.slice(i * 4, (i + 1) * 4);
-                          x1 *= canvas.width;
-                          x2 *= canvas.width;
-                          y1 *= canvas.height;
-                          y2 *= canvas.height;
-                          const width = x2 - x1;
-                          const height = y2 - y1;
-                          const klass = names[classes_data[i]];
-                          const score = scores_data[i].toFixed(2);
+                var canvas = document.getElementById("canvas");
 
-                          // Draw the bounding box.
-                          ctx.strokeStyle = "#00FFFF";
-                          ctx.lineWidth = 4;
-                          ctx.strokeRect(x1, y1, width, height);
+                canvas.width = 640;
+                canvas.height = 640;
+                var ctx = canvas.getContext("2d");
 
-                          // Draw the label background.
-                          ctx.fillStyle = "#00FFFF";
-                          const textWidth = ctx.measureText(klass + ":" + score).width;
-                          const textHeight = parseInt(font, 10); // base 10
-                          ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
+                video.onloadedmetadata = function (e) {
+                  video.addEventListener("play", () => {
+                    var loop = () => {
+                      if (!video.paused && !video.ended) {
+                        self.cropToCanvas(video, canvas, ctx);
+                        tf.engine().startScope();
+                        const input = tf.tidy(() => {
+                          return tf.image
+                            .resizeBilinear(tf.browser.fromPixels(video), [
+                              modelWeight,
+                              modelHeight,
+                            ])
+                            .div(255.0)
+                            .expandDims(0);
+                        });
+                        self.state.model.executeAsync(input).then((res) => {
+                          const font = "16px sans-serif";
+                          ctx.font = font;
+                          ctx.textBaseline = "top";
 
-                        }
-                        for (i = 0; i < valid_detections_data; ++i){
-                          let [x1, y1, , ] = boxes_data.slice(i * 4, (i + 1) * 4);
-                          x1 *= canvas.width;
-                          y1 *= canvas.height;
-                          const klass = names[classes_data[i]];
-                          const score = scores_data[i].toFixed(2);
+                          const [boxes, scores, classes, valid_detections] =
+                            res;
+                          const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
+                          const scores_data = scores.dataSync(); //검출 정확도
+                          const classes_data = classes.dataSync(); //해당하는 클래스
+                          const valid_detections_data =
+                            valid_detections.dataSync()[0]; // 검축된 박스의 개수
+                          tf.dispose(res);
+                          var i;
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            let [x1, y1, x2, y2] = boxes_data.slice(
+                              i * 4,
+                              (i + 1) * 4
+                            );
+                            x1 *= canvas.width;
+                            x2 *= canvas.width;
+                            y1 *= canvas.height;
+                            y2 *= canvas.height;
+                            const width = x2 - x1;
+                            const height = y2 - y1;
+                            const klass = names[classes_data[i]];
+                            const score = scores_data[i].toFixed(2);
 
-                          // Draw the text last to ensure it's on top.
-                          ctx.fillStyle = "#000000";
-                          ctx.fillText(klass + ":" + score, x1, y1);
+                            // Draw the bounding box.
+                            ctx.strokeStyle = "#00FFFF";
+                            ctx.lineWidth = 4;
+                            ctx.strokeRect(x1, y1, width, height);
 
-                        }
-                      })
-                      ctx.drawImage(video, 0, 0, 640, 640);
-                      setTimeout(loop, 1000/ FRAME_RATE); // Drawing at 10 fps
-                    }
-                  };
-                  loop();
-                });
-                video.msHorizontalMirror = true
-							video.play();
-							var signVideoTrack = canvas.captureStream(FRAME_RATE).getVideoTracks()[0];
+                            // Draw the label background.
+                            ctx.fillStyle = "#00FFFF";
+                            const textWidth = ctx.measureText(
+                              klass + ":" + score
+                            ).width;
+                            const textHeight = parseInt(font, 10); // base 10
+                            ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
+                          }
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            let [x1, y1, ,] = boxes_data.slice(
+                              i * 4,
+                              (i + 1) * 4
+                            );
+                            x1 *= canvas.width;
+                            y1 *= canvas.height;
+                            const klass = names[classes_data[i]];
+                            const score = scores_data[i].toFixed(2);
 
-							var publisher = self.OV.initPublisher(
-								undefined,
-								{
-									audioSource: false,
-									videoSource: signVideoTrack,
-								});
-								self.publisher = publisher;
-								// --- Publish your stream ---
+                            // Draw the text last to ensure it's on top.
+                            ctx.fillStyle = "#000000";
+                            ctx.fillText(klass + ":" + score, x1, y1);
+                          }
+                        });
+                        ctx.drawImage(video, 0, 0, 640, 640);
+                        setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
+                        tf.engine().endScope();
+                      }
+                    };
+                    loop();
+                  });
+                  video.msHorizontalMirror = true;
+                  video.play();
+                  var signVideoTrack = canvas
+                    .captureStream(FRAME_RATE)
+                    .getVideoTracks()[0];
+                  canvas.addEventListener(
+                    "webglcontextlost",
+                    function (e) {
+                      console.log(
+                        "tttttttttttttttttttttttttttttttttttttttttttttttt"
+                      );
+                    },
+                    false
+                  );
 
-								self.session.publish(self.publisher);
-              };
-            })
-            .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
-						// --- Get your own camera stream with the desired properties ---
-						// let publisher = this.OV.initPublisher(undefined, {
-						// 	audioSource: undefined, // The source of audio. If undefined default microphone
-						// 	videoSource: undefined, // The source of video. If undefined default webcam
-						// 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-						// 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-						// 	resolution: '640x480',  // The resolution of your video
-						// 	frameRate: 30,			// The frame rate of your video
-						// 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-						// 	mirror: false       	// Whether to mirror your local video or not
-						// });
-						// this.mainStreamManager = publisher;
-						// this.publisher = publisher;
-						// console.log(this.publisher)
-						// --- Publish your stream ---
+                  var publisher = self.OV.initPublisher(undefined, {
+                    audioSource: false,
+                    videoSource: signVideoTrack,
+                  });
+                  self.publisher = publisher;
+                  // --- Publish your stream ---
+                  self.session.publish(self.publisher);
+                };
+              })
+              .catch(function (err) {
+                console.log(err.name + ": " + err.message);
+              }); // always check for errors at the end.
+            // --- Get your own camera stream with the desired properties ---
+            // let publisher = this.OV.initPublisher(undefined, {
+            // 	audioSource: undefined, // The source of audio. If undefined default microphone
+            // 	videoSource: undefined, // The source of video. If undefined default webcam
+            // 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+            // 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+            // 	resolution: '640x480',  // The resolution of your video
+            // 	frameRate: 30,			// The frame rate of your video
+            // 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+            // 	mirror: false       	// Whether to mirror your local video or not
+            // });
+            // this.mainStreamManager = publisher;
+            // this.publisher = publisher;
+            // console.log(this.publisher)
+            // --- Publish your stream ---
 
-						this.session.publish(this.publisher);
-					})
-					.catch(error => {
-						console.log('There was an error connecting to the session:', error.code, error.message);
-					});
-			});
+            // this.session.publish(this.publisher);
+          })
+          .catch((error) => {
+            console.log(
+              "There was an error connecting to the session:",
+              error.code,
+              error.message
+            );
+          });
+      });
 
-			window.addEventListener('beforeunload', this.leaveSession)
+      window.addEventListener("beforeunload", this.leaveSession);
     },
 
     leaveSession() {
