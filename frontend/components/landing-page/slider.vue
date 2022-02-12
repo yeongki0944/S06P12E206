@@ -16,11 +16,11 @@
                 </h4>
                 <div class="downlaod">
                   <div class="footer-btn">
-                    <nuxt-link to="/room/createRoom">
+
                       <a @click="enterRoom" v-if="!isDoctor" class="btn active"
                         >진료실 입장</a
                       >
-                    </nuxt-link>
+
                     <a @click="makeRoom" v-if="isDoctor" class="btn active"
                       >진료실 생성</a
                     >
