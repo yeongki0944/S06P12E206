@@ -182,6 +182,7 @@ export default {
           this.$store.commit("login/SET_LOGIN", {
             name: info.name,
             role: info.role,
+            id : info.id,
             isLogin: true,
             isnLogin: false,
           });
@@ -216,6 +217,7 @@ export default {
           this.$store.commit("login/SET_LOGIN", {
             name: info.name,
             role: info.role,
+            id : info.id,
             isLogin: true,
             isnLogin: false,
           });

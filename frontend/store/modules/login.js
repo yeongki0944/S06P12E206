@@ -6,6 +6,7 @@ const state = {
     login: {
         userName: "",
         userRole: "",
+        userId: "",
         userProfileImageUrl: ""
     }
 };
@@ -15,6 +16,7 @@ const mutations = {
     SET_LOGIN: (state, payload) => {
         state.isLogin = true;
         state.isnLogin = false;
+        state.login.userId = payload.id;
         state.login.userName = payload.name;
         state.login.userRole = payload.role;
     },

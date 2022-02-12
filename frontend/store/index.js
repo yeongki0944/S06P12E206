@@ -7,6 +7,7 @@ import sidebar from './modules/sidebar'
 import layout from './modules/layout'
 import login from './modules/login'
 import manager from './modules/manager'
+import reservation from './modules/reservation'
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
@@ -20,7 +21,8 @@ const createStore = () => {
       sidebar,
       layout,
       login,
-      manager
+      manager,
+      reservation
     },
     plugins: [createPersistedState()]
   })

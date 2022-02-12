@@ -109,7 +109,7 @@ public class OAuthController {
 
 
 
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId,userEntity.getName(),userEntity.getRole())));
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId,userEntity.getName(),userEntity.getRole(),userEntity.getId())));
         }
     }
 
