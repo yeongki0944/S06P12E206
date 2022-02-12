@@ -108,14 +108,43 @@
                         >
                     </b-dropdown> -->
 
-          <button
-            v-if="isLoginGetters"
-            id="logout"
-            type="button"
-            class="btn btn-primary"
-          >
-            <a @click="logout">로그아웃</a>
-          </button>
+
+                    <button v-if="isLoginGetters" id="logout" type="button" class="btn btn-primary">
+                    <a @click="logout"
+                        >로그아웃</a
+                        >
+                    </button>
+
+                    <button v-if="isManagerGetters" id="mystate" type="button" class="btn btn-primary">
+                        <nuxt-link to="/manager/manager"
+                            >관리자페이지</nuxt-link
+                        >
+                    </button>
+                    <button  v-if="isLoginGetters && ! isManagerGetters && ! isDoctorGetters " id="mystate" type="button" class="btn btn-primary">
+                        <nuxt-link to="/reserve/applyReservation"
+                            >예약신청</nuxt-link
+                        >
+                    </button>
+                    <button v-if="isLoginGetters && ! isManagerGetters" id="mystate" type="button" class="btn btn-primary">
+                        <nuxt-link to="/reserve/checkReservation"
+                            >예약확인</nuxt-link
+                        >
+                    </button>  
+
+                    <button v-if="isLoginGetters" id="mystate" type="button" class="btn btn-primary">
+                    <h5 style="float:left"
+                        >안녕하세요! {{this.$store.state.login.login.userName}} <span style="font-size:14px" v-if="isDoctorGetters">의사</span>님                    
+                        <img
+                        v-if="isLoginGetters"
+                        src="@/assets/images/noProfile.png"
+                        alt=""
+                        width="24"
+                        height="20"
+                        style="border-radius: 50%; margin-left:10px; padding-bottom:3px"
+                        class="d-inline-block align-text-top"
+                    />  </h5
+                        >
+
 
           <button
             v-if="isManagerGetters"
@@ -180,17 +209,20 @@
 </style>
 
 <script>
-export default {
-  computed: {
-    isLoginGetters() {
-      return this.$store.getters["login/isLogin"];
-    },
-    isManagerGetters() {
-      return this.$store.getters["login/isManager"];
-    },
-  },
 
-  methods: {
+export default ({
+    computed: {
+        isLoginGetters() {
+            return this.$store.getters["login/isLogin"];
+        },
+        isManagerGetters() {
+            return this.$store.getters["login/isManager"];
+        },
+        isDoctorGetters() {
+            return this.$store.getters["login/isDoctor"];
+        }
+    },
+    methods: {
     logout: function () {
       //            localStorage.removeItem('login')
       this.$store.state.login.isLogin = false;
@@ -203,6 +235,6 @@ export default {
       this.$alertify.success("로그아웃되었습니다. 감사합니다!");
       this.$nuxt.$options.router.push("/authentication/login");
     },
-  },
-};
+  }
+})
 </script>

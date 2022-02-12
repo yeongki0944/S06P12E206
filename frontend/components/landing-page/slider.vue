@@ -69,12 +69,14 @@ export default {
   mounted() {},
   methods: {
     makeRoom() {
-      this.$nuxt.$options.router.push("/room/createRoom");
+      this.$nuxt.$options.router.push("/messenger/messenger");
     },
     enterRoom() {
       if (!this.$store.state.login.isLogin) {
         this.$alertify.error("로그인 후 이용해주세요!");
         this.$nuxt.$options.router.push("/authentication/login");
+      }else{
+        this.$nuxt.$options.router.push("/messenger/messenger");
       }
     },
   },
