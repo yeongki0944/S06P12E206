@@ -159,14 +159,53 @@
                     </b-col>
                     <b-col />
                     <b-col>
-                      <b-button variant="success" size="sm">날짜 변경</b-button>
+                      <!-- <b-button variant="success" size="sm">날짜 변경</b-button>
                       <b-button v-b-modal.modal-lg variant="danger" size="sm"
                         >예약 취소</b-button
                       >
 
                       <b-modal id="modal-lg" title="test">
                         <p class="my-4">Hello from modal!</p>
-                      </b-modal>
+                      </b-modal> -->
+
+                      <b-button variant="success" size="sm">날짜 변경</b-button>
+                      <b-button
+                        data-toggle="modal"
+                        data-target="#myModal"
+                        variant="danger"
+                        size="sm"
+                        >예약 취소</b-button
+                      >
+
+                      <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">취소 사유</h4>
+                              <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                              >
+                                &times;
+                              </button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                              열이 다 내렸어요 취소할께요
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <b-button variant="success" size="sm"
+                                >취소 확인</b-button
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </b-col>
                   </b-row>
                 </b-card>
@@ -175,14 +214,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div>
-      <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-
-      <b-modal id="modal-1" title="BootstrapVue">
-        <p class="my-4">Hello from modal!</p>
-      </b-modal>
     </div>
   </section>
 </template>
@@ -339,3 +370,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#reserve {
+  overflow: visible;
+}
+</style>

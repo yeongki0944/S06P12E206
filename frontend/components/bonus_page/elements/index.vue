@@ -22,6 +22,7 @@
       <SharedDoc />
       <PhoneButton />
       <Buttons /> -->
+      <Reserve />
       <ForEmptySpace />
     </client-only>
   </div>
@@ -50,6 +51,7 @@ import PhoneButton from "./phoneButton.vue";
 import Buttons from "./buttons.vue";
 
 import Table from "./table.vue";
+import Reserve from "./reserve.vue";
 import ForEmptySpace from "./ForEmptySpace.vue";
 
 export default {
@@ -75,6 +77,7 @@ export default {
     Buttons,
     Table,
     ForEmptySpace,
+    Reserve,
   },
 };
 </script>
