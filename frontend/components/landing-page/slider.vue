@@ -16,11 +16,10 @@
                 </h4>
                 <div class="downlaod">
                   <div class="footer-btn">
-                    <nuxt-link to="/room/createRoom">
                       <a @click="enterRoom" v-if="!isDoctor" class="btn active"
                         >진료실 입장</a
                       >
-                    </nuxt-link>
+
                     <a @click="makeRoom" v-if="isDoctor" class="btn active"
                       >진료실 생성</a
                     >
@@ -69,12 +68,14 @@ export default {
   mounted() {},
   methods: {
     makeRoom() {
-      this.$nuxt.$options.router.push("/room/createRoom");
+      this.$nuxt.$options.router.push("/messenger/messenger");
     },
     enterRoom() {
       if (!this.$store.state.login.isLogin) {
         this.$alertify.error("로그인 후 이용해주세요!");
         this.$nuxt.$options.router.push("/authentication/login");
+      }else{
+        this.$nuxt.$options.router.push("/messenger/messenger");
       }
     },
   },
