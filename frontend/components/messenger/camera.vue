@@ -258,15 +258,16 @@
         />
       </div>
       <div style="display: flex">
-        <div id="main-video" class="col-md-6">
+        <!-- <div id="main-video" class="col-md-6">
           <user-video :stream-manager="mainStreamManager" />
-        </div>
+        </div> -->
 
         <div id="video-container" class="col-md-6">
           <!-- <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
         /> -->
+          <canvas id="canvas"></canvas>
           <user-video
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
@@ -276,6 +277,18 @@
           />
         </div>
       </div>
+      <div>
+        <horizontal-scroll>
+          <sign-card
+            v-for="(card,i) in cardList"
+            :key="card.index"
+            :imageUrl="card.name"
+            :cardList="cardList"
+            :index="i"
+          />
+        </horizontal-scroll>
+      </div>
+      <input type="button" id="ssbtn" class="ssbtn" @click="sendSign"/>
     </div>
   </div>
 </template>
@@ -292,6 +305,16 @@
 .hov-anim-box:hover .static {
   display: none;
 }
+#ssbtn {
+  background: url("@/assets/images/send.png");
+  border: none;
+  width: 90px;
+  height: 34px;
+  outline: 0;
+}
+#ssbtn:active{
+  background: url("@/assets/images/send2.png");
+}
 </style>
 
 <script>
@@ -299,9 +322,20 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
 import { mapState } from "vuex";
+import SignCard from "./signcard";
 import CreateRoom from "@/components/room/createRoom.vue";
+import HorizontalScroll from 'vue-horizontal-scroll'
+import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
+
+import * as tf from "@tensorflow/tfjs";
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
+
+const weights = "/web_model/model.json";
+
+const names = ["ache", "cough", "head", "snot", "neck", "chest", "stomach", "digest", "sweat", "strange", "swell", "cold", "dizzy", "itchy"];
+
+const [modelWeight, modelHeight] = [640, 640];
 
 const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
@@ -310,6 +344,8 @@ export default {
   components: {
     UserVideo,
     CreateRoom,
+    SignCard,
+    HorizontalScroll,
   },
 
   data() {
@@ -329,7 +365,44 @@ export default {
       message: "",
       chatSeq: 0,
       chatList: [],
+      state: {
+        model: null,
+        preview: "",
+        predictions: [],
+      },
+      signMap: new Map(),
+      cardList: [],
     };
+  },
+  async mounted() {
+    // const model = await tf.loadGraphModel("indexeddb://my-model");
+
+    // var model_url =
+    //   "https://staticfileserver.herokuapp.com/web_model/model.json";
+    // await tf.loadGraphModel(model_url).then((model) => {
+    //   model.save("indexeddb://my-model");
+    //   tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+    //     this.state.model = model2;
+    //   });
+    // });
+    // tf.loadGraphModel(weights).then((model) => {
+    //   console.log(model)
+    //   this.state.model = model;
+    // });
+    // this.signMap.set('ache','아프다')
+    // this.signMap.set('cough','기침')
+    // this.signMap.set('head','머리')
+    // this.signMap.set('snot','콧물')
+    // this.signMap.set('neck','목')
+    // this.signMap.set('chest','가슴')
+    // this.signMap.set('stomach','배')
+    // this.signMap.set('digest','소화')
+    // this.signMap.set('sweat','땀')
+    // this.signMap.set('strange','이상하다')
+    // this.signMap.set('swell','부어오르다')
+    // this.signMap.set('cold','춥다')
+    // this.signMap.set('dizzy','어지럽다')
+    // this.signMap.set('itchy','가렵다')
   },
   computed: {
     // ...mapState(["sessionStore"]),
@@ -338,10 +411,37 @@ export default {
     // Vuex
     // ...mapMutations(["SET_SESSION"]),
     // Vuex
+    cropToCanvas: (image, canvas, ctx) => {
+      // canvas.width = image.width;
+      // canvas.height = image.height;
 
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, 640, 640);
+    },
     joinSession() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
+      tf.loadGraphModel(weights).then((model) => {
+        console.log(model)
+        this.state.model = model;
+      });
+
+      this.signMap.set('ache','아파요')
+      this.signMap.set('cough','기침')  
+      this.signMap.set('head','머리')
+      this.signMap.set('snot','콧물')
+      this.signMap.set('neck','목')
+      this.signMap.set('chest','가슴')
+      this.signMap.set('stomach','배')
+      this.signMap.set('digest','소화')
+      this.signMap.set('sweat','땀')
+      this.signMap.set('strange','이상해요')
+      this.signMap.set('swell','부었어요')
+      this.signMap.set('cold','춥다')
+      this.signMap.set('dizzy','어지러워요')
+      this.signMap.set('itchy','가려워요')
 
       // --- Init a session ---
       this.session = this.OV.initSession();
@@ -412,6 +512,7 @@ export default {
 
       // --- Connect to the session with a valid user token ---
 
+      var self = this;
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then((token) => {
@@ -419,24 +520,158 @@ export default {
           .connect(token, { clientData: this.myUserName })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
+            var lastDetected = undefined;
+            // --- Get your own camera stream with the desired properties ---
+            var constraints = {
+              audio: true,
+              video: { width: 640, height: 640 },
+            };
+            var FRAME_RATE = 30;
+            navigator.mediaDevices
+              .getUserMedia(constraints)
+              .then(function (mediaStream) {
+                var videoTrack = mediaStream.getVideoTracks()[0];
+                var video = document.createElement("video");
+                video.srcObject = new MediaStream([videoTrack]);
 
-            let publisher = this.OV.initPublisher(undefined, {
-              audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
-              videoSource: this.userVideoSource, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "480x480", // The resolution of your video
-              frameRate: 30, // The frame rate of your video
-              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
-            });
+                var canvas = document.getElementById("canvas");
 
-            this.mainStreamManager = publisher;
-            this.publisher = publisher;
+                canvas.width = 480;
+                canvas.height = 480;
+                var ctx = canvas.getContext("2d");
 
+                video.onloadedmetadata = function (e) {
+                  video.addEventListener("play", () => {
+                    var loop = () => {
+                      if (!video.paused && !video.ended) {
+                        self.cropToCanvas(video, canvas, ctx);
+                        tf.engine().startScope();
+                        const input = tf.tidy(() => {
+                          return tf.image
+                            .resizeBilinear(tf.browser.fromPixels(video), [
+                              modelWeight,
+                              modelHeight,
+                            ])
+                            .div(255.0)
+                            .expandDims(0);
+                        });
+                        self.state.model.executeAsync(input).then((res) => {
+                          const font = "16px sans-serif";
+                          ctx.font = font;
+                          ctx.textBaseline = "top";
+
+                          const [boxes, scores, classes, valid_detections] =
+                            res;
+                          const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
+                          const scores_data = scores.dataSync(); //검출 정확도
+                          const classes_data = classes.dataSync(); //해당하는 클래스
+                          const valid_detections_data =
+                            valid_detections.dataSync()[0]; // 검축된 박스의 개수
+                          tf.dispose(res);
+                          var i;
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            var score = scores_data[i].toFixed(2);
+                            if(score > 0.9){
+                              let [x1, y1, x2, y2] = boxes_data.slice(
+                                i * 4,
+                                (i + 1) * 4
+                              );
+                              x1 *= canvas.width;
+                              x2 *= canvas.width;
+                              y1 *= canvas.height;
+                              y2 *= canvas.height;
+                              const width = x2 - x1;
+                              const height = y2 - y1;
+                              const klass = names[classes_data[i]];
+                              const score = scores_data[i].toFixed(2);
+
+                              // Draw the bounding box.
+                              ctx.strokeStyle = "#00FFFF";
+                              ctx.lineWidth = 4;
+                              ctx.strokeRect(x1, y1, width, height);
+
+                              // Draw the label background.
+                              ctx.fillStyle = "#00FFFF";
+                              const textWidth = ctx.measureText(
+                                klass + ":" + score
+                              ).width;
+                              const textHeight = parseInt(font, 10); // base 10
+                              ctx.fillRect(x1, y1, textWidth + 4, textHeight + 4);
+                            }
+                          }
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            var score = scores_data[i].toFixed(2);
+                            if(score > 0.9){
+                              let [x1, y1, ,] = boxes_data.slice(
+                                i * 4,
+                                (i + 1) * 4
+                              );
+                              x1 *= canvas.width;
+                              y1 *= canvas.height;
+                              const klass = names[classes_data[i]];
+                              //가장 최근에 인식된 수어와 현재 인식된 수어를 비교하여 다를 경우 번역 (연속적으로 같은 수화를 인식 하기 때문에 가장 최근과 다를 경우만 번역)
+                              if(lastDetected != klass){
+                                lastDetected = klass
+                                console.log(klass)
+                                console.log(self.signMap.get(klass))
+                                self.cardList.push({name: klass, index: self.cardList.length})
+                                console.log(self.cardList)
+                              }
+                              // Draw the text last to ensure it's on top.
+                              ctx.fillStyle = "#000000";
+                              ctx.fillText(klass + ":" + score, x1, y1);
+                            }
+                          }
+                        });
+                        ctx.drawImage(video, 0, 0, 480, 480);
+                        setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
+                        tf.engine().endScope();
+                      }
+                    };
+                    loop();
+                  });
+                  video.msHorizontalMirror = true;
+                  video.play();
+                  var signVideoTrack = canvas
+                    .captureStream(FRAME_RATE)
+                    .getVideoTracks()[0];
+
+                  var publisher = self.OV.initPublisher(undefined, {
+                    audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
+                    videoSource: signVideoTrack, // The source of video. If undefined default webcam
+                    publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+                    publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                    resolution: "480x480", // The resolution of your video
+                    frameRate: 30, // The frame rate of your video
+                    insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+                    mirror: false, // Whether to mirror your local video or not
+                  });
+                  self.mainStreamManager = publisher;
+                  self.publisher = publisher;
+                  // --- Publish your stream ---
+                  self.session.publish(self.publisher);
+                };
+              })
+              .catch(function (err) {
+                console.log(err.name + ": " + err.message);
+              }); // always check for errors at the end.
+            // --- Get your own camera stream with the desired properties ---
+            // let publisher = this.OV.initPublisher(undefined, {
+            // 	audioSource: undefined, // The source of audio. If undefined default microphone
+            // 	videoSource: undefined, // The source of video. If undefined default webcam
+            // 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+            // 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+            // 	resolution: '640x480',  // The resolution of your video
+            // 	frameRate: 30,			// The frame rate of your video
+            // 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+            // 	mirror: false       	// Whether to mirror your local video or not
+            // });
+            // this.mainStreamManager = publisher;
+            // this.publisher = publisher;
+            // console.log(this.publisher)
             // --- Publish your stream ---
 
-            this.session.publish(this.publisher);
+            // this.session.publish(this.publisher);
           })
           .catch((error) => {
             console.log(
@@ -586,6 +821,29 @@ export default {
             console.error(error);
           });
       }
+    },
+    sendSign() {
+      var msg="";
+      var self = this;
+      this.cardList.forEach(function(element){
+        msg += self.signMap.get(element.name)+" "
+      });
+      if (msg != "") {
+        this.session
+          .signal({
+            data: msg, // Any string (optional)
+            to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+            type: "my-chat", // The type of message (optional)
+          })
+          .then(() => {
+            // this.message = "";
+            console.log("Message successfully sent");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+      this.cardList = [];
     },
     sendChatTest() {
       if (this.message != "") {
