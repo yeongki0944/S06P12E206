@@ -9,7 +9,7 @@
       <Collaboration />
       <TeamWork />
       <!-- <SecureApp /> -->
-      
+
       <!-- 나중에 우리팀 팀원들 넣기 -->
       <!-- <section class="section-py-space light-bg">
         <div class="landing-title">
@@ -26,7 +26,6 @@
         <Testimonial />
       </section> -->
 
-      
       <!-- <PricingPlan /> -->
       <!-- <SubscribeUpdate /> -->
       <Footer />
@@ -72,11 +71,9 @@ export default {
   head() {
     return {
       bodyAttrs: {
-        class: 'theme-landing-main',
+        class: "theme-landing-main",
       },
     };
   },
 };
 </script>
-
-

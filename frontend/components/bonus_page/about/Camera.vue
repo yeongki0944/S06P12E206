@@ -278,7 +278,7 @@ export default {
                     };
                     loop();
                   });
-                  video.msHorizontalMirror = true;
+                  video.msHorizontalMirror = false;
                   video.play();
                   var signVideoTrack = canvas
                     .captureStream(FRAME_RATE)

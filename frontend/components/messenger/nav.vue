@@ -9,60 +9,122 @@
       </a>
     </div>
     <div class="sidebar-main">
-      <ul class="sidebar-bottom">
+      <ul
+        class="sidebar-bottom"
+        style="display: flex; flex-direction: column; justify-content: center"
+      >
         <!-- 마이페이지 연결해야함 -->
-        <li>
-          <nuxt-link
-            to="/authentication/login"
-            class="icon-btn btn-light button-effect"
-          >
-            <i
-              class="fa fa-user"
-              v-b-tooltip.hover.topright
-              title="내 정보"
-              data-tippy-content=" 내 정보"
-            ></i>
-          </nuxt-link>
-        </li>
-        <li>
-          <nuxt-link
-            to="/authentication/login"
-            class="icon-btn btn-light button-effect"
-          >
-            <i
-              class="fa fa-power-off"
-              v-b-tooltip.hover.topright
-              title="로그아웃"
-              data-tippy-content=" 로그아웃"
-            ></i>
-          </nuxt-link>
-        </li>
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-user"
+                v-b-tooltip.hover.topright
+                title="내 정보"
+                data-tippy-content=" 내 정보"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            내정보
+          </div>
+        </div>
 
-        <li>
-          <nuxt-link
-            to="/authentication/login"
-            class="icon-btn btn-light button-effect"
-          >
-            <i
-              class="fa fa-power-off"
-              v-b-tooltip.hover.topright
-              title="video-on"
-              data-tippy-content=" video-on"
-            ></i>
-          </nuxt-link>
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-power-off"
+                v-b-tooltip.hover.topright
+                title="진료실 나가기"
+                data-tippy-content="진료실 나가기"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            진료실 나가기
+          </div>
+        </div>
 
-          <nuxt-link
-            to="/authentication/login"
-            class="icon-btn btn-light button-effect"
-          >
-            <i
-              class="fa-solid fa-video"
-              v-b-tooltip.hover.topright
-              title="video-on"
-              data-tippy-content=" video-on"
-            ></i>
-          </nuxt-link>
-        </li>
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-camera"
+                v-b-tooltip.hover.topright
+                title="Video"
+                data-tippy-content="Video"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            Camera
+          </div>
+        </div>
+
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-camera-slash"
+                v-b-tooltip.hover.topright
+                title="Camera"
+                data-tippy-content="Camera"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            Camera
+          </div>
+        </div>
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-microphone"
+                v-b-tooltip.hover.topright
+                title="MIC"
+                data-tippy-content="MIC"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            MIC
+          </div>
+        </div>
+        <div>
+          <li>
+            <nuxt-link
+              to="/authentication/login"
+              class="icon-btn btn-light button-effect"
+            >
+              <i
+                class="fa fa-microphone-slash"
+                v-b-tooltip.hover.topright
+                title="MIC"
+                data-tippy-content="MIC"
+              ></i>
+            </nuxt-link>
+          </li>
+          <div style="width: 100px; text-align: center; margin-top: 10px">
+            MIC
+          </div>
+        </div>
       </ul>
     </div>
   </nav>

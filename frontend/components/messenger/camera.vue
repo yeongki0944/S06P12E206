@@ -30,6 +30,28 @@
                 <option value="1">이아경 4:00 예약</option>
                 <option value="2">김순신 6:00 예약</option>
               </select>
+              <div class="select">
+                <label for="audioSource">Audio input source: </label
+                ><select
+                  class="custom-select"
+                  id="audioSource"
+                  v-model="userAudioSource"
+                ></select>
+              </div>
+
+              <div class="select">
+                <label for="audioOutput">Audio output destination: </label
+                ><select class="custom-select" id="audioOutput"></select>
+              </div>
+
+              <div class="select">
+                <label for="videoSource">Video source: </label
+                ><select
+                  class="custom-select"
+                  id="videoSource"
+                  v-model="userVideoSource"
+                ></select>
+              </div>
 
               <div class="card mt-4">
                 <div class="card-header">
@@ -41,11 +63,11 @@
                   alt=""
                 />
                 <div class="card-body">
-                  <h5 class="card-title">환자 증상</h5>
+                  <!-- <h5 class="card-title">환자 증상</h5>
                   <p class="card-text">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Nullam egestas sed sem ut malesuada.
-                  </p>
+                  </p> -->
                   <button
                     class="btn btn-primary btn-block"
                     @click="joinSession()"
@@ -235,20 +257,24 @@
           value="sendChatTest"
         />
       </div>
-      <div id="main-video" class="col-md-6">
-        <user-video :stream-manager="mainStreamManager" />
-      </div>
-      <div id="video-container" class="col-md-6">
-        <!-- <user-video
+      <div style="display: flex">
+        <div id="main-video" class="col-md-6">
+          <user-video :stream-manager="mainStreamManager" />
+        </div>
+
+        <div id="video-container" class="col-md-6">
+          <!-- <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
         /> -->
-        <user-video
-          v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stream-manager="sub"
-          @click.native="updateMainVideoStreamManager(sub)"
-        />
+          <user-video
+            v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stream-manager="sub"
+            @click.native="updateMainVideoStreamManager(sub)"
+            v-
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -293,10 +319,12 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      userAudioSource: undefined,
+      userVideoSource: undefined,
       videoMute: true,
       audioMute: true,
       sttOff: true,
-      mySessionId: "SessionA",
+      mySessionId: "SessionA11",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       message: "",
       chatSeq: 0,
@@ -393,14 +421,14 @@ export default {
             // --- Get your own camera stream with the desired properties ---
 
             let publisher = this.OV.initPublisher(undefined, {
-              audioSource: undefined, // The source of audio. If undefined default microphone
-              videoSource: undefined, // The source of video. If undefined default webcam
+              audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
+              videoSource: this.userVideoSource, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "640x480", // The resolution of your video
+              resolution: "480x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: true, // Whether to mirror your local video or not
+              mirror: false, // Whether to mirror your local video or not
             });
 
             this.mainStreamManager = publisher;
@@ -416,6 +444,9 @@ export default {
               error.code,
               error.message
             );
+          })
+          .finally(() => {
+            this.addVideoCss();
           });
       });
 
@@ -539,6 +570,7 @@ export default {
       this.publisher.publishAudio(this.audioMute);
     },
     sendChat(msg) {
+      // this.addVideoCss();
       if (msg != "") {
         this.session
           .signal({
@@ -572,7 +604,11 @@ export default {
           });
       }
     },
-
+    addVideoCss: function () {
+      // document.getElementById("video").style.borderRadius = "20px";
+      var videos = document.querySelectorAll("video");
+      videos.forEach((element) => (element.style.borderRadius = "20px"));
+    },
     addSessionOn: function () {
       this.$store.commit("chat/addSession", true);
     },
@@ -588,6 +624,50 @@ export default {
     setRomoteName: function (payload) {
       this.$store.commit("chat/setRemoteName", payload);
     },
+
+    gotDevices: function (deviceInfos) {
+      const audioInputSelect = document.querySelector("select#audioSource");
+      const audioOutputSelect = document.querySelector("select#audioOutput");
+      const videoSelect = document.querySelector("select#videoSource");
+      const selectors = [audioInputSelect, audioOutputSelect, videoSelect];
+      // const selectors = [audioInputSelect, videoSelect];
+
+      // Handles being called several times to update labels. Preserve values.
+      const values = selectors.map((select) => select.value);
+      selectors.forEach((select) => {
+        while (select.firstChild) {
+          select.removeChild(select.firstChild);
+        }
+      });
+      for (let i = 0; i !== deviceInfos.length; ++i) {
+        const deviceInfo = deviceInfos[i];
+        const option = document.createElement("option");
+        option.value = deviceInfo.deviceId;
+        if (deviceInfo.kind === "audioinput") {
+          option.text =
+            deviceInfo.label || `microphone ${audioInputSelect.length + 1}`;
+          audioInputSelect.appendChild(option);
+        } else if (deviceInfo.kind === "audiooutput") {
+          option.text =
+            deviceInfo.label || `speaker ${audioOutputSelect.length + 1}`;
+          audioOutputSelect.appendChild(option);
+        } else if (deviceInfo.kind === "videoinput") {
+          option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
+          videoSelect.appendChild(option);
+        } else {
+          console.log("Some other kind of source/device: ", deviceInfo);
+        }
+      }
+      selectors.forEach((select, selectorIndex) => {
+        if (
+          Array.prototype.slice
+            .call(select.childNodes)
+            .some((n) => n.value === values[selectorIndex])
+        ) {
+          select.value = values[selectorIndex];
+        }
+      });
+    },
   },
 
   computed: {
@@ -600,6 +680,11 @@ export default {
       this.sendChat(this.addNewChat);
       console.log("new chatting");
     },
+  },
+  mounted() {
+    console.log("Parent mounted");
+    console.log(navigator);
+    navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
   },
 };
 </script>

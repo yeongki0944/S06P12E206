@@ -114,7 +114,7 @@
                 </div>
                 <div class="call-list-center"><img src="../../../../assets/images/chat.png" alt=""/>
                     <div class="animated-bg"><i></i><i></i><i></i></div>
-                    <p>Select a chat to read messages</p>
+                    <p>진료실 입장 후 채팅이 가능합니다</p>
                 </div>
             </div> 
         </ul>
