@@ -65,9 +65,12 @@
                 v-model="text"
                 placeholder="로그인상태면 사용자 이름 받아오기?"
               ></b-form-input>
+              <div class="mt-4"></div>
+            <b-button class="ml-1" style="float:right" type="reset" variant="danger">취소</b-button>
+            <b-button style="float:right" type="submit" variant="success">신청</b-button>
+
             </b-form-group>
-            <b-button type="submit" variant="success">신청</b-button>
-            <b-button type="reset" variant="danger">취소</b-button>
+
             <!-- <b-form-group
               label-cols="5"
               label-size="lg"
