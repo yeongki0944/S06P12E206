@@ -17,4 +17,4 @@ const config = {
   messagingSenderId: "YOUR_MESSAGE_SENDER_ID",
   appId: "YOUR_API_ID",
 };
-firebase.initializeApp(config);
+// firebase.initializeApp(config);

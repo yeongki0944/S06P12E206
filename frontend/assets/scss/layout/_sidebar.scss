@@ -96,7 +96,7 @@
                 right: 0;
                 color: $white;
                 &:before {
-                  content: '\f067';
+                  content: "\f067";
                   font-family: FontAwesome;
                   font-size: 11px;
                   padding: 6px;
@@ -146,7 +146,7 @@
           ul {
             display: flex;
             align-items: center;
-            li {  
+            li {
               h5 {
                 margin-bottom: 5px;
                 text-transform: capitalize;
@@ -174,7 +174,7 @@
       z-index: 0;
       padding: 0 !important;
       &.active {
-        z-index: 2 ;
+        z-index: 2;
       }
       .recent {
         position: fixed;
@@ -216,7 +216,7 @@
                 text-transform: capitalize;
               }
               &::before {
-                content: '';
+                content: "";
                 left: 0;
                 top: 0;
                 position: absolute;
@@ -264,7 +264,7 @@
 }
 
 .chitchat-left-sidebar {
-  [class*='-tab'] {
+  [class*="-tab"] {
     .search-form .form-group .icon-close {
       top: 10px;
     }
@@ -280,9 +280,9 @@
   &:before {
     position: absolute;
     left: 25px;
-    content: '\e610';
+    content: "\e610";
     color: $dark-color;
-    font-family: 'themify';
+    font-family: "themify";
     font-weight: 600;
     font-size: 14px;
   }
@@ -341,9 +341,9 @@
     &:before {
       position: absolute;
       left: 25px;
-      content: '\e610';
+      content: "\e610";
       color: $dark-color;
-      font-family: 'themify';
+      font-family: "themify";
       font-weight: 600;
       font-size: 14px;
     }
@@ -456,8 +456,8 @@
   }
   .status {
     position: relative;
-    .custom-control-label{
-      h5{
+    .custom-control-label {
+      h5 {
         padding-top: 7px;
       }
     }
@@ -485,7 +485,7 @@
     }
     ul {
       li {
-        position: relative;        
+        position: relative;
         .switchery {
           position: absolute;
           left: 0;
@@ -593,7 +593,7 @@
     width: calc(100% - 890px);
     transition: all 0.7s;
     &.small-sidebar {
-      width: calc(100% - 590px);
+      width: calc(100% - 890px);
       transition: all 0.7s;
       .message-input {
         width: calc(100% - 500px);
@@ -745,7 +745,7 @@
     }
     .edit-btn {
       &:before {
-        content: '\f0c7';
+        content: "\f0c7";
         font-family: FontAwesome;
       }
       svg {
@@ -865,7 +865,7 @@
     position: relative;
     cursor: pointer;
     &:before {
-      content: '';
+      content: "";
       position: absolute;
       height: 100%;
       width: 0px;
@@ -1171,7 +1171,7 @@
 }
 .switch-list {
   margin-top: 10px;
-  .custom-switch{
+  .custom-switch {
     padding-left: 35px;
     .custom-control-label {
       &::after {
@@ -1226,7 +1226,7 @@
     font-weight: 600;
     color: $dark-color;
   }
-  .input-group {    
+  .input-group {
     & ~ h5 {
       padding-top: 10px;
     }
@@ -1250,7 +1250,7 @@
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
     }
-    &[type='number'] {
+    &[type="number"] {
       -moz-appearance: textfield;
     }
   }
@@ -1336,7 +1336,7 @@ a.lightbox-close {
   top: -80px;
   transition: 0.5s ease-in-out;
   &:before {
-    content: '';
+    content: "";
     display: block;
     height: 30px;
     width: 1px;
@@ -1347,7 +1347,7 @@ a.lightbox-close {
     transform: translateX(-50%) rotate(45deg);
   }
   &:after {
-    content: '';
+    content: "";
     display: block;
     height: 30px;
     width: 1px;
@@ -1380,9 +1380,9 @@ a.lightbox-close {
 }
 .chat-content {
   .message-input {
-    .dropdown{
-      .dropdown-menu {       
-        top: -40px !important; 
+    .dropdown {
+      .dropdown-menu {
+        top: -40px !important;
         padding: 30px;
         border: none;
         li {
@@ -1391,22 +1391,24 @@ a.lightbox-close {
           a {
             padding: 0;
           }
-        }       
-      } 
-    }  
-    li{
-      a{
+        }
+      }
+    }
+    li {
+      a {
         display: flex;
         align-items: center;
         font-weight: 600;
-        &:hover,&:focus,&:active{
+        &:hover,
+        &:focus,
+        &:active {
           background-color: transparent;
           color: $primary-color;
-        }        
-        i{
+        }
+        i {
           width: 20px;
           margin-right: 12px;
-        }        
+        }
       }
     }
     .emojis-main {

@@ -99,6 +99,7 @@ public class OAuthController {
                         .userId(userId)
                         .password(bCryptPasswordEncoder.encode("겟인데어"))
                         .email(email)
+                        .role("ROLE_USER")
 //                        .provider(googleUser.getProvider())
 //                        .providerId(googleUser.getProviderId())
                         .build();
@@ -108,7 +109,7 @@ public class OAuthController {
 
 
 
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId,userEntity.getName(),userEntity.getRole(),userEntity.getId())));
         }
     }
 

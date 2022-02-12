@@ -7,6 +7,15 @@ const state = {
   chats: Users.chat,
   activeuser: 0,
   typing: false,
+  newChat: {
+    "sender": "s",
+    "time": "t",
+    "text": 't',
+  },
+  session: false,
+  localName: "",
+  romoteName: "",
+
 };
 
 // getters
@@ -25,6 +34,14 @@ const getters = {
 
 // mutations
 const mutations = {
+
+  setLocalName: (state, payload) => {
+    state.localName = payload;
+  },
+  setRemoteName: (state, payload) => {
+    state.romoteName = payload;
+  },
+
   /* Set Active Direct Chat */
   setActiveuser: (state, payload) => {
     state.activeuser = payload;
@@ -74,13 +91,39 @@ const mutations = {
     const id = state.activeuser;
     const addchat = state.chats.find((chat) => chat.id == id);
     addchat.messages.push({
-      sender: 0,
+      sender: payload.sender,
       time: today.toLowerCase(),
-      text: payload,
+      text: payload.msg,
       lastmsg: true,
     }),
-      (state.typing = true);
+      (state.typing = false);
   },
+
+
+  /* Add Direct chat Text And Emogi*/
+  addNewChat: (state, payload) => {
+    console.log("run mutations addNewChat");
+    var today = new Date().toLocaleString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    state.newChat.sender = 0;
+    state.newChat.time = today.toLowerCase();
+    state.newChat.text = payload;
+    state.test = payload;
+    console.log("payload : " + payload);
+    console.log("end mutations addNewChat");
+
+
+  },
+  addSession: (state, payload) => {
+    state.session = payload;
+  },
+
+
+
 
   /* Add Direct Chat AutoResponse */
   addChatResponce: (state) => {
@@ -92,7 +135,7 @@ const mutations = {
     const id = state.activeuser;
     const addchat = state.chats.find((chat) => chat.id == id);
     const ChatUser = state.users.find((user) => user.id == id);
-    setTimeout(function() {
+    setTimeout(function () {
       addchat.messages.push({
         sender: 1,
         lastmsg: true,
@@ -125,10 +168,17 @@ const actions = {
 
   addChat: (context, payload) => {
     context.commit("addChat", payload);
-    setTimeout(function() {
-      context.commit("addChatResponce");
-    }, 1000);
+    // setTimeout(function () {
+    //   context.commit("addChatResponce");
+    // }, 1000);
   },
+
+  addNewChat: (context, payload) => {
+    context.commit("addNewChat", payload);
+    // setTimeout(function () {
+    //   context.commit("addNewChatResponce");
+    // }, 1000);
+  }
 };
 
 export default {
