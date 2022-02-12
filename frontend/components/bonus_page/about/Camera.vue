@@ -35,7 +35,6 @@
     </div>
 
     <div id="session" v-if="session">
-      <new-stt/>
       <div id="session-header">
         <h1 id="session-title">{{ mySessionId }}</h1>
         <input
@@ -72,7 +71,6 @@
 import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
-import Sttconnect from "./components/NewStt.vue";
 
 import * as tf from "@tensorflow/tfjs";
 
