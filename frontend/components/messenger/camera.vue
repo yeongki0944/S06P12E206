@@ -750,7 +750,9 @@ export default {
     }),
       isDoctorGetters() {
           return this.$store.getters["login/isDoctor"];
+
       }
+
   },
   watch: {
     addNewChat() {

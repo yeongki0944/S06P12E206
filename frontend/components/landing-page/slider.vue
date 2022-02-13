@@ -100,7 +100,9 @@ export default {
             if(elapsedMin <= 5 && elapsedMin >= 0 ) {
               // 5분 차이 안나는게 있으면 store data에 session 저장
               console.log(elapsedMin);
-              this.$store.state.login.sessionId = data.confirmList[i].user.userId; 
+
+              this.$store.state.login.sessionId = data.confirmList[i].user.userId; // oauth랑 auth구별해서 해야되는디...
+
               this.$store.state.login.mydoctor = data.confirmList[i].doctorInfo.user.name;
               console.log(this.$store.state.login.sessionId);
               this.$nuxt.$options.router.push("/online/room");

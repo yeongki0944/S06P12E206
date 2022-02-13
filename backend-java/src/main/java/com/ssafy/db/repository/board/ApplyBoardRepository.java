@@ -23,4 +23,8 @@ public interface ApplyBoardRepository extends JpaRepository<ApplyBoard, Long> {
     @Modifying(clearAutomatically = true)
     @Query("DELETE from ApplyBoard b where b.id= :id")
     void deleteById(Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE ApplyBoard b SET b.sessionId= :session where b.id= :id")
+    int updateSessionId(String session, Long id);
 }

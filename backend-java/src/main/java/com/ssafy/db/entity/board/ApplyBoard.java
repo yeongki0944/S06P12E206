@@ -28,6 +28,8 @@ public class ApplyBoard {
 
     private String reservedDt;
 
+    private String sessionId;
+
     @CreatedDate
     private LocalDateTime regDt;
 
