@@ -287,17 +287,18 @@
           value="sendChatTest"
         /> -->
       </div>
+      <canvas id="canvas"></canvas>
       <div style="display: flex">
         <!-- <div id="main-video" class="col-md-6">
           <user-video :stream-manager="mainStreamManager" />
         </div> -->
 
-        <div id="video-container" class="col-md-6">
+        <div id="video-container" class="col-md-4">
           <!-- <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
         /> -->
-          <canvas id="canvas"></canvas>
+
           <user-video
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
@@ -306,7 +307,7 @@
           />
         </div>
       </div>
-      <div>
+      <div class="row">
         <horizontal-scroll>
           <sign-card
             v-for="(card, i) in cardList"
@@ -331,6 +332,10 @@
 }
 #ssbtn:active {
   background: url("@/assets/images/send2.png");
+}
+#canvas {
+  display: inline;
+  float: left;
 }
 </style>
 
@@ -544,8 +549,8 @@ export default {
 
                 var canvas = document.getElementById("canvas");
 
-                canvas.width = 480;
-                canvas.height = 480;
+                canvas.width = 320;
+                canvas.height = 320;
                 var ctx = canvas.getContext("2d");
 
                 video.onloadedmetadata = function (e) {
@@ -639,7 +644,7 @@ export default {
                             }
                           }
                         });
-                        ctx.drawImage(video, 0, 0, 480, 480);
+                        ctx.drawImage(video, 0, 0, 320, 320);
                         setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
                         tf.engine().endScope();
                       }
@@ -657,7 +662,7 @@ export default {
                     videoSource: signVideoTrack, // The source of video. If undefined default webcam
                     publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                     publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                    resolution: "480x480", // The resolution of your video
+                    resolution: "320x320", // The resolution of your video
                     frameRate: 30, // The frame rate of your video
                     insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                     mirror: false, // Whether to mirror your local video or not
@@ -909,7 +914,13 @@ export default {
     addVideoCss: function () {
       // document.getElementById("video").style.borderRadius = "20px";
       var videos = document.querySelectorAll("video");
-      videos.forEach((element) => (element.style.borderRadius = "20px"));
+      videos.forEach(
+        (element) => (
+          (element.style.borderRadius = "20px"),
+          (element.style.width = "320px"),
+          (element.style.height = "320px")
+        )
+      );
     },
     addSessionOn: function () {
       this.$store.commit("chat/addSession", true);

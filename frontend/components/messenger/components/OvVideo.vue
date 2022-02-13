@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <video ref="video" id = "video" autoplay>
-        </video>
-        <!-- <br />
+  <video ref="video" id="video" autoplay></video>
+  <!-- <br />
         <canvas id="canvas" width = "640" height="640"></canvas> -->
-    </div>
 </template>
 
 <script>
@@ -18,48 +15,46 @@
 // const [modelWeight, modelHeight] = [640, 640];
 
 export default {
-    name: 'OvVideo',
-    components: {
+  name: "OvVideo",
+  components: {
     //     state: {
-	// 		model: null,
-	// 		preview: "",
-	// 		predictions: [],
-	// 		webcam: undefined,
-			
-	// }
-    },
-    props: {
-        streamManager: Object,
-        test: Boolean,
-    },
-    
+    // 		model: null,
+    // 		preview: "",
+    // 		predictions: [],
+    // 		webcam: undefined,
+    // }
+  },
+  props: {
+    streamManager: Object,
+    test: Boolean,
+  },
 
-    mounted() {
-        if (this.streamManager.stream) {
-            this.streamManager.addVideoElement(this.$refs.video);
-            // this.init();
-        }
-        // tf.loadGraphModel(weights).then(model => {
-		// 	this.model = model
-		// });
-    },
-    updated() {
-        if (this.streamManager.stream) {
-            this.streamManager.addVideoElement(this.$refs.video);
-        }
-    },
-    // methods: {
-    //     async init(){
-    //         video = document.getElementById("video")
-    //         window.requestAnimationFrame(this.loop);
-    //     },
-    //     async loop(timestamp) {
-    //         let videoCanvas = document.getElementById("canvas");
-    //         videoCanvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // update the webcam frame
-    //         if (!start) start = timestamp;
-    //         console.log("test")
-    //         window.requestAnimationFrame(this.loop);
-    //     }
-    // },
+  mounted() {
+    if (this.streamManager.stream) {
+      this.streamManager.addVideoElement(this.$refs.video);
+      // this.init();
+    }
+    // tf.loadGraphModel(weights).then(model => {
+    // 	this.model = model
+    // });
+  },
+  updated() {
+    if (this.streamManager.stream) {
+      this.streamManager.addVideoElement(this.$refs.video);
+    }
+  },
+  // methods: {
+  //     async init(){
+  //         video = document.getElementById("video")
+  //         window.requestAnimationFrame(this.loop);
+  //     },
+  //     async loop(timestamp) {
+  //         let videoCanvas = document.getElementById("canvas");
+  //         videoCanvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight); // update the webcam frame
+  //         if (!start) start = timestamp;
+  //         console.log("test")
+  //         window.requestAnimationFrame(this.loop);
+  //     }
+  // },
 };
 </script>
