@@ -29,6 +29,9 @@
             <button class="btn btn-lg btn-success" @click="joinSession()">
               Join!
             </button>
+            <button class="btn btn-lg btn-success" @click="process()">
+              model download and join!
+            </button>
           </p>
         </div>
       </div>
@@ -113,16 +116,14 @@ export default {
   },
   async mounted() {
     // const model = await tf.loadGraphModel("indexeddb://my-model");
-
-    var model_url =
-      "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model/model.json";
-    await tf.loadGraphModel(model_url).then((model) => {
-      model.save("indexeddb://my-model");
-      tf.loadGraphModel("indexeddb://my-model").then((model2) => {
-        this.state.model = model2;
-      });
-    });
-
+    // var model_url =
+    //   "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model/model.json";
+    // await tf.loadGraphModel(model_url).then((model) => {
+    //   model.save("indexeddb://my-model");
+    //   tf.loadGraphModel("indexeddb://my-model").then((model2) => {
+    //     this.state.model = model2;
+    //   });
+    // });
     // tf.loadGraphModel(weights).then((model) => {
     //   model.save("indexeddb://my-model");
     //   tf.loadGraphModel("indexeddb://my-model").then((model2) => {
@@ -427,6 +428,21 @@ export default {
           .then((data) => resolve(data.token))
           .catch((error) => reject(error.response));
       });
+    },
+    async process() {
+      var model_url =
+        "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model/model.json";
+
+      await tf
+        .loadGraphModel(model_url)
+        .then((model) => {
+          // model.save("indexeddb://my-model");
+          this.state.model = model;
+        })
+        .finally(() => {
+          alert("model downloaded");
+          this.joinSession();
+        });
     },
   },
 };
