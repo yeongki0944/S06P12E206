@@ -12,8 +12,10 @@ import javax.persistence.Transient;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApplyBoardReq {
+    private Long id;
     private Long useId;
     private Long docId;
     private String date;
     private String content;
+    private String sessionId;
 }

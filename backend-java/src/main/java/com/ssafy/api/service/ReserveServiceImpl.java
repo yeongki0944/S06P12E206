@@ -36,7 +36,7 @@ public class ReserveServiceImpl implements ReserveService {
 
     @Override
     public DoctorReservedRes getDoctorReservedList(Long id) {
-
+        entityManager.clear();
         DoctorReservedRes doctorReservedRes = new DoctorReservedRes();
 
         DoctorInfo doctorInfo = doctorInfoRepository.findByUserId(id);
@@ -50,7 +50,7 @@ public class ReserveServiceImpl implements ReserveService {
 
     @Override
     public PatientReservedRes getPatientReservedList(Long id) {
-
+        entityManager.clear();
         PatientReservedRes patientReservedRes = new PatientReservedRes();
         patientReservedRes.setAppliedList(Repository.findAllByUserIdAndStatus(id, RStatus.APPLIED));
         patientReservedRes.setConfirmList(Repository.findAllByUserIdAndStatus(id, RStatus.CONFIRM));
@@ -94,5 +94,14 @@ public class ReserveServiceImpl implements ReserveService {
         applyBoard.setContents(applyBoardReq.getContent());
         applyBoard.setStatus(RStatus.APPLIED);
         Repository.save(applyBoard);
+    }
+
+    @Override
+    @Transactional
+    public void setSessionRoomInfo(ApplyBoardReq applyBoardReq) {
+
+        int res = Repository.updateSessionId(applyBoardReq.getSessionId(), applyBoardReq.getId());
+        entityManager.clear();
+
     }
 }

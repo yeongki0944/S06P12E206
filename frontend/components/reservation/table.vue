@@ -228,28 +228,33 @@ export default {
           this.$data.items1 = [];
           this.$data.items2 = [];
           //for문 객체를 만들어서 변수에 add
+          console.log("ssssssssssss");
           for(var i=0; i<data.appliedList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
+
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,
               환자명: data.appliedList[i].user.name,
               환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: data.appliedList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.appliedList[i].id              
             };
             this.$data.items1.push(b);
             console.log(this.$data.items1);
           }
-
+          console.log("ssssssssssss22222222222222");
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
+
             var b={
               isActive: true,
               담당의: data.confirmList[i].doctorInfo.user.name,
               환자명: data.confirmList[i].user.name,
               환자정보: data.confirmList[i].contents,
-              진료_예약_날짜: data.confirmList[i].reservedDt,
-              id: data.confirmList[i].id              
+              진료_예약_날짜: datestr,
+              id: data.confirmList[i].id
             };
             this.$data.items2.push(b);
             console.log(this.$data.items2);
@@ -294,12 +299,13 @@ export default {
           this.$data.items2 = [];
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.appliedList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,
               환자명: data.appliedList[i].user.name,
               환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: data.appliedList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.appliedList[i].id              
             };
             this.$data.items1.push(b);
@@ -308,12 +314,13 @@ export default {
 
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.confirmList[i].doctorInfo.user.name,
               환자명: data.confirmList[i].user.name,
               환자정보: data.confirmList[i].contents,
-              진료_예약_날짜: data.confirmList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.confirmList[i].id              
             };
             this.$data.items2.push(b);
@@ -342,30 +349,36 @@ export default {
           this.$data.items1 = [];
           this.$data.items2 = [];
           //for문 객체를 만들어서 변수에 add
+          console.log("sssssssssssss")
           for(var i=0; i<data.appliedList.length; i++) {
+            var datestr = data.appliedList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,
               환자명: data.appliedList[i].user.name,
               환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: data.appliedList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.appliedList[i].id              
             };
             this.$data.items1.push(b);
             console.log(this.$data.items1);
           }
-
+          console.log("sssssssssssss22222222")
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
+            console.log("sssssssss3333333333333333")
+            var datestr = data.confirmList[i].reservedDt
+            console.log("sssssssss44444444444444")
             var c={
               isActive: true,
               담당의: data.confirmList[i].doctorInfo.user.name,
               환자명: data.confirmList[i].user.name,
               환자정보: data.confirmList[i].contents,
-              진료_예약_날짜: data.confirmList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.confirmList[i].id              
             };
             this.$data.items2.push(c);
+            console.log("sssssssss3333333333333333")
             console.log(this.$data.items2);
           }
         })
@@ -387,12 +400,13 @@ export default {
 
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.appliedList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,
               환자명: data.appliedList[i].user.name,
               환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: data.appliedList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.appliedList[i].id              
             };
             this.$data.items3.push(b);
@@ -401,12 +415,13 @@ export default {
 
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
+            var datestr = data.confirmList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.confirmList[i].doctorInfo.user.name,
               환자명: data.confirmList[i].user.name,
               환자정보: data.confirmList[i].contents,
-              진료_예약_날짜: data.confirmList[i].reservedDt,
+              진료_예약_날짜: datestr,
               id: data.confirmList[i].id,
             };
             this.$data.items4.push(b);
