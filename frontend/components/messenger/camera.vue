@@ -24,10 +24,27 @@
                   alt="sign-logo"
                 />
               </div>
-              <h3 v-if="isDoctorGetters" class="mt-3">예약 환자를 선택해주세요.</h3>
-              <select v-if="isDoctorGetters" class="custom-select" id="gender2" @change="onChange($event)">
+              <h3 v-if="isDoctorGetters" class="mt-3">
+                예약 환자를 선택해주세요.
+              </h3>
+              <select
+                v-if="isDoctorGetters"
+                class="custom-select"
+                id="gender2"
+                @change="onChange($event)"
+              >
                 <option selected>Choose...</option>
-                <option v-for="(patient, index) in patientList" v-bind:key="index" :value="index">{{patient.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + patient.date}}</option>
+                <option
+                  v-for="(patient, index) in patientList"
+                  v-bind:key="index"
+                  :value="index"
+                >
+                  {{
+                    patient.name +
+                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                    patient.date
+                  }}
+                </option>
               </select>
               <div class="select">
                 <label for="audioSource">Audio input source: </label
@@ -54,16 +71,20 @@
 
               <div class="card mt-4">
                 <div class="card-header">
-                  <h5 v-if="isDoctorGetters">{{patientName}}</h5>
-                  <h5 v-if="! isDoctorGetters">담당의사 : {{mydoctor}} 의사님</h5>
+                  <h5 v-if="isDoctorGetters">{{ patientName }}</h5>
+                  <h5 v-if="!isDoctorGetters">
+                    담당의사 : {{ mydoctor }} 의사님
+                  </h5>
                 </div>
-                <img v-if="isDoctorGetters"
+                <img
+                  v-if="isDoctorGetters"
                   style="height: 300px"
                   src="../../assets/images/profile1.png"
                   alt=""
                 />
 
-                <img v-if="! isDoctorGetters"
+                <img
+                  v-if="!isDoctorGetters"
                   style="height: 300px"
                   src="../../assets/images/profile2.png"
                   alt=""
@@ -76,7 +97,7 @@
                   </p> -->
                   <button
                     class="btn btn-primary btn-block"
-                    @click="joinSession()"
+                    @click="asyncfunction()"
                   >
                     진료실 입장
                   </button>
@@ -185,7 +206,9 @@
 
     <div id="session" v-if="session">
       <div id="session-header">
-        <h1 id="session-title">{{ mydoctor }} <span style="font-size:30px"> 의사님의 진료실 </span></h1>
+        <h1 id="session-title">
+          {{ mydoctor }} <span style="font-size: 30px"> 의사님의 진료실 </span>
+        </h1>
 
         <a v-on:click="leaveSession()">
           <img src="@/assets/images/videocall/exit.png" />
@@ -220,6 +243,7 @@
         <a v-else v-on:click="audioOff()">
           <img src="@/assets/images/videocall/no-audio.png" />
         </a>
+        <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" />
 
         <!-- <input
           class="btn btn-large btn-danger"
@@ -253,7 +277,7 @@
           </li>
         </ul> -->
 
-        <input v-model="message" placeholder="message" />
+        <!-- <input v-model="message" placeholder="message" />
 
         <input
           class="btn btn-large btn-danger"
@@ -261,42 +285,52 @@
           id="buttonSendChat"
           @click="sendChatTest"
           value="sendChatTest"
-        />
+        /> -->
       </div>
       <div style="display: flex">
-        <div id="main-video" class="col-md-6">
+        <!-- <div id="main-video" class="col-md-6">
           <user-video :stream-manager="mainStreamManager" />
-        </div>
+        </div> -->
 
         <div id="video-container" class="col-md-6">
           <!-- <user-video
           :stream-manager="publisher"
           @click.native="updateMainVideoStreamManager(publisher)"
         /> -->
+          <canvas id="canvas"></canvas>
           <user-video
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
             :stream-manager="sub"
             @click.native="updateMainVideoStreamManager(sub)"
-
           />
         </div>
+      </div>
+      <div>
+        <horizontal-scroll>
+          <sign-card
+            v-for="(card, i) in cardList"
+            :key="card.index"
+            :imageUrl="card.name"
+            :cardList="cardList"
+            :index="i"
+          />
+        </horizontal-scroll>
       </div>
     </div>
   </div>
 </template>
 
 <style>
-.hov-anim-box .animated {
-  display: none;
+#ssbtn {
+  background: url("@/assets/images/send.png");
+  border: none;
+  width: 90px;
+  height: 34px;
+  outline: 0;
 }
-
-.hov-anim-box:hover .animated {
-  display: inline;
-}
-
-.hov-anim-box:hover .static {
-  display: none;
+#ssbtn:active {
+  background: url("@/assets/images/send2.png");
 }
 </style>
 
@@ -307,11 +341,37 @@ import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
 import { mapState } from "vuex";
 import CreateRoom from "@/components/room/createRoom.vue";
-import Vue from 'vue';
-import VueAlertify from 'vue-alertify'; 
+import Vue from "vue";
+import VueAlertify from "vue-alertify";
+import SignCard from "./signcard";
+
+import HorizontalScroll from "vue-horizontal-scroll";
+import "vue-horizontal-scroll/dist/vue-horizontal-scroll.css";
+import * as tf from "@tensorflow/tfjs";
+
 Vue.use(VueAlertify);
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
+
+const weights =
+  "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model2/model.json";
+const names = [
+  "ache",
+  "cough",
+  "head",
+  "snot",
+  "neck",
+  "chest",
+  "stomach",
+  "digest",
+  "sweat",
+  "strange",
+  "swell",
+  "cold",
+  "dizzy",
+  "itchy",
+];
+const [modelWeight, modelHeight] = [640, 640];
 
 const OPENVIDU_SERVER_URL = "https://i6e206.p.ssafy.io";
 const OPENVIDU_SERVER_SECRET = "Z5YF9UcUB9";
@@ -320,6 +380,8 @@ export default {
   components: {
     UserVideo,
     CreateRoom,
+    SignCard,
+    HorizontalScroll,
   },
 
   data() {
@@ -335,43 +397,63 @@ export default {
       audioMute: true,
       sttOff: true,
       mySessionId: "",
-      myUserName: "Participant" + Math.floor(Math.random() * 100),
+      myUserName: "",
       message: "",
       chatSeq: 0,
       chatList: [],
       patientList: [],
-      patientName: '환자를 선택해주세요.',
-      id: '',
-      mydoctor: ''
+      patientName: "환자를 선택해주세요.",
+      id: "",
+      mydoctor: "",
+      state: {
+        model: null,
+        preview: "",
+        predictions: [],
+      },
+      signMap: new Map(),
+      cardList: [],
     };
   },
-  computed: {
-    // ...mapState(["sessionStore"]),
-  },
+
   methods: {
-    // Vuex
-    // ...mapMutations(["SET_SESSION"]),
-    // Vuex
+    cropToCanvas: (image, canvas, ctx) => {
+      // canvas.width = image.width;
+      // canvas.height = image.height;
+
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, 640, 640);
+    },
 
     joinSession() {
-        http.post(
-          "/room/session",
-          {
-            id: this.$data.id,
-            sessionId: this.$data.mySessionId,
+      // http
+      //   .post("/room/session", {
+      //     id: this.$data.id,
+      //     sessionId: this.$data.mySessionId,
+      //   })
+      //   .then(({ data }) => {
+      //     console.log(data);
+      //   })
+      //   .catch((error) => {
+      //     console.log("ChangedVue: error : ");
+      //     this.$alertify.error("서버에러 발생.");
+      //   });
 
-          }
-        )
-        .then(({ data }) => {
-          console.log(data);
-
-        })
-        .catch( error => {
-          console.log("ChangedVue: error : ");
-          this.$alertify.error('서버에러 발생.');
-
-        });
-
+      this.signMap.set("ache", "아파요");
+      this.signMap.set("cough", "기침");
+      this.signMap.set("head", "머리");
+      this.signMap.set("snot", "콧물");
+      this.signMap.set("neck", "목");
+      this.signMap.set("chest", "가슴");
+      this.signMap.set("stomach", "배");
+      this.signMap.set("digest", "소화");
+      this.signMap.set("sweat", "땀");
+      this.signMap.set("strange", "이상해요");
+      this.signMap.set("swell", "부었어요");
+      this.signMap.set("cold", "춥다");
+      this.signMap.set("dizzy", "어지러워요");
+      this.signMap.set("itchy", "가려워요");
 
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
@@ -381,7 +463,7 @@ export default {
       this.addSessionOn();
       // this.setActiveUser;
       this.setLocalName(this.myUserName);
-      console.log("store log - " + this.sessionStore);
+      // console.log("store log - " + this.sessionStore);
       // --- Specify the actions when events take place in the session ---
 
       // On every new Stream received...
@@ -389,16 +471,8 @@ export default {
         const subscriber = this.session.subscribe(stream);
         this.subscribers.push(subscriber);
 
-        // remote user
-        // console.log("[sub] : " + JSON.stringify(subscriber));
-        // for (output in subscriber) {
-        //   console.log("노드 값: " + JSON.stringify(output));
-        // }
-
-        // console.log("[sub] : " + subscriber.stream.connection.data);
         var afterStr = subscriber.stream.connection.data.split(":");
         var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        // console.log("[userName] " + userName);
         this.setRomoteName(userName);
       });
 
@@ -437,39 +511,183 @@ export default {
           });
         }
 
-        // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
-        console.log("Message :" + event.data); // Message
-        console.log("Connection object of the sender :" + event.from); // Connection object of the sender
-        console.log("The type of message :" + event.type); // The type of message ("my-chat")
+        // // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
+        // console.log("Message :" + event.data); // Message
+        // console.log("Connection object of the sender :" + event.from); // Connection object of the sender
+        // console.log("The type of message :" + event.type); // The type of message ("my-chat")
       });
 
       // --- Connect to the session with a valid user token ---
 
+      var self = this;
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
-      this.getToken(this.mySessionId).then((token) => {
+      // this.getToken(this.mySessionId).then((token) => {
+      this.getToken("sessionA").then((token) => {
         this.session
           .connect(token, { clientData: this.myUserName })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
+            var lastDetected = undefined;
+            // --- Get your own camera stream with the desired properties ---
+            var constraints = {
+              audio: true,
+              video: { width: 640, height: 640 },
+            };
+            var FRAME_RATE = 30;
+            navigator.mediaDevices
+              .getUserMedia(constraints)
+              .then(function (mediaStream) {
+                var videoTrack = mediaStream.getVideoTracks()[0];
+                var video = document.createElement("video");
+                video.srcObject = new MediaStream([videoTrack]);
 
-            let publisher = this.OV.initPublisher(undefined, {
-              audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
-              videoSource: this.userVideoSource, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "480x480", // The resolution of your video
-              frameRate: 30, // The frame rate of your video
-              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
-              mirror: false, // Whether to mirror your local video or not
-            });
+                var canvas = document.getElementById("canvas");
 
-            this.mainStreamManager = publisher;
-            this.publisher = publisher;
+                canvas.width = 480;
+                canvas.height = 480;
+                var ctx = canvas.getContext("2d");
 
+                video.onloadedmetadata = function (e) {
+                  video.addEventListener("play", () => {
+                    var loop = () => {
+                      if (!video.paused && !video.ended) {
+                        self.cropToCanvas(video, canvas, ctx);
+                        tf.engine().startScope();
+                        const input = tf.tidy(() => {
+                          return tf.image
+                            .resizeBilinear(tf.browser.fromPixels(video), [
+                              modelWeight,
+                              modelHeight,
+                            ])
+                            .div(255.0)
+                            .expandDims(0);
+                        });
+                        self.state.model.executeAsync(input).then((res) => {
+                          const font = "16px sans-serif";
+                          ctx.font = font;
+                          ctx.textBaseline = "top";
+
+                          const [boxes, scores, classes, valid_detections] =
+                            res;
+                          const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
+                          const scores_data = scores.dataSync(); //검출 정확도
+                          const classes_data = classes.dataSync(); //해당하는 클래스
+                          const valid_detections_data =
+                            valid_detections.dataSync()[0]; // 검축된 박스의 개수
+                          tf.dispose(res);
+                          var i;
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            var score = scores_data[i].toFixed(2);
+                            if (score > 0.9) {
+                              let [x1, y1, x2, y2] = boxes_data.slice(
+                                i * 4,
+                                (i + 1) * 4
+                              );
+                              x1 *= canvas.width;
+                              x2 *= canvas.width;
+                              y1 *= canvas.height;
+                              y2 *= canvas.height;
+                              const width = x2 - x1;
+                              const height = y2 - y1;
+                              const klass = names[classes_data[i]];
+                              const score = scores_data[i].toFixed(2);
+
+                              // Draw the bounding box.
+                              ctx.strokeStyle = "#00FFFF";
+                              ctx.lineWidth = 4;
+                              ctx.strokeRect(x1, y1, width, height);
+
+                              // Draw the label background.
+                              ctx.fillStyle = "#00FFFF";
+                              const textWidth = ctx.measureText(
+                                klass + ":" + score
+                              ).width;
+                              const textHeight = parseInt(font, 10); // base 10
+                              ctx.fillRect(
+                                x1,
+                                y1,
+                                textWidth + 4,
+                                textHeight + 4
+                              );
+                            }
+                          }
+                          for (i = 0; i < valid_detections_data; ++i) {
+                            var score = scores_data[i].toFixed(2);
+                            if (score > 0.9) {
+                              let [x1, y1, ,] = boxes_data.slice(
+                                i * 4,
+                                (i + 1) * 4
+                              );
+                              x1 *= canvas.width;
+                              y1 *= canvas.height;
+                              const klass = names[classes_data[i]];
+                              //가장 최근에 인식된 수어와 현재 인식된 수어를 비교하여 다를 경우 번역 (연속적으로 같은 수화를 인식 하기 때문에 가장 최근과 다를 경우만 번역)
+                              if (lastDetected != klass) {
+                                lastDetected = klass;
+                                console.log(klass);
+                                console.log(self.signMap.get(klass));
+                                self.cardList.push({
+                                  name: klass,
+                                  index: self.cardList.length,
+                                });
+                                console.log(self.cardList);
+                              }
+                              // Draw the text last to ensure it's on top.
+                              ctx.fillStyle = "#000000";
+                              ctx.fillText(klass + ":" + score, x1, y1);
+                            }
+                          }
+                        });
+                        ctx.drawImage(video, 0, 0, 480, 480);
+                        setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
+                        tf.engine().endScope();
+                      }
+                    };
+                    loop();
+                  });
+                  video.msHorizontalMirror = true;
+                  video.play();
+                  var signVideoTrack = canvas
+                    .captureStream(FRAME_RATE)
+                    .getVideoTracks()[0];
+
+                  var publisher = self.OV.initPublisher(undefined, {
+                    audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
+                    videoSource: signVideoTrack, // The source of video. If undefined default webcam
+                    publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+                    publishVideo: true, // Whether you want to start publishing with your video enabled or not
+                    resolution: "480x480", // The resolution of your video
+                    frameRate: 30, // The frame rate of your video
+                    insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+                    mirror: false, // Whether to mirror your local video or not
+                  });
+                  self.mainStreamManager = publisher;
+                  self.publisher = publisher;
+                  // --- Publish your stream ---
+                  self.session.publish(self.publisher);
+                };
+              })
+              .catch(function (err) {
+                console.log(err.name + ": " + err.message);
+              }); // always check for errors at the end.
+            // --- Get your own camera stream with the desired properties ---
+            // let publisher = this.OV.initPublisher(undefined, {
+            // 	audioSource: undefined, // The source of audio. If undefined default microphone
+            // 	videoSource: undefined, // The source of video. If undefined default webcam
+            // 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
+            // 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
+            // 	resolution: '640x480',  // The resolution of your video
+            // 	frameRate: 30,			// The frame rate of your video
+            // 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
+            // 	mirror: false       	// Whether to mirror your local video or not
+            // });
+            // this.mainStreamManager = publisher;
+            // this.publisher = publisher;
+            // console.log(this.publisher)
             // --- Publish your stream ---
 
-            this.session.publish(this.publisher);
+            // this.session.publish(this.publisher);
           })
           .catch((error) => {
             console.log(
@@ -495,37 +713,34 @@ export default {
       this.publisher = undefined;
       this.subscribers = [];
       this.OV = undefined;
-        // http.post(
-        //   "/reserve/close",
-        //   {
-        //     useId: this.$store.state.login.login.userId,
-        //     docId: this.$data.doc,
-        //     date: this.$data.date,
-        //     content: this.$data.contents
-        //   }
-        // )
-        // .then(({ data }) => {
-        //   console.log(data);
+      // http.post(
+      //   "/reserve/close",
+      //   {
+      //     useId: this.$store.state.login.login.userId,
+      //     docId: this.$data.doc,
+      //     date: this.$data.date,
+      //     content: this.$data.contents
+      //   }
+      // )
+      // .then(({ data }) => {
+      //   console.log(data);
 
-        // })
-        // .catch( error => {
-        //   console.log("ChangedVue: error : ");
-        //   this.$alertify.error('서버에러 발생.');
+      // })
+      // .catch( error => {
+      //   console.log("ChangedVue: error : ");
+      //   this.$alertify.error('서버에러 발생.');
 
-        // });
+      // });
 
       window.removeEventListener("beforeunload", this.leaveSession);
+      navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
       this.addSessionOff();
 
-      
-
-      this.$alertify.alert(
-        '진료가 완료되었습니다. 좋은하루 되세요!',
-        function() {
-
-        }
-      );
-      this.$nuxt.$options.router.push("/");
+      // this.$alertify.alert(
+      //   "진료가 완료되었습니다. 좋은하루 되세요!",
+      //   function () {}
+      // );
+      // this.$nuxt.$options.router.push("/");
     },
 
     updateMainVideoStreamManager(stream) {
@@ -665,6 +880,32 @@ export default {
           });
       }
     },
+    sendSign() {
+      var msg = "";
+      var self = this;
+      this.cardList.forEach(function (element) {
+        msg += self.signMap.get(element.name) + " ";
+      });
+      if (msg != "") {
+        this.sendChat(msg); // 상대방에게 보내는것
+        this.addChat(msg); // 내 채팅으로 올리기
+        // this.session
+        //   .signal({
+        //     data: msg, // Any string (optional)
+        //     to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+        //     type: "my-chat", // The type of message (optional)
+        //   })
+        //   .then(() => {
+        //     // this.message = "";
+        //     console.log("Message successfully sent");
+        //   })
+        //   .catch((error) => {
+        //     console.error(error);
+        //   });
+      }
+      this.cardList = [];
+    },
+
     addVideoCss: function () {
       // document.getElementById("video").style.borderRadius = "20px";
       var videos = document.querySelectorAll("video");
@@ -731,28 +972,40 @@ export default {
     },
     onChange(event) {
       console.log(event.target.value);
-      this.$data.mySessionId = ''
-      if(event.target.value == 'Choose...') return;
+      this.$data.mySessionId = "";
+      if (event.target.value == "Choose...") return;
       navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
       this.$data.patientName = this.$data.patientList[event.target.value].name;
       this.$data.id = this.$data.patientList[event.target.value].id;
 
       var getcut = 0;
 
-      this.$data.mySessionId = this.$data.patientList[event.target.value].userId;
-
-    }
+      this.$data.mySessionId =
+        this.$data.patientList[event.target.value].userId;
+    },
+    async asyncfunction() {
+      await tf.loadGraphModel(weights).then((model) => {
+        this.state.model = model;
+      });
+      this.joinSession();
+    },
+    addChat: function (msg) {
+      if (msg != "") {
+        this.$store.dispatch("chat/addChat", {
+          sender: 0,
+          msg: msg,
+        });
+      }
+    },
   },
 
   computed: {
     ...mapState({
       addNewChat: (state) => state.chat.newChat.text,
     }),
-      isDoctorGetters() {
-          return this.$store.getters["login/isDoctor"];
-
-      }
-
+    isDoctorGetters() {
+      return this.$store.getters["login/isDoctor"];
+    },
   },
   watch: {
     addNewChat() {
@@ -764,44 +1017,43 @@ export default {
     console.log("Parent mounted");
     console.log(navigator);
     navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
-    if(this.isDoctorGetters) {
-      this.$data.patientList = []
+    if (this.isDoctorGetters) {
+      this.myUserName = this.$store.state.login.login.userName;
+      this.$data.patientList = [];
       this.$data.mydoctor = this.$store.state.login.login.userName;
-        http.post(
-          "/room/doctor",
-          {
-            userId: this.$store.state.login.login.userId,
-          }
-        )
+      http
+        .post("/room/doctor", {
+          userId: this.$store.state.login.login.userId,
+        })
         .then(({ data }) => {
           console.log(data);
 
-          for(var i=0; i<data.confirmList.length; i++) {
-
+          for (var i = 0; i < data.confirmList.length; i++) {
             var b = {
               id: data.confirmList[i].id,
               name: data.confirmList[i].user.name,
               date: data.confirmList[i].reservedDt,
               email: data.confirmList[i].user.email,
-              img: '',
-              userId: data.confirmList[i].user.userId
-            }
+              img: "",
+              userId: data.confirmList[i].user.userId,
+            };
             this.$data.patientList.push(b);
           }
           console.log(this.$data.patientList);
-          navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
+          navigator.mediaDevices
+            .enumerateDevices()
+            .then(this.gotDevices)
+            .catch();
         })
-        .catch( error => {
+        .catch((error) => {
           console.log("PatientListCameraVue: error : ");
-          this.$alertify.error('서버에러 발생.');
-
+          this.$alertify.error("서버에러 발생.");
         });
-    }else{
+    } else {
       this.$data.mySessionId = this.$store.state.login.sessionId;
       this.$data.mydoctor = this.$store.state.login.mydoctor;
+      this.myUserName = this.$store.state.login.login.userName;
     }
-    
-    
   },
 };
 </script>
