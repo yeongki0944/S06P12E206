@@ -44,6 +44,7 @@
         <GroupCustomChat />
       </div>
       <div class="message-input" v-if="this.session === true">
+        
         <div class="wrap emojis-main">
           <div class="dot-btn dot-primary mr-3">
             <a
@@ -53,6 +54,12 @@
               ><feather type="smile" size="15" height="15"></feather
             ></a>
           </div>
+          <!-- STT 영역입니다. -->
+          <div class="dot-btn dot-primary mr-3" style="cursor:pointer">
+            <sttconnect v-on:sttData="sttData">
+            </sttconnect>
+          </div>
+          <!-- STT 끝 -->
 
           <input
             class="setemoj"
@@ -107,6 +114,7 @@ import GroupChatHeader from "./chat/GroupChat/groupchatheader.vue";
 import GroupCustomChat from "./chat/GroupChat/groupcustomchat.vue";
 import CodeSnippet from "../messenger/modals/codesnippets.vue";
 import Poll from "../messenger/modals/pollModal.vue";
+import Sttconnect from "../bonus_page/about/components/NewStt.vue"
 
 export default {
   components: {
@@ -120,6 +128,7 @@ export default {
     GroupCustomChat,
     CodeSnippet,
     Poll,
+    Sttconnect,
   },
   data() {
     return {
@@ -145,6 +154,14 @@ export default {
     session() {},
   },
   methods: {
+         sttData(params) { // 2)
+
+                console.log(params[params.length -1]); // I am child!
+                this.text = params[params.length -1]
+                this.addChat()
+
+            }
+    ,
     openSticker() {
       (this.$store.state.common.showemogi = false),
         (this.$store.state.common.showcontactcontent = false),
