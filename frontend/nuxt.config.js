@@ -1,6 +1,6 @@
 export default {
   ssr: false,
-  subdirectory: '/chitchat',
+  subdirectory: '/',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -26,8 +26,10 @@ export default {
 
 
   router: {
-    base: '/chitchat/',
-    mode: 'hash',
+    base: '/',
+    // mode: 'hash',
+    mode: 'history',
+
     extendRoutes(routes, resolve) {
       routes.push({
         // name: 'pagenotfound',
