@@ -6,7 +6,7 @@
       <!-- <Slider /> -->
       <!-- <AppDesign /> -->
       <!-- <ChitChat /> -->
-      <Collaboration />
+      <!-- <Collaboration /> -->
       <!-- <TeamWork /> -->
       <!-- <SecureApp /> -->
 
@@ -28,6 +28,35 @@
 
       <!-- <PricingPlan /> -->
       <!-- <SubscribeUpdate /> -->
+
+      <center>
+        <div>
+          <img
+            class="img-fluid mt-5"
+            src="../../assets/images/offline_help/001.png"
+            alt="tab-detail-img"
+            style="width:40%"
+          />
+        </div>
+        <div>
+          <img
+            class="img-fluid"
+            src="../../assets/images/offline_help/002.png"
+            alt="tab-detail-img"
+            style="width:40%"
+          />
+        </div>
+        <div>
+          <img
+            class="img-fluid"
+            src="../../assets/images/offline_help/003.png"
+            alt="tab-detail-img"
+            style="width:40%"
+          />
+        </div>
+      </center>
+
+
       <Footer />
       <TapTop />
     </div>

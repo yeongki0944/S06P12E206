@@ -381,7 +381,7 @@ export default {
             .then(({ data }) => {
                 this.resumeList();
                 this.$alertify.success('의사 등록 완료!'); 
-            });            
+            });
         }
 
     },

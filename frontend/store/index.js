@@ -24,11 +24,11 @@ const createStore = () => {
       manager,
       reservation
     },
-    // plugins: [
-    //   createPersistedState({
-    //     paths: [login, manager]
-    //   })
-    // ]
+    plugins: [
+      createPersistedState({
+        paths: ['login', 'manager']
+      })
+    ]
   })
 }
 export default createStore

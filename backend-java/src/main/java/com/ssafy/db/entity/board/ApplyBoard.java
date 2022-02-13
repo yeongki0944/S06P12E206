@@ -26,7 +26,9 @@ public class ApplyBoard {
 
     private String contents;
 
-    private LocalDateTime reservedDt;
+    private String reservedDt;
+
+    private String sessionId;
 
     @CreatedDate
     private LocalDateTime regDt;
@@ -40,4 +42,14 @@ public class ApplyBoard {
 
     @Enumerated(value = EnumType.STRING)
     private RStatus status;
+
+    @Transient
+    String date;
+
+    @Transient
+    Long uId;
+
+    @Transient
+    Long dId;
+
 }

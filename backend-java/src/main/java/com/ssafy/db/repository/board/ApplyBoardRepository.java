@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public interface ApplyBoardRepository extends JpaRepository<ApplyBoard, Long> {
 
     List<ApplyBoard> findAllByDoctorInfoIdAndStatus(Long id, RStatus status);
     List<ApplyBoard> findAllByUserIdAndStatus(Long id, RStatus status);
-
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE ApplyBoard b SET b.status = :status where b.id= :id")
@@ -23,4 +23,8 @@ public interface ApplyBoardRepository extends JpaRepository<ApplyBoard, Long> {
     @Modifying(clearAutomatically = true)
     @Query("DELETE from ApplyBoard b where b.id= :id")
     void deleteById(Long id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE ApplyBoard b SET b.sessionId= :session where b.id= :id")
+    int updateSessionId(String session, Long id);
 }
