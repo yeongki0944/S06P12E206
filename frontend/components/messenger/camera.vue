@@ -24,11 +24,10 @@
                   alt="sign-logo"
                 />
               </div>
-              <h3 class="mt-3">예약 환자를 선택해주세요.</h3>
-              <select class="custom-select" id="gender2">
+              <h3 v-if="isDoctorGetters" class="mt-3">예약 환자를 선택해주세요.</h3>
+              <select v-if="isDoctorGetters" class="custom-select" id="gender2" @change="onChange($event)">
                 <option selected>Choose...</option>
-                <option value="1">이아경 4:00 예약</option>
-                <option value="2">김순신 6:00 예약</option>
+                <option v-for="(patient, index) in patientList" v-bind:key="index" :value="index">{{patient.name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + patient.date}}</option>
               </select>
               <div class="select">
                 <label for="audioSource">Audio input source: </label
@@ -55,11 +54,18 @@
 
               <div class="card mt-4">
                 <div class="card-header">
-                  <h5>환자 이아경</h5>
+                  <h5 v-if="isDoctorGetters">{{patientName}}</h5>
+                  <h5 v-if="! isDoctorGetters">담당의사 : {{mydoctor}} 의사님</h5>
                 </div>
-                <img
-                  style="height: 200px"
+                <img v-if="isDoctorGetters"
+                  style="height: 300px"
                   src="../../assets/images/profile1.png"
+                  alt=""
+                />
+
+                <img v-if="! isDoctorGetters"
+                  style="height: 300px"
+                  src="../../assets/images/profile2.png"
                   alt=""
                 />
                 <div class="card-body">
@@ -179,7 +185,7 @@
 
     <div id="session" v-if="session">
       <div id="session-header">
-        <h1 id="session-title">{{ mySessionId }}</h1>
+        <h1 id="session-title">{{ mydoctor }} <span style="font-size:30px"> 의사님의 진료실 </span></h1>
 
         <a v-on:click="leaveSession()">
           <img src="@/assets/images/videocall/exit.png" />
@@ -272,7 +278,7 @@
             :key="sub.stream.connection.connectionId"
             :stream-manager="sub"
             @click.native="updateMainVideoStreamManager(sub)"
-            v-
+
           />
         </div>
       </div>
@@ -296,10 +302,14 @@
 
 <script>
 import axios from "axios";
+import http from "@/components/common/axios.js";
 import { OpenVidu } from "openvidu-browser";
 import UserVideo from "./components/UserVideo";
 import { mapState } from "vuex";
 import CreateRoom from "@/components/room/createRoom.vue";
+import Vue from 'vue';
+import VueAlertify from 'vue-alertify'; 
+Vue.use(VueAlertify);
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
@@ -324,11 +334,15 @@ export default {
       videoMute: true,
       audioMute: true,
       sttOff: true,
-      mySessionId: "SessionA11",
+      mySessionId: "",
       myUserName: "Participant" + Math.floor(Math.random() * 100),
       message: "",
       chatSeq: 0,
       chatList: [],
+      patientList: [],
+      patientName: '환자를 선택해주세요.',
+      id: '',
+      mydoctor: ''
     };
   },
   computed: {
@@ -340,6 +354,25 @@ export default {
     // Vuex
 
     joinSession() {
+        http.post(
+          "/room/session",
+          {
+            id: this.$data.id,
+            sessionId: this.$data.mySessionId,
+
+          }
+        )
+        .then(({ data }) => {
+          console.log(data);
+
+        })
+        .catch( error => {
+          console.log("ChangedVue: error : ");
+          this.$alertify.error('서버에러 발생.');
+
+        });
+
+
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
 
@@ -462,9 +495,37 @@ export default {
       this.publisher = undefined;
       this.subscribers = [];
       this.OV = undefined;
+        // http.post(
+        //   "/reserve/close",
+        //   {
+        //     useId: this.$store.state.login.login.userId,
+        //     docId: this.$data.doc,
+        //     date: this.$data.date,
+        //     content: this.$data.contents
+        //   }
+        // )
+        // .then(({ data }) => {
+        //   console.log(data);
+
+        // })
+        // .catch( error => {
+        //   console.log("ChangedVue: error : ");
+        //   this.$alertify.error('서버에러 발생.');
+
+        // });
 
       window.removeEventListener("beforeunload", this.leaveSession);
       this.addSessionOff();
+
+      
+
+      this.$alertify.alert(
+        '진료가 완료되었습니다. 좋은하루 되세요!',
+        function() {
+
+        }
+      );
+      this.$nuxt.$options.router.push("/");
     },
 
     updateMainVideoStreamManager(stream) {
@@ -668,12 +729,28 @@ export default {
         }
       });
     },
+    onChange(event) {
+      console.log(event.target.value);
+      this.$data.mySessionId = ''
+      if(event.target.value == 'Choose...') return;
+      navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
+      this.$data.patientName = this.$data.patientList[event.target.value].name;
+      this.$data.id = this.$data.patientList[event.target.value].id;
+
+      var getcut = 0;
+
+      this.$data.mySessionId = this.$data.patientList[event.target.value].userId;
+
+    }
   },
 
   computed: {
     ...mapState({
       addNewChat: (state) => state.chat.newChat.text,
     }),
+      isDoctorGetters() {
+          return this.$store.getters["login/isDoctor"];
+      }
   },
   watch: {
     addNewChat() {
@@ -685,6 +762,44 @@ export default {
     console.log("Parent mounted");
     console.log(navigator);
     navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
+    if(this.isDoctorGetters) {
+      this.$data.patientList = []
+      this.$data.mydoctor = this.$store.state.login.login.userName;
+        http.post(
+          "/room/doctor",
+          {
+            userId: this.$store.state.login.login.userId,
+          }
+        )
+        .then(({ data }) => {
+          console.log(data);
+
+          for(var i=0; i<data.confirmList.length; i++) {
+
+            var b = {
+              id: data.confirmList[i].id,
+              name: data.confirmList[i].user.name,
+              date: data.confirmList[i].reservedDt,
+              email: data.confirmList[i].user.email,
+              img: '',
+              userId: data.confirmList[i].user.userId
+            }
+            this.$data.patientList.push(b);
+          }
+          console.log(this.$data.patientList);
+          navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
+        })
+        .catch( error => {
+          console.log("PatientListCameraVue: error : ");
+          this.$alertify.error('서버에러 발생.');
+
+        });
+    }else{
+      this.$data.mySessionId = this.$store.state.login.sessionId;
+      this.$data.mydoctor = this.$store.state.login.mydoctor;
+    }
+    
+    
   },
 };
 </script>
