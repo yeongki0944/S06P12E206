@@ -39,10 +39,10 @@
               <p class="text-black align-items-center">
                 손한기
                 <a class="icon-btn btn-google button-effect btn-sm" href="onegison95@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/onegi95/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
             </div>
