@@ -30,19 +30,19 @@
               <p class="text-black align-items-center">
                 반형동
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
               <p class="text-black align-items-center">
                 손한기
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
             </div>
@@ -57,19 +57,19 @@
               <p class="text-black align-items-center">
                 김영기
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
               <p class="text-black align-items-center">
                 김창민
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
             </div>
@@ -84,19 +84,19 @@
               <p class="text-black align-items-center">
                 윤찬호
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:<아이디>@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/<깃헙아이디>/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
               <p class="text-black align-items-center">
                 이정원
                 <a class="icon-btn btn-google button-effect btn-sm" href="mailto:sorrow4468@gmail.com">
-                  <i class="fa fa-google"></i>
+                  <i class="fa-brands fa-google"></i>
                 </a>
                 <a class="icon-btn btn-github button-effect btn-sm" href="https://www.github.com/sorrow4468/">
-                  <i class="fa fa-github"></i>
+                  <i class="fa-brands fa-github"></i>
                 </a>
               </p>
             </div>
