@@ -8,7 +8,9 @@ const state = {
         userRole: "",
         userId: "",
         userProfileImageUrl: ""
-    }
+    },
+    sessionId: '',
+    mydoctor: ''
 };
 
 // mutations
