@@ -210,7 +210,7 @@
           {{ mydoctor }} <span style="font-size: 30px"> 의사님의 진료실 </span>
         </h1>
 
-        <a v-on:click="leaveSession()">
+        <!-- <a v-on:click="leaveSession()">
           <img src="@/assets/images/videocall/exit.png" />
         </a>
 
@@ -242,7 +242,7 @@
         </a>
         <a v-else v-on:click="audioOff()">
           <img src="@/assets/images/videocall/no-audio.png" />
-        </a>
+        </a> -->
         <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" />
 
         <!-- <input
@@ -287,12 +287,16 @@
           value="sendChatTest"
         /> -->
       </div>
-      <canvas id="canvas"></canvas>
-      <div style="display: flex">
-        <!-- <div id="main-video" class="col-md-6">
+      <div v-if="this.isDoctorGetters == true">
+        <div id="main-video" class="col-md-6">
           <user-video :stream-manager="mainStreamManager" />
-        </div> -->
+        </div>
+      </div>
+      <div v-else>
+        <canvas id="canvas"></canvas>
+      </div>
 
+      <div style="display: flex">
         <div id="video-container" class="col-md-4">
           <!-- <user-video
           :stream-manager="publisher"
@@ -465,9 +469,7 @@ export default {
 
       // --- Init a session ---
       this.session = this.OV.initSession();
-      this.addSessionOn();
-      // this.setActiveUser;
-      this.setLocalName(this.myUserName);
+
       // console.log("store log - " + this.sessionStore);
       // --- Specify the actions when events take place in the session ---
 
@@ -701,12 +703,109 @@ export default {
               error.message
             );
           })
-          .finally(() => {
-            this.addVideoCss();
+          .finally(() => {});
+      });
+
+      window.addEventListener("beforeunload", this.leaveSession);
+    },
+
+    joinSessionNoTensor() {
+      // --- Get an OpenVidu object ---
+      this.OV = new OpenVidu();
+
+      // --- Init a session ---
+      this.session = this.OV.initSession();
+
+      // --- Specify the actions when events take place in the session ---
+
+      // On every new Stream received...
+      this.session.on("streamCreated", ({ stream }) => {
+        const subscriber = this.session.subscribe(stream);
+        this.subscribers.push(subscriber);
+
+        var afterStr = subscriber.stream.connection.data.split(":");
+        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+        this.setRomoteName(userName);
+      });
+
+      // On every Stream destroyed...
+      this.session.on("streamDestroyed", ({ stream }) => {
+        const index = this.subscribers.indexOf(stream.streamManager, 0);
+        if (index >= 0) {
+          this.subscribers.splice(index, 1);
+        }
+      });
+
+      // On every asynchronous exception...
+      this.session.on("exception", ({ exception }) => {
+        console.warn(exception);
+      });
+
+      // Receiver of the message (usually before calling 'session.connect')
+      this.session.on("signal:my-chat", (event) => {
+        this.chatSeq = this.chatSeq + 1;
+        var chat = {
+          chatSeq: this.chatSeq,
+          timeStamp: Date.now(),
+          date: new Date(),
+          creationTime: event.from.creationTime,
+          user: event.from.data,
+          message: event.data,
+        };
+        this.chatList.push(chat);
+      });
+
+      // --- Connect to the session with a valid user token ---
+
+      // 'getToken' method is simulating what your server-side should do.
+      // 'token' parameter should be retrieved and returned by your own backend
+      this.getToken("sessionA").then((token) => {
+        this.session
+          .connect(token, { clientData: this.myUserName })
+          .then(() => {
+            // --- Get your own camera stream with the desired properties ---
+
+            let publisher = this.OV.initPublisher(undefined, {
+              audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
+              videoSource: this.userVideoSource, // The source of video. If undefined default webcam
+              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+              publishVideo: true, // Whether you want to start publishing with your video enabled or not
+              resolution: "320x320", // The resolution of your video
+              frameRate: 30, // The frame rate of your video
+              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+              mirror: false, // Whether to mirror your local video or not
+            });
+
+            this.mainStreamManager = publisher;
+            this.publisher = publisher;
+
+            // --- Publish your stream ---
+
+            this.session.publish(this.publisher);
+          })
+          .catch((error) => {
+            console.log(
+              "There was an error connecting to the session:",
+              error.code,
+              error.message
+            );
           });
       });
 
       window.addEventListener("beforeunload", this.leaveSession);
+    },
+
+    leaveSession() {
+      // --- Leave the session by calling 'disconnect' method over the Session object ---
+      if (this.session) this.session.disconnect();
+
+      this.session = undefined;
+      this.mainStreamManager = undefined;
+      this.publisher = undefined;
+      this.subscribers = [];
+      this.OV = undefined;
+
+      window.removeEventListener("beforeunload", this.leaveSession);
     },
 
     leaveSession() {
@@ -995,10 +1094,18 @@ export default {
         this.$data.patientList[event.target.value].userId;
     },
     async asyncfunction() {
-      await tf.loadGraphModel(weights).then((model) => {
-        this.state.model = model;
-      });
-      this.joinSession();
+      if (this.isDoctorGetters) {
+        this.joinSessionNoTensor();
+      } else {
+        await tf.loadGraphModel(weights).then((model) => {
+          this.state.model = model;
+        });
+        this.joinSession();
+      }
+
+      this.addVideoCss();
+      this.addSessionOn();
+      this.setLocalName(this.myUserName);
     },
     addChat: function (msg) {
       if (msg != "") {
@@ -1013,6 +1120,11 @@ export default {
   computed: {
     ...mapState({
       addNewChat: (state) => state.chat.newChat.text,
+      chatVideoOn: (state) => state.chat.cameraState,
+      chatMicOn: (state) => state.chat.micState,
+      chatSession: (state) => state.chat.leaveSession,
+      chatRoomCreated: (state) => state.chat.session,
+      // isDocterstate: (state) => state.login.isDoctor;
     }),
     isDoctorGetters() {
       return this.$store.getters["login/isDoctor"];
@@ -1023,13 +1135,38 @@ export default {
       this.sendChat(this.addNewChat);
       console.log("new chatting");
     },
+    chatVideoOn() {
+      // alert("camera state");
+      if (this.chatVideoOn) {
+        this.videoOff();
+      } else {
+        this.videoOn();
+      }
+    },
+    chatSession() {
+      this.leaveSession();
+    },
+    chatMicOn() {
+      if (this.chatMicOn) {
+        this.audioOff();
+      } else {
+        this.audioOn();
+      }
+    },
+    /*
+
+      cameraState: true,
+  micState: true,
+  leaveSession: true,
+
+  */
   },
   mounted() {
     console.log("Parent mounted");
     console.log(navigator);
     navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
     if (this.isDoctorGetters) {
-      this.myUserName = this.$store.state.login.login.userName;
+      this.myUserName = this.$store.state.login.login.userName + " 의사";
       this.$data.patientList = [];
       this.$data.mydoctor = this.$store.state.login.login.userName;
       http
@@ -1063,7 +1200,7 @@ export default {
     } else {
       this.$data.mySessionId = this.$store.state.login.sessionId;
       this.$data.mydoctor = this.$store.state.login.mydoctor;
-      this.myUserName = this.$store.state.login.login.userName;
+      this.myUserName = this.$store.state.login.login.userName + " 환자";
     }
   },
 };

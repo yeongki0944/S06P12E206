@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Messenger from "../../components/messenger/index.vue";
+import Messenger from "../../components/messenger/index_offline.vue";
 export default {
   components: {
     Messenger,

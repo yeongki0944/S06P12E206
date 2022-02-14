@@ -32,97 +32,88 @@
             내정보
           </div>
         </div>
+        <div v-if="this.roomCreated">
+          <div>
+            <li>
+              <a
+                class="icon-btn btn-light button-effect"
+                v-on:click="this.leaveSession"
+              >
+                <i
+                  class="fa fa-power-off"
+                  v-b-tooltip.hover.topright
+                  title="진료실 나가기"
+                  data-tippy-content="진료실 나가기"
+                ></i>
+              </a>
+            </li>
+            <div style="width: 100px; text-align: center; margin-top: 10px">
+              진료실 나가기
+            </div>
+          </div>
 
-        <div>
-          <li>
-            <nuxt-link
-              to="/authentication/login"
-              class="icon-btn btn-light button-effect"
+          <div>
+            <li>
+              <a
+                class="icon-btn btn-light button-effect"
+                v-on:click="this.videoController"
+              >
+                <i
+                  class="fa fa-camera"
+                  v-b-tooltip.hover.topright
+                  title="Video"
+                  data-tippy-content="Video"
+                ></i>
+              </a>
+            </li>
+            <div
+              style="width: 100px; text-align: center; margin-top: 10px"
+              v-if="this.videoOn"
             >
-              <i
-                class="fa fa-power-off"
-                v-b-tooltip.hover.topright
-                title="진료실 나가기"
-                data-tippy-content="진료실 나가기"
-              ></i>
-            </nuxt-link>
-          </li>
-          <div style="width: 100px; text-align: center; margin-top: 10px">
-            진료실 나가기
+              Camera On
+            </div>
+            <div
+              style="width: 100px; text-align: center; margin-top: 10px"
+              v-else
+            >
+              Camera Off
+            </div>
           </div>
-        </div>
 
-        <div>
-          <li>
-            <nuxt-link
-              to="/authentication/login"
-              class="icon-btn btn-light button-effect"
+          <div>
+            <li>
+              <a
+                class="icon-btn btn-light button-effect"
+                v-on:click="this.micController"
+              >
+                <i
+                  class="fa fa-microphone"
+                  v-b-tooltip.hover.topright
+                  title="MIC"
+                  data-tippy-content="MIC"
+                  v-if="this.micOn"
+                ></i>
+                <i
+                  class="fa fa-microphone-slash"
+                  v-b-tooltip.hover.topright
+                  title="MIC"
+                  data-tippy-content="MIC"
+                  v-else
+                ></i>
+              </a>
+            </li>
+            <div
+              style="width: 100px; text-align: center; margin-top: 10px"
+              v-if="this.micOn"
             >
-              <i
-                class="fa fa-camera"
-                v-b-tooltip.hover.topright
-                title="Video"
-                data-tippy-content="Video"
-              ></i>
-            </nuxt-link>
-          </li>
-          <div style="width: 100px; text-align: center; margin-top: 10px">
-            Camera
-          </div>
-        </div>
-
-        <div>
-          <li>
-            <nuxt-link
-              to="/authentication/login"
-              class="icon-btn btn-light button-effect"
+              MIC On
+            </div>
+            <div
+              style="width: 100px; text-align: center; margin-top: 10px"
+              v-else
             >
-              <i
-                class="fa fa-camera-slash"
-                v-b-tooltip.hover.topright
-                title="Camera"
-                data-tippy-content="Camera"
-              ></i>
-            </nuxt-link>
-          </li>
-          <div style="width: 100px; text-align: center; margin-top: 10px">
-            Camera
-          </div>
-        </div>
-        <div>
-          <li>
-            <nuxt-link
-              to="/authentication/login"
-              class="icon-btn btn-light button-effect"
-            >
-              <i
-                class="fa fa-microphone"
-                v-b-tooltip.hover.topright
-                title="MIC"
-                data-tippy-content="MIC"
-              ></i>
-            </nuxt-link>
-          </li>
-          <div style="width: 100px; text-align: center; margin-top: 10px">
-            MIC
-          </div>
-        </div>
-        <div>
-          <li>
-            <nuxt-link
-              to="/authentication/login"
-              class="icon-btn btn-light button-effect"
-            >
-              <i
-                class="fa fa-microphone-slash"
-                v-b-tooltip.hover.topright
-                title="MIC"
-                data-tippy-content="MIC"
-              ></i>
-            </nuxt-link>
-          </li>
-          <div style="width: 100px; text-align: center; margin-top: 10px">
-            MIC
+              MIC Off
+            </div>
           </div>
         </div>
       </ul>
@@ -144,12 +135,18 @@ export default {
         "background-position": "center",
         display: "block",
       },
+      // videoOn: true,
+      // micOn: true,
     };
   },
   computed: {
     ...mapState({
       toggleleftside: (state) => state.common.toggleleftside,
       activesidebar: (state) => state.common.activesidebar,
+      videoOn: (state) => state.chat.cameraState,
+      micOn: (state) => state.chat.micState,
+      session: (state) => state.chat.leaveSession,
+      roomCreated: (state) => state.chat.session,
     }),
   },
   methods: {
@@ -166,6 +163,19 @@ export default {
         this.mixLayout = "";
       }
       this.$store.dispatch("layout/setLayout", this.mixLayout);
+    },
+    leaveSession() {
+      this.$store.commit("chat/setLeaveSession", !this.session);
+
+      // alert("leaveSession");
+    },
+    videoController() {
+      this.$store.commit("chat/setCameraState", !this.videoOn);
+      // alert("video");
+    },
+    micController() {
+      this.$store.commit("chat/setMicState", !this.micOn);
+      // alert("mic");
     },
   },
 };

@@ -15,6 +15,9 @@ const state = {
   session: false,
   localName: "",
   romoteName: "",
+  cameraState: true,
+  micState: true,
+  leaveSession: true,
 
 };
 
@@ -34,7 +37,15 @@ const getters = {
 
 // mutations
 const mutations = {
-
+  setLeaveSession: (state, payload) => {
+    state.leaveSession = payload
+  },
+  setCameraState: (state, payload) => {
+    state.cameraState = payload
+  },
+  setMicState: (state, payload) => {
+    state.micState = payload
+  },
   setLocalName: (state, payload) => {
     state.localName = payload;
   },
