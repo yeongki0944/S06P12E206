@@ -349,7 +349,7 @@ Vue.use(VueAlertify);
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const weights =
-  "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model2/model.json";
+  "https://ssafy6webmodel.s3.ap-northeast-2.amazonaws.com/web_model3/model.json";
 const names = [
   "ache",
   "cough",
