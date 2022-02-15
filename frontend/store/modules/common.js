@@ -31,15 +31,10 @@ const state = {
   chatwallpaperIndex: layout.config.wallpaper,
   chatwallpaper: "",
   chatwallpapergrandiant: "",
-
 };
 
 // mutations
-const mutations = {
-  setActivechat: (state, payload) => {
-    state.activechat = payload
-  },
-};
+const mutations = {};
 
 // actions
 const actions = {};

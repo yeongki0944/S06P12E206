@@ -8,16 +8,9 @@ const state = {
   activeuser: 0,
   typing: false,
   newChat: {
-    "watch": "",
-    "sender": "",
-    "time": "",
-    "text": '',
-  },
-  newSignChat: {
-    "watch": "",
-    "sender": "",
-    "time": "",
-    "text": '',
+    "sender": "s",
+    "time": "t",
+    "text": 't',
   },
   session: false,
   localName: "",
@@ -116,45 +109,23 @@ const mutations = {
     }),
       (state.typing = false);
   },
-  clearChat: (state, payload) => {
-    var newMessages = [];
 
-    console.log(state.chats.messages);
-  },
 
   /* Add Direct chat Text And Emogi*/
   addNewChat: (state, payload) => {
-    // console.log("run mutations addNewChat");
+    console.log("run mutations addNewChat");
     var today = new Date().toLocaleString("en-US", {
       hour: "numeric",
       minute: "numeric",
       hour12: true,
     });
-    state.newChat.watch = Math.random();
+
     state.newChat.sender = 0;
     state.newChat.time = today.toLowerCase();
     state.newChat.text = payload;
-    // state.test = payload;
-    // console.log("payload : " + payload);
-    // console.log("end mutations addNewChat");
-
-
-  },
-  /* Add Direct chat Text And Emogi*/
-  addNewSignChat: (state, payload) => {
-    // console.log("run mutations addNewChat");
-    var today = new Date().toLocaleString("en-US", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    });
-    state.newSignChat.watch = Math.random();
-    state.newSignChat.sender = 0;
-    state.newSignChat.time = today.toLowerCase();
-    state.newSignChat.text = payload;
-    // state.test = payload;
-    // console.log("payload : " + payload);
-    // console.log("end mutations addNewChat");
+    state.test = payload;
+    console.log("payload : " + payload);
+    console.log("end mutations addNewChat");
 
 
   },
