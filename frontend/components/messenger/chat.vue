@@ -44,7 +44,6 @@
         <GroupCustomChat />
       </div>
       <div class="message-input" v-if="this.session === true">
-        
         <div class="wrap emojis-main">
           <div class="dot-btn dot-primary mr-3">
             <a
@@ -55,9 +54,8 @@
             ></a>
           </div>
           <!-- STT 영역입니다. -->
-          <div class="dot-btn dot-primary mr-3" style="cursor:pointer">
-            <sttconnect v-on:sttData="sttData">
-            </sttconnect>
+          <div class="dot-btn dot-primary mr-3" style="cursor: pointer">
+            <sttconnect v-on:sttData="sttData"> </sttconnect>
           </div>
           <!-- STT 끝 -->
 
@@ -114,7 +112,7 @@ import GroupChatHeader from "./chat/GroupChat/groupchatheader.vue";
 import GroupCustomChat from "./chat/GroupChat/groupcustomchat.vue";
 import CodeSnippet from "../messenger/modals/codesnippets.vue";
 import Poll from "../messenger/modals/pollModal.vue";
-import Sttconnect from "../bonus_page/about/components/NewStt.vue"
+import Sttconnect from "../bonus_page/about/components/NewStt.vue";
 
 export default {
   components: {
@@ -152,16 +150,19 @@ export default {
           : "";
     },
     session() {},
+    newSignChatWatch() {
+      // alert("수화 메시지 도착");
+      this.addSignChat(this.newSignChatText);
+    },
   },
   methods: {
-         sttData(params) { // 2)
+    sttData(params) {
+      // 2)
 
-                console.log(params[params.length -1]); // I am child!
-                this.text = params[params.length -1]
-                this.addChat()
-
-            }
-    ,
+      console.log(params[params.length - 1]); // I am child!
+      this.text = params[params.length - 1];
+      this.addChat();
+    },
     openSticker() {
       (this.$store.state.common.showemogi = false),
         (this.$store.state.common.showcontactcontent = false),
@@ -219,6 +220,24 @@ export default {
         this.emogiarray = [];
       }
     },
+    addSignChat: function (msg) {
+      if (msg != "") {
+        this.$store.dispatch("chat/addChat", {
+          sender: 0,
+          msg: msg,
+        });
+        var container = this.$el.querySelector(".scrolltopdirectchat");
+        setTimeout(function () {
+          container.scrollBy({ top: 200, behavior: "smooth" });
+        }, 310);
+        setTimeout(function () {
+          container.scrollBy({ top: 200, behavior: "smooth" });
+        }, 1100);
+
+        this.text = "";
+        this.emogiarray = [];
+      }
+    },
 
     addNewChat: function () {
       if (this.text != "") {
@@ -241,6 +260,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit("common/setActivechat", 1);
     this.$store.state.common.chatwallpaper =
       this.chatwallpaperIndex !== 0
         ? this.getImgUrl(
@@ -269,6 +289,8 @@ export default {
       chatwallpaperIndex: (state) => state.common.chatwallpaperIndex,
       session: (state) => state.chat.session,
       activeuser: (state) => state.chat.activeuser,
+      newSignChatWatch: (state) => state.chat.newSignChat.watch,
+      newSignChatText: (state) => state.chat.newSignChat.text,
     }),
   },
 };

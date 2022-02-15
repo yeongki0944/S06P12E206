@@ -8,7 +8,9 @@ import layout from './modules/layout'
 import login from './modules/login'
 import manager from './modules/manager'
 import reservation from './modules/reservation'
+import openvidu from "./modules/openvidu";
 import createPersistedState from "vuex-persistedstate";
+
 
 Vue.use(Vuex);
 
@@ -22,7 +24,8 @@ const createStore = () => {
       layout,
       login,
       manager,
-      reservation
+      reservation,
+      openvidu,
     },
     plugins: [
       createPersistedState({
