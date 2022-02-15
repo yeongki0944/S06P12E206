@@ -5,189 +5,100 @@
       v-if="!session"
       style="height: 100%; width: 100%; display: flex; justify-content: center"
     >
-      <div
-        class="hov-anim-box"
-        style="
-          width: 100%;
-          height: 100%;
-          display: table-cell;
-          vertical-align: middle;
-        "
-      >
-        <!--SignUp Classic start -->
-        <div class="login-page2 animat-rate">
-          <div class="login-content-main" style="">
-            <div class="login-content">
-              <div class="login-content-header">
-                <img
-                  src="@/assets/images/logo/landing-logo.png"
-                  alt="sign-logo"
-                />
-              </div>
-              <div v-if="isDoctorGetters">
-                <h3 class="mt-3">환자의 ID를 입력해주세요.</h3>
-                <input style="width: 100%; height: 40px" />
-              </div>
-              <div v-else>
-                <h3 class="mt-3">의사에게 자신의 ID를 알려주세요.</h3>
-              </div>
+      <!--SignUp Classic start -->
+      <div class="login-page2 animat-rate" style="height: 100%; width: 100%">
+        <div class="login-content-main" style="">
+          <div class="login-content">
+            <div class="login-content-header" style="height: 10%; width 50%">
+              <img
+                src="@/assets/images/logo/landing-logo.png"
+                alt="sign-logo"
+                style="height: 100%; width 100%"
+              />
+            </div>
+            <div v-if="isDoctorGetters">
+              <h3 class="mt-3">환자의 ID를 입력해주세요.</h3>
+              <input style="width: 100%; height: 40px" />
+            </div>
+            <div v-else>
+              <h3 class="mt-3">의사에게 자신의 ID를 알려주세요.</h3>
+            </div>
 
-              <div class="select">
-                <label for="audioSource">Audio input source: </label
-                ><select
-                  class="custom-select"
-                  id="audioSource"
-                  v-model="userAudioSource"
-                ></select>
-              </div>
+            <div class="select">
+              <label for="audioSource">Audio input source: </label
+              ><select
+                class="custom-select"
+                id="audioSource"
+                v-model="userAudioSource"
+              ></select>
+            </div>
 
-              <div class="select">
-                <label for="audioOutput">Audio output destination: </label
-                ><select class="custom-select" id="audioOutput"></select>
-              </div>
+            <div class="select">
+              <label for="audioOutput">Audio output destination: </label
+              ><select class="custom-select" id="audioOutput"></select>
+            </div>
 
-              <div class="select">
-                <label for="videoSource">Video source: </label
-                ><select
-                  class="custom-select"
-                  id="videoSource"
-                  v-model="userVideoSource"
-                ></select>
-              </div>
+            <div class="select">
+              <label for="videoSource">Video source: </label
+              ><select
+                class="custom-select"
+                id="videoSource"
+                v-model="userVideoSource"
+              ></select>
+            </div>
 
-              <div class="card mt-4">
-                <!-- <div class="card-header">
-                  <h5 v-if="isDoctorGetters">{{ patientName }}</h5>
-                  <h5 v-if="!isDoctorGetters">
-                    담당의사 : {{ mydoctor }} 의사님
-                  </h5>
-                </div> -->
-                <!-- <img
-                  v-if="isDoctorGetters"
-                  style="height: 300px"
-                  src="../../assets/images/profile1.png"
-                  alt=""
-                />
-
-                <img
-                  v-if="!isDoctorGetters"
-                  style="height: 300px"
-                  src="../../assets/images/profile2.png"
-                  alt=""
-                /> -->
-                <div class="card-body">
-                  <!-- <h5 class="card-title">환자 증상</h5>
-                  <p class="card-text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam egestas sed sem ut malesuada.
-                  </p> -->
-                  <button
-                    class="btn btn-primary btn-block"
-                    @click="asyncfunction()"
-                  >
-                    진료실 입장
-                  </button>
-                </div>
+            <div class="card mt-4">
+              <div class="card-body">
+                <button
+                  class="btn btn-primary btn-block"
+                  @click="asyncfunction()"
+                >
+                  진료실 입장
+                </button>
               </div>
             </div>
-          </div>
-          <div class="animat-block">
-            <div class="bg_circle">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-            <div class="cross"></div>
-            <div class="cross1"></div>
-            <div class="cross2"></div>
-            <div class="dot"></div>
-            <div class="dot1"></div>
-            <div class="top-circle"></div>
-            <div class="center-circle"></div>
-            <div class="bottom-circle1"></div>
-            <div class="right-circle"></div>
-            <div class="right-circle1"></div>
-            <div class="quarterCircle"></div>
-            <img
-              class="cloud-logo"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            /><img
-              class="cloud-logo1"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            /><img
-              class="cloud-logo2"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            /><img
-              class="cloud-logo3"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            /><img
-              class="cloud-logo4"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            /><img
-              class="cloud-logo5"
-              src="@/assets/images/login_signup/2.png"
-              alt="login logo"
-            />
           </div>
         </div>
-        <!--SignUp Classic end -->
-        <!-- <img
-          src="@/assets/images/videocall/closeDoor.jpg"
-          alt=""
-          class="static"
-          style="width: 80%; heigt: 80%; display: inline"
-          onmouseover="this.style.display='none';"
-          onmouseout="this.style.display='inline';"
-        /> -->
-        <!-- <img
-          src="@/assets/images/videocall/heaven-opendoor.gif"
-          alt=""
-          class="animated"
-          style="display: inline-block; width: 80%; heigt: 80%"
-        /> -->
+        <div class="animat-block">
+          <div class="bg_circle"></div>
+          <div class="cross"></div>
+          <div class="cross1"></div>
+          <div class="cross2"></div>
+          <div class="dot"></div>
+          <div class="dot1"></div>
+          <div class="top-circle"></div>
+          <div class="center-circle"></div>
+          <div class="bottom-circle1"></div>
+          <div class="right-circle"></div>
+          <div class="right-circle1"></div>
+          <div class="quarterCircle"></div>
+          <img
+            class="cloud-logo"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          /><img
+            class="cloud-logo1"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          /><img
+            class="cloud-logo2"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          /><img
+            class="cloud-logo3"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          /><img
+            class="cloud-logo4"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          /><img
+            class="cloud-logo5"
+            src="@/assets/images/login_signup/2.png"
+            alt="login logo"
+          />
+        </div>
       </div>
-
-      <!-- <div id="join-dialog" class="jumbotron vertical-center">
-        <h1>Join a video session</h1>
-        <div class="form-group">
-          <p>
-            <label>Participant</label>
-            <input
-              v-model="myUserName"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p>
-            <label>Session</label>
-            <input
-              v-model="mySessionId"
-              class="form-control"
-              type="text"
-              required
-            />
-          </p>
-          <p class="text-center">
-            <button class="btn btn-lg btn-success" @click="joinSession()">
-              Join!
-            </button>
-          </p>
-        </div>
-      </div> -->
     </div>
 
     <div id="session" v-if="session">
@@ -196,82 +107,7 @@
           {{ mydoctor }} <span style="font-size: 30px"> 의사님의 진료실 </span>
         </h1>
 
-        <!-- <a v-on:click="leaveSession()">
-          <img src="@/assets/images/videocall/exit.png" />
-        </a>
-
-        <a v-if="videoMute == true" v-on:click="videoOn()">
-          <img
-            src="@/assets/images/videocall/video.png"
-            style="filter: opacity(0.6) drop-shadow(0 0 0 red)"
-          />
-        </a>
-        <a v-else v-on:click="videoOff()">
-          <img src="@/assets/images/videocall/no-video.png" />
-        </a>
-
-        <a v-if="audioMute == true" v-on:click="audioOn()">
-          <img
-            src="@/assets/images/videocall/audio.png"
-            style="filter: opacity(0.6) drop-shadow(0 0 0 blue)"
-          />
-        </a>
-        <a v-else v-on:click="audioOff()">
-          <img src="@/assets/images/videocall/no-audio.png" />
-        </a>
-
-        <a v-if="sttOff == true" v-on:click="audioOn()">
-          <img
-            src="@/assets/images/videocall/audio.png"
-            style="filter: opacity(0.6) drop-shadow(0 0 0 blue)"
-          />
-        </a>
-        <a v-else v-on:click="audioOff()">
-          <img src="@/assets/images/videocall/no-audio.png" />
-        </a> -->
         <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" />
-
-        <!-- <input
-          class="btn btn-large btn-danger"
-          type="button"
-          id="buttonLeaveSession"
-          @click="leaveSession"
-          value="Leave session"
-        />
-        <input
-          class="btn btn-large btn-danger"
-          type="button"
-          id="buttonVideo"
-          @click="videoController"
-          value="mute Video"
-        />
-
-        <input
-          class="btn btn-large btn-danger"
-          type="button"
-          id="buttonAudio"
-          @click="audioController"
-          value="mute Audio"
-        /> -->
-        <!-- <ul>
-          <li v-for="chat in chatList" v-bind:key="chat.chatSeq">
-            <p>chatSeq : {{ chat.chatSeq }}</p>
-            <p>timeStamp : {{ chat.timeStamp }}</p>
-            <p>date : {{ chat.date }}</p>
-            <p>user : {{ chat.user }}</p>
-            <p>message : {{ chat.message }}</p>
-          </li>
-        </ul> -->
-
-        <!-- <input v-model="message" placeholder="message" />
-
-        <input
-          class="btn btn-large btn-danger"
-          type="button"
-          id="buttonSendChat"
-          @click="sendChatTest"
-          value="sendChatTest"
-        /> -->
       </div>
       <div v-if="this.isDoctorGetters == true">
         <div id="main-video" class="col-md-6">
@@ -284,11 +120,6 @@
 
       <div style="display: flex">
         <div id="video-container" class="col-md-4">
-          <!-- <user-video
-          :stream-manager="publisher"
-          @click.native="updateMainVideoStreamManager(publisher)"
-        /> -->
-
           <user-video
             v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
@@ -382,7 +213,7 @@ export default {
   data() {
     return {
       OV: undefined,
-      session: undefined, // store??? 저장하면 되지 않을까??
+      session: undefined,
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
@@ -407,6 +238,7 @@ export default {
       },
       signMap: new Map(),
       cardList: [],
+      chatChannel: "ch-sixman-",
     };
   },
 
@@ -421,20 +253,8 @@ export default {
       ctx.drawImage(image, 0, 0, 640, 640);
     },
 
+    // 환자 joinSession
     joinSession() {
-      // http
-      //   .post("/room/session", {
-      //     id: this.$data.id,
-      //     sessionId: this.$data.mySessionId,
-      //   })
-      //   .then(({ data }) => {
-      //     console.log(data);
-      //   })
-      //   .catch((error) => {
-      //     console.log("ChangedVue: error : ");
-      //     this.$alertify.error("서버에러 발생.");
-      //   });
-
       this.signMap.set("ache", "아파요");
       this.signMap.set("cough", "기침");
       this.signMap.set("head", "머리");
@@ -456,9 +276,6 @@ export default {
       // --- Init a session ---
       this.session = this.OV.initSession();
 
-      // console.log("store log - " + this.sessionStore);
-      // --- Specify the actions when events take place in the session ---
-
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
         const subscriber = this.session.subscribe(stream);
@@ -466,7 +283,11 @@ export default {
 
         var afterStr = subscriber.stream.connection.data.split(":");
         var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        this.setRomoteName(userName);
+        if (this.userName == userName) {
+          this.setRomoteName(userName + " 환자");
+        } else {
+          this.setRomoteName(userName + " 의사");
+        }
       });
 
       // On every Stream destroyed...
@@ -483,7 +304,7 @@ export default {
       });
 
       // Receiver of the message (usually before calling 'session.connect')
-      this.session.on("signal:my-chat", (event) => {
+      this.session.on("signal:" + this.chatChannel, (event) => {
         this.chatSeq = this.chatSeq + 1;
         var chat = {
           chatSeq: this.chatSeq,
@@ -503,20 +324,13 @@ export default {
             msg: event.data,
           });
         }
-
-        // // alert("보낸사람 - " + event.from.data + "\n 메시지 - " + event.data);
-        // console.log("Message :" + event.data); // Message
-        // console.log("Connection object of the sender :" + event.from); // Connection object of the sender
-        // console.log("The type of message :" + event.type); // The type of message ("my-chat")
       });
 
       // --- Connect to the session with a valid user token ---
 
       var self = this;
-      // 'getToken' method is simulating what your server-side should do.
-      // 'token' parameter should be retrieved and returned by your own backend
-      // this.getToken(this.mySessionId).then((token) => {
-      this.getToken("sessionA").then((token) => {
+
+      this.getToken(this.chatChannel).then((token) => {
         this.session
           .connect(token, { clientData: this.myUserName })
           .then(() => {
@@ -663,24 +477,7 @@ export default {
               })
               .catch(function (err) {
                 console.log(err.name + ": " + err.message);
-              }); // always check for errors at the end.
-            // --- Get your own camera stream with the desired properties ---
-            // let publisher = this.OV.initPublisher(undefined, {
-            // 	audioSource: undefined, // The source of audio. If undefined default microphone
-            // 	videoSource: undefined, // The source of video. If undefined default webcam
-            // 	publishAudio: true,  	// Whether you want to start publishing with your audio unmuted or not
-            // 	publishVideo: true,  	// Whether you want to start publishing with your video enabled or not
-            // 	resolution: '640x480',  // The resolution of your video
-            // 	frameRate: 30,			// The frame rate of your video
-            // 	insertMode: 'APPEND',	// How the video is inserted in the target element 'video-container'
-            // 	mirror: false       	// Whether to mirror your local video or not
-            // });
-            // this.mainStreamManager = publisher;
-            // this.publisher = publisher;
-            // console.log(this.publisher)
-            // --- Publish your stream ---
-
-            // this.session.publish(this.publisher);
+              });
           })
           .catch((error) => {
             console.log(
@@ -695,13 +492,13 @@ export default {
       window.addEventListener("beforeunload", this.leaveSession);
     },
 
+    // 의사 joinSession
     joinSessionNoTensor() {
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu();
 
       // --- Init a session ---
       this.session = this.OV.initSession();
-
       // --- Specify the actions when events take place in the session ---
 
       // On every new Stream received...
@@ -711,7 +508,11 @@ export default {
 
         var afterStr = subscriber.stream.connection.data.split(":");
         var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        this.setRomoteName(userName);
+        if (this.userName == userName) {
+          this.setRomoteName(userName + " 의사");
+        } else {
+          this.setRomoteName(userName + " 환자");
+        }
       });
 
       // On every Stream destroyed...
@@ -728,7 +529,7 @@ export default {
       });
 
       // Receiver of the message (usually before calling 'session.connect')
-      this.session.on("signal:my-chat", (event) => {
+      this.session.on("signal:" + this.chatChannel, (event) => {
         this.chatSeq = this.chatSeq + 1;
         var chat = {
           chatSeq: this.chatSeq,
@@ -739,13 +540,22 @@ export default {
           message: event.data,
         };
         this.chatList.push(chat);
+        var afterStr = event.from.data.split(":");
+        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+        if (this.myUserName == userName) {
+        } else {
+          this.$store.dispatch("chat/addChat", {
+            sender: 1,
+            msg: event.data,
+          });
+        }
       });
 
       // --- Connect to the session with a valid user token ---
 
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
-      this.getToken("sessionA").then((token) => {
+      this.getToken(this.chatChannel).then((token) => {
         this.session
           .connect(token, { clientData: this.myUserName })
           .then(() => {
@@ -792,45 +602,9 @@ export default {
       this.OV = undefined;
 
       window.removeEventListener("beforeunload", this.leaveSession);
-    },
-
-    leaveSession() {
-      // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect();
-
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      // http.post(
-      //   "/reserve/close",
-      //   {
-      //     useId: this.$store.state.login.login.userId,
-      //     docId: this.$data.doc,
-      //     date: this.$data.date,
-      //     content: this.$data.contents
-      //   }
-      // )
-      // .then(({ data }) => {
-      //   console.log(data);
-
-      // })
-      // .catch( error => {
-      //   console.log("ChangedVue: error : ");
-      //   this.$alertify.error('서버에러 발생.');
-
-      // });
-
-      window.removeEventListener("beforeunload", this.leaveSession);
       navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
       this.addSessionOff();
-
-      // this.$alertify.alert(
-      //   "진료가 완료되었습니다. 좋은하루 되세요!",
-      //   function () {}
-      // );
-      // this.$nuxt.$options.router.push("/");
+      this.clearChat();
     },
 
     updateMainVideoStreamManager(stream) {
@@ -935,6 +709,14 @@ export default {
       this.audioMute = !this.audioMute;
       this.publisher.publishAudio(this.audioMute);
     },
+    addChat: function (msg) {
+      if (msg != "") {
+        this.$store.dispatch("chat/addChat", {
+          sender: 0,
+          msg: msg,
+        });
+      }
+    },
     sendChat(msg) {
       // this.addVideoCss();
       if (msg != "") {
@@ -942,27 +724,10 @@ export default {
           .signal({
             data: msg, // Any string (optional)
             to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-            type: "my-chat", // The type of message (optional)
+            type: this.chatChannel, // The type of message (optional)
           })
           .then(() => {
             // this.message = "";
-            console.log("Message successfully sent");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    },
-    sendChatTest() {
-      if (this.message != "") {
-        this.session
-          .signal({
-            data: this.message, // Any string (optional)
-            to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-            type: "my-chat", // The type of message (optional)
-          })
-          .then(() => {
-            this.message = "";
             console.log("Message successfully sent");
           })
           .catch((error) => {
@@ -978,22 +743,18 @@ export default {
       });
       if (msg != "") {
         this.sendChat(msg); // 상대방에게 보내는것
-        this.addChat(msg); // 내 채팅으로 올리기
-        // this.session
-        //   .signal({
-        //     data: msg, // Any string (optional)
-        //     to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
-        //     type: "my-chat", // The type of message (optional)
-        //   })
-        //   .then(() => {
-        //     // this.message = "";
-        //     console.log("Message successfully sent");
-        //   })
-        //   .catch((error) => {
-        //     console.error(error);
-        //   });
+        // this.addChat(msg); // 내 채팅으로 올리기
+        this.$store.commit("chat/addNewSignChat", msg);
       }
       this.cardList = [];
+    },
+    clearChat() {
+      // alert("clearChat");
+      this.$store.commit("chat/clearChat", "");
+      var chatlist1 = document.querySelectorAll(".replies");
+      var chatlist2 = document.querySelectorAll(".sent");
+      chatlist1.forEach((element) => element.remove());
+      chatlist2.forEach((element) => element.remove());
     },
 
     addVideoCss: function () {
@@ -1088,36 +849,35 @@ export default {
         });
         this.joinSession();
       }
-
       this.addVideoCss();
       this.addSessionOn();
-      this.setLocalName(this.myUserName);
-    },
-    addChat: function (msg) {
-      if (msg != "") {
-        this.$store.dispatch("chat/addChat", {
-          sender: 0,
-          msg: msg,
-        });
+      if (this.isDoctorGetters) {
+        this.setLocalName(this.myUserName + " 의사");
+      } else {
+        this.setLocalName(this.myUserName + " 환자");
       }
+
+      this.$store.commit("openvidu/setSession", this.session);
     },
   },
 
   computed: {
     ...mapState({
+      chatNewChatWatch: (state) => state.chat.newChat.watch,
       addNewChat: (state) => state.chat.newChat.text,
       chatVideoOn: (state) => state.chat.cameraState,
       chatMicOn: (state) => state.chat.micState,
       chatSession: (state) => state.chat.leaveSession,
       chatRoomCreated: (state) => state.chat.session,
       // isDocterstate: (state) => state.login.isDoctor;
+      // openviduSession: (state) => state.OpenVidu/. z
     }),
     isDoctorGetters() {
       return this.$store.getters["login/isDoctor"];
     },
   },
   watch: {
-    addNewChat() {
+    chatNewChatWatch() {
       this.sendChat(this.addNewChat);
       console.log("new chatting");
     },
@@ -1148,11 +908,16 @@ export default {
   */
   },
   mounted() {
+    this.clearChat();
+    this.addSessionOff();
+    if (this.session != undefined) {
+      this.leaveSession();
+    }
     console.log("Parent mounted");
     console.log(navigator);
     navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
     if (this.isDoctorGetters) {
-      this.myUserName = this.$store.state.login.login.userName + " 의사";
+      this.myUserName = this.$store.state.login.login.userName;
       this.$data.patientList = [];
       this.$data.mydoctor = this.$store.state.login.login.userName;
       http
@@ -1186,8 +951,9 @@ export default {
     } else {
       this.$data.mySessionId = this.$store.state.login.sessionId;
       this.$data.mydoctor = this.$store.state.login.mydoctor;
-      this.myUserName = this.$store.state.login.login.userName + " 환자";
+      this.myUserName = this.$store.state.login.login.userName;
     }
+    // alert("[mounted] : " + this.myUserName);
   },
 };
 </script>
