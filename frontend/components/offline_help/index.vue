@@ -54,6 +54,9 @@
             style="width:40%"
           />
         </div>
+        <div>
+          <Vue-qr-code id="test" :value=theValue />
+        </div>
       </center>
 
 
@@ -79,6 +82,7 @@ import PricingPlan from "../landing-page/pricing-plan.vue";
 import SubscribeUpdate from "../landing-page/subscribe-update.vue";
 import Footer from "../common/footer/footer.vue";
 import TapTop from "../common/tap-to-top/taptop.vue";
+import VueQrCode from 'vue-weblineindia-qrcode'
 
 export default {
   components: {
@@ -96,6 +100,7 @@ export default {
     SubscribeUpdate,
     Footer,
     TapTop,
+    VueQrCode,
   },
   head() {
     return {
@@ -104,5 +109,15 @@ export default {
       },
     };
   },
+  data(){
+    return {
+      theValue: "https://xn--3j1b610aimlm4e.site/#/offline/room/"
+    }
+  }
 };
 </script>
+<style scoped>
+#test{
+  width: 300px;
+}
+</style>
