@@ -7,11 +7,12 @@
           <div class="left-page">
             <div class="login-content">
               <div class="login-content-header">
+                <nuxt-link to="/">
                 <img
-                  class="image-fluid"
                   src="../../assets/images/logo/landing-logo.png"
-                  alt="images"
+                  alt="sign-logo"
                 />
+                </nuxt-link>
               </div>
               <h3>반갑습니다. 수화닥터 입니다.</h3>
               <h4>Welcome to SignDoctor please login to your account.</h4>
@@ -59,11 +60,12 @@
                 </div>
                 <div class="form-group">
                   <div class="buttons">
-                    <a
+                    <button
                       class="btn btn-primary button-effect"
-                      href="javascript:void(0)"
                       @click="signUp"
-                      >로그인</a
+                      v-on:keyup.enter="signUp"
+                      >로그인
+                      </button
                     >
                     <nuxt-link
                       class="btn button-effect btn-signup"
@@ -202,6 +204,11 @@ export default {
     },
 
     signUp: function () {
+      if(this.id == "" || this.password == "") {
+        this.$alertify.error("아이디 또는 비밀번호를 입력해주세요.");
+        return;
+      }
+
       http
         .post("/api/v1/auth/login", {
           id: this.id,
@@ -237,7 +244,7 @@ export default {
           console.log("RegisterVue: error : ");
           console.log(error);
           if (error.response.status == "401") {
-            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
+            this.$alertify.error("아이디 또는 비밀번호가 일치하지 않습니다.");
           }
         });
     },

@@ -5,10 +5,12 @@
 
       <div class="login-content" style="height:970px">
         <div class="login-content-header">
+          <nuxt-link to="/">
           <img
             src="../../assets/images/logo/landing-logo.png"
             alt="sign-logo"
           />
+          </nuxt-link>
         </div>
         <h4>의사님 환영합니다! 정보를 입력해주세요. </h4>
         <form class="form2">
@@ -22,8 +24,9 @@
                         v-model="userId" 
                         @input="validateUserId" 
                         @focus="isUserIdFocus = true"
+                        @blur="validateDBUserId" 
             />
-            <h5 style="margin-left:10px; margin-top:10px">최소 5글자이상 입력하세요. </h5>
+            <h5 style="margin-left:10px; margin-top:10px">{{ idvalidation}}</h5>
           </div>
 
           <div class="form-group">
@@ -79,6 +82,7 @@
                         v-model="userEmail" 
                         @input="validateEmail" 
                         @focus="isUserEmailFocus = true"
+                        @blur="validateDBEmail"
             />
             <h5 style="margin-left:10px; margin-top:10px">이메일 형식으로 입력해주세요. </h5>
           </div>
@@ -103,7 +107,8 @@
               type="text"
               placeholder="인증번호 입력하세요"
                 :class="{ 'is-valid': isSecretFocusAndValid , 'is-invalid': isSecretFocusAndInvalid  }" 
-                v-model="secretNumber" 
+                v-model="secretNumber"
+                @focus="isSecretFocus = true" 
                 @blur="validateSecret" 
 
             />
@@ -240,7 +245,10 @@ export default {
         isUserPasswordValid: false,
         isUserPassword2Valid: false,
         isSecretValid: false,
-        isUserNameValid: false
+        isUserNameValid: false,
+
+
+        idvalidation: "최소 5글자이상 입력하세요. "
       }
     },
   computed: {
@@ -275,10 +283,10 @@ export default {
       return this.isUserPassword2Focus && ! this.isUserPassword2Valid;
     },
     isSecretFocusAndValid(){
-      return ! this.isSecretFocus && this.isSecretValid;
+      return this.isSecretFocus && this.isSecretValid;
     },
     isSecretFocusAndInvalid(){
-      return ! this.isSecretFocus && ! this.isSecretValid;
+      return this.isSecretFocus && ! this.isSecretValid;
     }    
   },
   methods: {
@@ -315,6 +323,28 @@ export default {
       this.isUserIdValid = this.userId.length >= 5 ? true : false;
       console.log(this.isUserIdValid)
     },
+    
+    validateDBUserId() {
+      if(this.userId.length >=5) {
+        http.post(
+          "/api/v1/users/id/confirms",
+          {
+            userId: this.userId,
+          }
+        )
+        .then(({ data }) => {
+          this.$alertify.success('아이디를 사용할 수 있습니다.');
+          this.isUserIdValid = true;
+
+        })
+        .catch( error => {
+          console.log("RegisterVue: error : ");
+          this.$alertify.error('아이디가 중복됩니다..');
+
+          this.isUserIdValid = false;
+        });         
+      }
+    },
 
     validateName() {
       this.isUserNameValid = this.userName.length > 1 ? true : false;
@@ -328,6 +358,28 @@ export default {
       let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       this.isUserEmailValid = (regexp.test(this.userEmail)) ? true : false;
       console.log(this.isUserEmailValid)
+    },
+    validateDBEmail() {
+      let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        if(regexp.test(this.userEmail)) {
+        http.post(
+          "/api/v1/users/email/confirms",
+          {
+            email: this.userEmail,
+          }
+        )
+        .then(({ data }) => {
+          this.$alertify.success('이메일을 사용할 수 있습니다.');
+          this.isUserEmailValid = true;
+
+        })
+        .catch( error => {
+          console.log("RegisterVue: error : ");
+          this.$alertify.error('이메일이 중복됩니다..');
+
+          this.isUserEmailValid = false;
+        });     
+        }   
     },
     validatePassword() {
 
