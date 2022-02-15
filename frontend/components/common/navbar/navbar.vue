@@ -155,7 +155,7 @@
 <style scoped>
 @media (min-width: 1200px) {
   #mystate {
-    left: 250px;
+    left: 200px;
   }
 }
 </style>

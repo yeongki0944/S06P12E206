@@ -5,10 +5,12 @@
 
       <div class="login-content" style="height:900px">
         <div class="login-content-header">
+          <nuxt-link to="/">
           <img
             src="../../assets/images/logo/landing-logo.png"
             alt="sign-logo"
           />
+          </nuxt-link>
         </div>
         <h3 class="mt-3">수화닥터 서비스 이용을 위해 약관에 동의해주세요.</h3>
 

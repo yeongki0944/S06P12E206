@@ -4,10 +4,12 @@
     <div class="login-content-main">
       <div class="login-content">
         <div class="login-content-header">
+          <nuxt-link to="/">
           <img
             src="../../assets/images/logo/landing-logo.png"
             alt="sign-logo"
           />
+          </nuxt-link>
         </div>
         <h4>회원님 환영합니다! 정보를 입력해주세요.</h4>
         <form class="form2">
@@ -24,6 +26,7 @@
               v-model="userId"
               @input="validateUserId"
               @focus="isUserIdFocus = true"
+              @blur="validateDBUserId" 
             />
             <h5 style="margin-left: 10px; margin-top: 10px">
               최소 5글자이상 입력하세요.
@@ -105,6 +108,7 @@
                 'is-invalid': isSecretFocusAndInvalid,
               }"
               v-model="secretNumber"
+              @focus="isSecretFocus = true"
               @blur="validateSecret"
             />
           </div>
@@ -254,10 +258,10 @@ export default {
       return this.isUserPassword2Focus && !this.isUserPassword2Valid;
     },
     isSecretFocusAndValid() {
-      return !this.isSecretFocus && this.isSecretValid;
+      return this.isSecretFocus && this.isSecretValid;
     },
     isSecretFocusAndInvalid() {
-      return !this.isSecretFocus && !this.isSecretValid;
+      return this.isSecretFocus && !this.isSecretValid;
     },
   },
   methods: {
@@ -292,7 +296,27 @@ export default {
       this.isUserIdValid = this.userId.length >= 5 ? true : false;
       console.log(this.isUserIdValid);
     },
+    validateDBUserId() {
+      if(this.userId.length >=5) {
+        http.post(
+          "/api/v1/users/id/confirms",
+          {
+            userId: this.userId,
+          }
+        )
+        .then(({ data }) => {
+          this.$alertify.success('아이디를 사용할 수 있습니다.');
+          this.isUserIdValid = true;
 
+        })
+        .catch( error => {
+          console.log("RegisterVue: error : ");
+          this.$alertify.error('아이디가 중복됩니다..');
+
+          this.isUserIdValid = false;
+        });
+      }         
+    },
     validateName() {
       this.isUserNameValid = this.userName.length > 1 ? true : false;
     },

@@ -1,6 +1,9 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.MessagesRequestDto;
+import com.ssafy.api.request.SimpleUserReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.ValidateIdReq;
 import com.ssafy.db.entity.User;
 
 /**
@@ -11,4 +14,6 @@ public interface UserService {
 	User getUserByUserId(String userId);
 	User getUserByEmail(String email);
 	User saveUser(User user);
+	public boolean verifyId(ValidateIdReq validateIdReq);
+	public boolean verifyEmail(ValidateIdReq validateIdReq);
 }

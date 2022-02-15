@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.api.request.MessagesRequestDto;
+import com.ssafy.api.request.ValidateIdReq;
 import com.ssafy.api.response.SendSmsResponseDto;
 import com.ssafy.api.service.MessageService;
 import com.ssafy.api.service.ResumeService;
@@ -159,6 +160,24 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> SmsVerification(@RequestBody MessagesRequestDto messageRequest) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
 		System.out.println(messageRequest.getNumber());
 		if(messageService.verifySms(messageRequest)) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "failed"));
+	}
+
+	//아이디 중복검사
+	@PostMapping("/id/confirms")
+	public ResponseEntity<? extends BaseResponseBody> IdVerification(@RequestBody ValidateIdReq validateIdReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+		if(userService.verifyId(validateIdReq)) {
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "failed"));
+	}
+
+	//이메일 중복검사
+	@PostMapping("/email/confirms")
+	public ResponseEntity<? extends BaseResponseBody> EmailVerification(@RequestBody ValidateIdReq validateIdReq) throws NoSuchAlgorithmException, URISyntaxException, UnsupportedEncodingException, InvalidKeyException, JsonProcessingException {
+		if(userService.verifyEmail(validateIdReq)) {
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 		}
 		return ResponseEntity.status(400).body(BaseResponseBody.of(400, "failed"));

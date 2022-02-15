@@ -1,5 +1,7 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.SimpleUserReq;
+import com.ssafy.api.request.ValidateIdReq;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,6 +12,8 @@ import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
+
+import java.util.Optional;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -39,6 +43,10 @@ public class UserServiceImpl implements UserService {
 	public User getUserByUserId(String userId) {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
 		User user = userRepository.findUserByUserId(userId);
+
+		if(user == null) {
+			return new User();
+		}
 		return user;
 	}
 
@@ -52,5 +60,25 @@ public class UserServiceImpl implements UserService {
 	public User saveUser(User user) {
 		User userEntity = userRepository.save(user);
 		return userEntity;
+	}
+
+	@Override
+	public boolean verifyId(ValidateIdReq validateIdReq) {
+
+		;
+		if (! userRepository.existsByUserId(validateIdReq.getUserId())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean verifyEmail(ValidateIdReq validateIdReq) {
+		if (! userRepository.existsByEmail(validateIdReq.getEmail())) {
+			return true;
+		}
+
+		return false;
 	}
 }
