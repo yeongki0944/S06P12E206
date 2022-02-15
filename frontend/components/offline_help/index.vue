@@ -35,7 +35,7 @@
             class="img-fluid mt-5"
             src="../../assets/images/offline_help/001.png"
             alt="tab-detail-img"
-            style="width: 40%"
+            style="width:40%"
           />
         </div>
         <div>
@@ -43,7 +43,7 @@
             class="img-fluid"
             src="../../assets/images/offline_help/002.png"
             alt="tab-detail-img"
-            style="width: 40%"
+            style="width:40%"
           />
         </div>
         <div>
@@ -51,13 +51,14 @@
             class="img-fluid"
             src="../../assets/images/offline_help/003.png"
             alt="tab-detail-img"
-            style="width: 40%"
+            style="width:40%"
           />
         </div>
         <div>
-          <Vue-qr-code id="test" :value="theValue" />
+          <Vue-qr-code id="test" :value=theValue />
         </div>
       </center>
+
 
       <Footer />
       <TapTop />
@@ -68,13 +69,35 @@
 
 <script>
 import Header from "../common/header/header.vue";
+import Logo from "../common/logo/logo.vue";
+import Navbar from "../common/navbar/navbar.vue";
+import Slider from "../landing-page/slider.vue";
+import AppDesign from "../landing-page/app-design.vue";
+import ChitChat from "../landing-page/chit-chat.vue";
+import TeamWork from "../landing-page/team-work.vue";
+import Collaboration from "../landing-page/collaboration.vue";
+import Testimonial from "../landing-page/testimonial.vue";
+import SecureApp from "../landing-page/secure-app.vue";
+import PricingPlan from "../landing-page/pricing-plan.vue";
+import SubscribeUpdate from "../landing-page/subscribe-update.vue";
 import Footer from "../common/footer/footer.vue";
 import TapTop from "../common/tap-to-top/taptop.vue";
-import VueQrCode from "vue-weblineindia-qrcode";
+import VueQrCode from 'vue-weblineindia-qrcode'
 
 export default {
   components: {
     Header,
+    Logo,
+    Navbar,
+    Slider,
+    AppDesign,
+    ChitChat,
+    TeamWork,
+    Collaboration,
+    Testimonial,
+    SecureApp,
+    PricingPlan,
+    SubscribeUpdate,
     Footer,
     TapTop,
     VueQrCode,
@@ -86,15 +109,15 @@ export default {
       },
     };
   },
-  data() {
+  data(){
     return {
-      theValue: "https://xn--3j1b610aimlm4e.site/#/offline/room/",
-    };
-  },
+      theValue: "https://xn--3j1b610aimlm4e.site/#/offline/room/"
+    }
+  }
 };
 </script>
 <style scoped>
-#test {
+#test{
   width: 300px;
 }
 </style>

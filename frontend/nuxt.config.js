@@ -29,71 +29,61 @@ export default {
     base: '/chitchat/',
     mode: 'hash',
     extendRoutes(routes, resolve) {
-
       routes.push({
         // name: 'pagenotfound',
         path: '*',
         component: resolve(__dirname, 'pages/pagenotfound/index.vue')
-      });
-
-
-    },
-    // extendRoutes(routes, resolve) {
-    //   routes.push({
-    //     path: 'offline/room/:id',
-    //     components: resolve(__dirname, 'pages/offline/room.vue')
-    //   });
-    // },
-
-
-    // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [
-      '@/assets/scss/app.scss',
-      'swiper/css/swiper.css',
-      '@/assets/scss/gologin.scss',
-      '@/assets/scss/signup.scss'
-    ],
-
-    // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: [
-      { src: '~/plugins/plugin.js', ssr: false },
-      { src: "@/plugins/vue-lightbox.js", ssr: false },
-      { src: '~/plugins/google.js' }
-    ],
-
-    // Auto import components: https://go.nuxtjs.dev/config-components
-    components: true,
-
-    // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-    buildModules: [
-      '@nuxtjs/dotenv'
-    ],
-
-    // Modules: https://go.nuxtjs.dev/config-modules
-    modules: [
-      // https://go.nuxtjs.dev/bootstrap
-      'bootstrap-vue/nuxt',
-      '@nuxtjs/toast',
-    ],
-
-    axios: {
-    },
-    generate: {
-      dir: '../backend-java/src/main/resources/dist',
-      fallback: true
-    },
-
-    // Build Configuration: https://go.nuxtjs.dev/config-build
-    build: {
-      transpile: [
-        "vee-validate/dist/rules"
-      ],
-      /*
-      ** You can extend webpack config here
-      */
-      extend(config, ctx) {
-      },
-      babel: { compact: true }
+      })
     }
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [
+    '@/assets/scss/app.scss',
+    'swiper/css/swiper.css',
+    '@/assets/scss/gologin.scss',
+    '@/assets/scss/signup.scss'
+  ],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [
+    { src: '~/plugins/plugin.js', ssr: false },
+    { src: "@/plugins/vue-lightbox.js", ssr: false },
+    { src: '~/plugins/google.js' }
+  ],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    '@nuxtjs/dotenv'
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/bootstrap
+    'bootstrap-vue/nuxt',
+    '@nuxtjs/toast',
+  ],
+
+  axios: {
+  },
+  generate: {
+    dir: '../backend-java/src/main/resources/dist',
+    fallback: true
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {
+    transpile: [
+      "vee-validate/dist/rules"
+    ],
+    /*
+    ** You can extend webpack config here
+    */
+    extend(config, ctx) {
+    },
+    babel: { compact: true }
   }
 }
