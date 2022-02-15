@@ -51,9 +51,14 @@
                         >아이디 저장</label
                       >
                       <h6>
-                        <nuxt-link to="/authentication/login"
-                          >비밀번호를 잊으셨나요?</nuxt-link
-                        >
+                        <a>
+                          <span style="color: rgb(100, 100, 100);">아이디 찾기</span>
+                        </a>
+                        <span class="ml-1 mr-1"> | </span>
+                        <a>
+                          <span style="color: rgb(100, 100, 100);">비밀번호 재설정</span>
+                        </a>
+                      
                       </h6>
                     </div>
                   </div>
