@@ -7,9 +7,9 @@
       <Test />
       <div class="container d-flex">
         <!-- 프로필 -->
-        <Profile class="left"/>
+        <!-- <Profile class="left"/> -->
         <!-- 의사일 시 : 진료 가능 시간 -->
-        <DoctorTime class="right"/>
+        <!-- <DoctorTime class="right"/> -->
       </div>
       <!-- 회원정보 수정버튼, 탈퇴버튼 -->
       <center>
