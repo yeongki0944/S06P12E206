@@ -37,10 +37,7 @@
               label="담당의"
               label-for="reserve_docter"
             >
-              <b-form-select
-                v-model="doc"
-                :options="doctors"
-              ></b-form-select>
+              <b-form-select v-model="doc" :options="doctors"></b-form-select>
             </b-form-group>
             <b-form-group
               label-cols="5"
@@ -49,9 +46,8 @@
               label="날짜"
               label-for="reserve_date"
             >
-            <date-picker v-model="date" :config="options"></date-picker>
+              <date-picker v-model="date" :config="options"></date-picker>
               <div class="mt-4"></div>
-
             </b-form-group>
 
             <b-form-group
@@ -61,15 +57,20 @@
               label="증상"
               label-for="reserve_date"
             >
-              <b-form-input v-model="contents" id="input-default"></b-form-input>
+              <b-form-input
+                v-model="contents"
+                id="input-default"
+              ></b-form-input>
               <div class="mt-4"></div>
 
-              <b-button style="float: right" type="submit" variant="success" @click="apply"
+              <b-button
+                style="float: right"
+                type="submit"
+                variant="success"
+                @click="apply"
                 >신청</b-button
               >
             </b-form-group>
-
-
 
             <!-- <b-form-group
               label-cols="5"
@@ -91,16 +92,15 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import Vue from "vue";
 import datePicker from "vue-bootstrap-datetimepicker";
 import http from "@/components/common/axios.js";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
 Vue.use(datePicker); // Register datePicke
 
-
 export default {
-  components: { datePicker},
+  components: { datePicker },
   data() {
     return {
       contents: null,
@@ -115,9 +115,7 @@ export default {
         { value: "외과", text: "외과" },
         { value: "안과", text: "안과" },
       ],
-      doctors: [
-        {value: null, text: "의사를 선택해주세요"}
-      ],
+      doctors: [{ value: null, text: "의사를 선택해주세요" }],
       date: new Date(),
       options: {
         format: "YYYY-MM-DD h:m:s a",
@@ -133,70 +131,65 @@ export default {
           clear: "far fa-trash-alt",
           close: "far fa-times-circle",
         },
-      },     
+        daysOfWeekDisabled: [0, 6],
+        minDate: new Date(new Date().setDate(new Date().getDate() - 1)),
+      },
     };
   },
 
   methods: {
     changed() {
       // changed post
-        http.post(
-          "/reserve/doctor/list",
-          {
-            depart: this.$data.subject,
-          }
-        )
+      http
+        .post("/reserve/doctor/list", {
+          depart: this.$data.subject,
+        })
         .then(({ data }) => {
           console.log(data);
           this.$data.doctors = [];
-          this.$data.doctors.push({value: null, text: "의사를 선택해주세요"});
-          for(var i=0; i<data.list.length; i++) {
+          this.$data.doctors.push({ value: null, text: "의사를 선택해주세요" });
+          for (var i = 0; i < data.list.length; i++) {
             var b = {
               value: data.list[i].id,
-              text: data.list[i].user.name + " " + data.list[i].departName + "전문의"
+              text:
+                data.list[i].user.name +
+                " " +
+                data.list[i].departName +
+                "전문의",
             };
             this.$data.doctors.push(b);
           }
-
         })
-        .catch( error => {
+        .catch((error) => {
           console.log("ChangedVue: error : ");
-          this.$alertify.error('서버에러 발생.');
-
+          this.$alertify.error("서버에러 발생.");
         });
-
     },
     apply() {
       console.log(this.$data.doc);
-      console.log(this.$store.state.login.login.userId)
+      console.log(this.$store.state.login.login.userId);
       // applied post
-        http.post(
-          "/reserve/apply",
-          {
-            useId: this.$store.state.login.login.userId,
-            docId: this.$data.doc,
-            date: this.$data.date,
-            content: this.$data.contents
-          }
-        )
+      http
+        .post("/reserve/apply", {
+          useId: this.$store.state.login.login.userId,
+          docId: this.$data.doc,
+          date: this.$data.date,
+          content: this.$data.contents,
+        })
         .then(({ data }) => {
           console.log(data);
 
-          this.$alertify.alert(
-          '해당 의사님께 예약 신청이 완료되었습니다.',
-          function() {
-
-          }
-        );
-          this.$nuxt.$options.router.push('/')
+          this.$alertify
+            .alert("해당 의사님께 예약 신청이 완료되었습니다.", function () {})
+            .set({ title: "수화닥터.site" });
+          this.$nuxt.$options.router.push("/");
         })
-        .catch( error => {
+        .catch((error) => {
           console.log("ChangedVue: error : ");
-          this.$alertify.error('서버에러 발생.');
-
+          this.$alertify.error("서버에러 발생.");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

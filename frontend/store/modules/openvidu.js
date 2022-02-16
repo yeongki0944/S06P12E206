@@ -1,5 +1,6 @@
 const state = {
-    session: undefined
+    session: undefined,
+    signwordsend: true,
 
 };
 
@@ -11,7 +12,10 @@ const getters = {
 const mutations = {
     setSession: (state, payload) => {
         state.session = payload;
-        console.log("[openvidu store] " + state.session);
+        // console.log("[openvidu store] " + state.session);
+    },
+    setSignWordSend: (state, payload) => {
+        state.signwordsend = !state.signwordsend
     }
 };
 

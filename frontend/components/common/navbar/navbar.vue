@@ -1,6 +1,6 @@
 <template>
   <!--Nav start -->
-  <div class="header-right-margin">
+  <div class="header-right-margin" style="width: 100%">
     <client-only>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav justify-content-between>
@@ -37,13 +37,13 @@
                             ></b-dropdown-item
                         >
                     </b-dropdown> -->
-          <b-dropdown id="dropdown-4" text="개발중인 페이지들">
+          <!-- <b-dropdown id="dropdown-4" text="개발중인 페이지들">
             <b-dropdown-item class="nav-link"
               ><nuxt-link to="/bonus/about"
                 >Tensor.js</nuxt-link
               ></b-dropdown-item
             >
-            <!-- <b-dropdown-item class="nav-link"
+            <b-dropdown-item class="nav-link"
               ><nuxt-link to="/bonus/chat"
                 >채팅 테스트</nuxt-link
               ></b-dropdown-item
@@ -52,7 +52,7 @@
               ><nuxt-link to="/bonus/faq"
                 >자주 묻는 질문</nuxt-link
               ></b-dropdown-item
-            > -->
+            >
             <b-dropdown-item class="nav-link"
               ><nuxt-link to="/bonus/elements"
                 >진료 예약 목록 관련</nuxt-link
@@ -61,7 +61,7 @@
             <b-dropdown-item class="nav-link"
               ><nuxt-link to="/bonus/price">Price</nuxt-link></b-dropdown-item
             >
-          </b-dropdown>
+          </b-dropdown> -->
 
           <!-- <button v-if="!isLoginGetters" type="button" class="btn btn-primary">
             <nuxt-link to="/authentication/login">로그인</nuxt-link>
@@ -143,11 +143,11 @@
               <nuxt-link to="/authentication/signup-2">회원가입</nuxt-link>
             </button>
           </b-nav-item>
-          <b-nav-item v-if="isLoginGetters">
+          <!-- <b-nav-item v-if="isLoginGetters">
             <button type="button" class="btn btn-primary">
               <nuxt-link to="/authentication/mypage">마이페이지</nuxt-link>
             </button>
-          </b-nav-item>
+          </b-nav-item> -->
           <b-nav-item v-if="isLoginGetters">
             <button id="logout" type="button" class="btn btn-primary">
               <a @click="logout">로그아웃</a>
@@ -158,7 +158,7 @@
               <nuxt-link to="/manager/manager">관리자페이지</nuxt-link>
             </button></b-nav-item
           >
-          <b-nav-item
+          <!-- <b-nav-item
             v-if="isLoginGetters && !isManagerGetters && !isDoctorGetters"
           >
             <button type="button" class="btn btn-primary">
@@ -169,29 +169,52 @@
             <button type="button" class="btn btn-primary">
               <nuxt-link to="/reserve/checkReservation">예약확인</nuxt-link>
             </button>
-          </b-nav-item>
-          <b-nav-item v-if="isLoginGetters">
-            <button type="button" class="btn btn-primary">
-              <h5 style="float: left">
-                안녕하세요! {{ this.$store.state.login.login.userName }}
-                <span style="font-size: 14px" v-if="isDoctorGetters">의사</span
-                >님
-                <img
-                  v-if="isLoginGetters"
-                  src="@/assets/images/noProfile.png"
-                  alt=""
-                  width="24"
-                  height="20"
-                  style="
-                    border-radius: 50%;
-                    margin-left: 10px;
-                    padding-bottom: 3px;
-                  "
-                  class="d-inline-block align-text-top"
-                />
-              </h5>
-            </button>
-          </b-nav-item>
+          </b-nav-item> -->
+
+          <b-dropdown id="dropdown-4" text="mypage" v-if="isLoginGetters">
+            <b-dropdown-item class="nav-link"
+              ><nuxt-link to="/authentication/mypage"
+                >마이페이지</nuxt-link
+              ></b-dropdown-item
+            >
+            <b-dropdown-item
+              class="nav-link"
+              v-if="isLoginGetters && !isManagerGetters && !isDoctorGetters"
+              ><nuxt-link to="/reserve/applyReservation"
+                >예약신청</nuxt-link
+              ></b-dropdown-item
+            >
+            <b-dropdown-item
+              class="nav-link"
+              v-if="isLoginGetters && !isManagerGetters"
+              ><nuxt-link to="/reserve/checkReservation"
+                >예약확인</nuxt-link
+              ></b-dropdown-item
+            >
+            <b-nav-item>
+              <button type="button" class="btn btn-primary">
+                <h5 style="float: left">
+                  안녕하세요! {{ this.$store.state.login.login.userName }}
+                  <span style="font-size: 14px" v-if="isDoctorGetters"
+                    >의사</span
+                  >님
+                  <img
+                    v-if="isLoginGetters"
+                    src="@/assets/images/noProfile.png"
+                    alt=""
+                    width="24"
+                    height="20"
+                    style="
+                      border-radius: 50%;
+                      margin-left: 10px;
+                      padding-bottom: 3px;
+                    "
+                    class="d-inline-block align-text-top"
+                  />
+                </h5>
+              </button>
+            </b-nav-item>
+          </b-dropdown>
         </b-navbar-nav>
         <!--  -->
       </b-collapse>
@@ -207,8 +230,8 @@
 } */
 
 #right-nav {
-  padding-left: 200px;
-  padding-right: 10px;
+  position: absolute;
+  right: 100px;
 }
 </style>
 

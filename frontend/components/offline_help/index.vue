@@ -3,31 +3,6 @@
   <client-only>
     <div class="theme-landing">
       <Header />
-      <!-- <Slider /> -->
-      <!-- <AppDesign /> -->
-      <!-- <ChitChat /> -->
-      <!-- <Collaboration /> -->
-      <!-- <TeamWork /> -->
-      <!-- <SecureApp /> -->
-
-      <!-- 나중에 우리팀 팀원들 넣기 -->
-      <!-- <section class="section-py-space light-bg">
-        <div class="landing-title">
-          <div>
-            <h1>Team</h1>
-          </div>
-          <div class="sub-title">
-            <div>
-              <h4>Team</h4>
-              <h2>Our Experts</h2>
-            </div>
-          </div>
-        </div>
-        <Testimonial />
-      </section> -->
-
-      <!-- <PricingPlan /> -->
-      <!-- <SubscribeUpdate /> -->
 
       <center>
         <div>

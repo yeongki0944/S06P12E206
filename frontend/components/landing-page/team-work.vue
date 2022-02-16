@@ -13,16 +13,16 @@
                 <h3>수화닥터는요</h3>
               </div>
               <h1>
-                농인분들을 생각하며<br>
+                농인분들을 생각하며<br />
                 만들었어요
               </h1>
               <h4>
-                수화닥터를 통해 농인분들의 병원 진료가<br> 
+                수화닥터를 통해 농인분들의 병원 진료가<br />
                 조금이라도 더 수월해질 수 있기를 바랍니다
               </h4>
-              <nuxt-link class="btn pricing-btn" to="/messenger/messenger">
+              <!-- <nuxt-link class="btn pricing-btn" to="/messenger/messenger">
                 팀원 소개 보기</nuxt-link
-              >
+              > -->
             </div>
           </div>
         </div>

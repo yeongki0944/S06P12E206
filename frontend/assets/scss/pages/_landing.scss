@@ -30,7 +30,7 @@
     font-weight: 900;
     text-transform: uppercase;
     line-height: 0.7;
-    opacity: 0.05;
+    opacity: 0.3;
     position: absolute;
     top: 0;
     left: 0;
@@ -164,8 +164,8 @@ header {
     .navbar-collapse {
       width: 100%;
       .navbar-nav {
-        padding-left: 170px;
-        padding-right: 10px;
+        padding-left: 30px;
+        padding-right: 0px;
       }
     }
     &.fixed {

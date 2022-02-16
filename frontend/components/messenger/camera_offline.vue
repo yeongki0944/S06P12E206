@@ -46,7 +46,9 @@
                 v-model="userVideoSource"
               ></select>
             </div>
-
+            <div id="container">
+              <video autoplay="true" id="previewVideoElement"></video>
+            </div>
             <div class="card mt-4">
               <div class="card-body">
                 <button
@@ -101,43 +103,49 @@
       </div>
     </div>
 
-    <div id="session" v-if="session">
+    <div id="session" v-if="session" style="heigh: 100%; display: inline">
       <div id="session-header">
-        <h1 id="session-title">
-          {{ mydoctor }} <span style="font-size: 30px"> 의사님의 진료실 </span>
+        <h1 id="session-title" style="text-align: center">
+          {{ mydoctor }} <span style="font-size: 30px"> 진료실 </span>
         </h1>
 
-        <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" />
-      </div>
-      <div v-if="this.isDoctorGetters == true">
-        <div id="main-video" class="col-md-6">
-          <user-video :stream-manager="mainStreamManager" />
-        </div>
-      </div>
-      <div v-else>
-        <canvas id="canvas"></canvas>
+        <!-- <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" /> -->
       </div>
 
-      <div style="display: flex">
-        <div id="video-container" class="col-md-4">
-          <user-video
-            v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-            :stream-manager="sub"
-            @click.native="updateMainVideoStreamManager(sub)"
-          />
+      <div class="main-video" style="height: 100%">
+        <div v-if="this.isDoctorGetters == true">
+          <div id="main-video" class="col-md-6">
+            <user-video
+              :stream-manager="mainStreamManager"
+              style="border-radius: 30px"
+            />
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <horizontal-scroll>
-          <sign-card
-            v-for="(card, i) in cardList"
-            :key="card.index"
-            :imageUrl="card.name"
-            :cardList="cardList"
-            :index="i"
-          />
-        </horizontal-scroll>
+        <div v-else>
+          <canvas id="canvas" style="border-radius: 30px"></canvas>
+        </div>
+
+        <div style="display: flex">
+          <div id="video-container" class="col-md-6">
+            <user-video
+              v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              :stream-manager="sub"
+              @click.native="updateMainVideoStreamManager(sub)"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <horizontal-scroll>
+            <sign-card
+              v-for="(card, i) in cardList"
+              :key="card.index"
+              :imageUrl="card.name"
+              :cardList="cardList"
+              :index="i"
+            />
+          </horizontal-scroll>
+        </div>
       </div>
     </div>
   </div>
@@ -239,6 +247,7 @@ export default {
       signMap: new Map(),
       cardList: [],
       chatChannel: "ch-sixman-",
+      remoteConnectionSize: 0,
     };
   },
 
@@ -270,61 +279,65 @@ export default {
       this.signMap.set("dizzy", "어지러워요");
       this.signMap.set("itchy", "가려워요");
 
-      // --- Get an OpenVidu object ---
-      this.OV = new OpenVidu();
+      // // --- Get an OpenVidu object ---
+      // this.OV = new OpenVidu();
 
-      // --- Init a session ---
-      this.session = this.OV.initSession();
+      // // --- Init a session ---
+      // this.session = this.OV.initSession();
 
-      // On every new Stream received...
-      this.session.on("streamCreated", ({ stream }) => {
-        const subscriber = this.session.subscribe(stream);
-        this.subscribers.push(subscriber);
+      // this.session.on("connectionCreated", (event) => {
+      //   console.log("[connectionCreated] " + event.connection);
+      // });
 
-        var afterStr = subscriber.stream.connection.data.split(":");
-        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        if (this.userName == userName) {
-          this.setRomoteName(userName + " 환자");
-        } else {
-          this.setRomoteName(userName + " 의사");
-        }
-      });
+      // // On every new Stream received...
+      // this.session.on("streamCreated", ({ stream }) => {
+      //   const subscriber = this.session.subscribe(stream);
+      //   this.subscribers.push(subscriber);
 
-      // On every Stream destroyed...
-      this.session.on("streamDestroyed", ({ stream }) => {
-        const index = this.subscribers.indexOf(stream.streamManager, 0);
-        if (index >= 0) {
-          this.subscribers.splice(index, 1);
-        }
-      });
+      //   var afterStr = subscriber.stream.connection.data.split(":");
+      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+      //   if (this.userName == userName) {
+      //     this.setRomoteName(userName + " 환자");
+      //   } else {
+      //     this.setRomoteName(userName + " 의사");
+      //   }
+      // });
 
-      // On every asynchronous exception...
-      this.session.on("exception", ({ exception }) => {
-        console.warn(exception);
-      });
+      // // On every Stream destroyed...
+      // this.session.on("streamDestroyed", ({ stream }) => {
+      //   const index = this.subscribers.indexOf(stream.streamManager, 0);
+      //   if (index >= 0) {
+      //     this.subscribers.splice(index, 1);
+      //   }
+      // });
 
-      // Receiver of the message (usually before calling 'session.connect')
-      this.session.on("signal:" + this.chatChannel, (event) => {
-        this.chatSeq = this.chatSeq + 1;
-        var chat = {
-          chatSeq: this.chatSeq,
-          timeStamp: Date.now(),
-          date: new Date(),
-          creationTime: event.from.creationTime,
-          user: event.from.data,
-          message: event.data,
-        };
-        this.chatList.push(chat);
-        var afterStr = event.from.data.split(":");
-        var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        if (this.myUserName == userName) {
-        } else {
-          this.$store.dispatch("chat/addChat", {
-            sender: 1,
-            msg: event.data,
-          });
-        }
-      });
+      // // On every asynchronous exception...
+      // this.session.on("exception", ({ exception }) => {
+      //   console.warn(exception);
+      // });
+
+      // // Receiver of the message (usually before calling 'session.connect')
+      // this.session.on("signal:" + this.chatChannel, (event) => {
+      //   this.chatSeq = this.chatSeq + 1;
+      //   var chat = {
+      //     chatSeq: this.chatSeq,
+      //     timeStamp: Date.now(),
+      //     date: new Date(),
+      //     creationTime: event.from.creationTime,
+      //     user: event.from.data,
+      //     message: event.data,
+      //   };
+      //   this.chatList.push(chat);
+      //   var afterStr = event.from.data.split(":");
+      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+      //   if (this.myUserName == userName) {
+      //   } else {
+      //     this.$store.dispatch("chat/addChat", {
+      //       sender: 1,
+      //       msg: event.data,
+      //     });
+      //   }
+      // });
 
       // --- Connect to the session with a valid user token ---
 
@@ -350,105 +363,118 @@ export default {
                 video.srcObject = new MediaStream([videoTrack]);
 
                 var canvas = document.getElementById("canvas");
-
-                canvas.width = 320;
-                canvas.height = 320;
+                // canvas.width = window.innerWidth * 0.5;
+                // canvas.height = window.innerHeight * 0.5;
+                canvas.width = 420;
+                canvas.height = 420;
                 var ctx = canvas.getContext("2d");
 
                 video.onloadedmetadata = function (e) {
                   video.addEventListener("play", () => {
                     var loop = () => {
                       if (!video.paused && !video.ended) {
-                        self.cropToCanvas(video, canvas, ctx);
-                        tf.engine().startScope();
-                        const input = tf.tidy(() => {
-                          return tf.image
-                            .resizeBilinear(tf.browser.fromPixels(video), [
-                              modelWeight,
-                              modelHeight,
-                            ])
-                            .div(255.0)
-                            .expandDims(0);
-                        });
-                        self.state.model.executeAsync(input).then((res) => {
-                          const font = "16px sans-serif";
-                          ctx.font = font;
-                          ctx.textBaseline = "top";
+                        if (self.videoMute) {
+                          self.cropToCanvas(video, canvas, ctx);
+                          tf.engine().startScope();
+                          const input = tf.tidy(() => {
+                            return tf.image
+                              .resizeBilinear(tf.browser.fromPixels(video), [
+                                modelWeight,
+                                modelHeight,
+                              ])
+                              .div(255.0)
+                              .expandDims(0);
+                          });
+                          self.state.model.executeAsync(input).then((res) => {
+                            const font = "16px sans-serif";
+                            ctx.font = font;
+                            ctx.textBaseline = "top";
 
-                          const [boxes, scores, classes, valid_detections] =
-                            res;
-                          const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
-                          const scores_data = scores.dataSync(); //검출 정확도
-                          const classes_data = classes.dataSync(); //해당하는 클래스
-                          const valid_detections_data =
-                            valid_detections.dataSync()[0]; // 검축된 박스의 개수
-                          tf.dispose(res);
-                          var i;
-                          for (i = 0; i < valid_detections_data; ++i) {
-                            var score = scores_data[i].toFixed(2);
-                            if (score > 0.9) {
-                              let [x1, y1, x2, y2] = boxes_data.slice(
-                                i * 4,
-                                (i + 1) * 4
-                              );
-                              x1 *= canvas.width;
-                              x2 *= canvas.width;
-                              y1 *= canvas.height;
-                              y2 *= canvas.height;
-                              const width = x2 - x1;
-                              const height = y2 - y1;
-                              const klass = names[classes_data[i]];
-                              const score = scores_data[i].toFixed(2);
+                            const [boxes, scores, classes, valid_detections] =
+                              res;
+                            const boxes_data = boxes.dataSync(); //검출된 바운딩 박스
+                            const scores_data = scores.dataSync(); //검출 정확도
+                            const classes_data = classes.dataSync(); //해당하는 클래스
+                            const valid_detections_data =
+                              valid_detections.dataSync()[0]; // 검축된 박스의 개수
+                            tf.dispose(res);
+                            var i;
+                            for (i = 0; i < valid_detections_data; ++i) {
+                              var score = scores_data[i].toFixed(2);
+                              if (score > 0.9) {
+                                let [x1, y1, x2, y2] = boxes_data.slice(
+                                  i * 4,
+                                  (i + 1) * 4
+                                );
+                                x1 *= canvas.width;
+                                x2 *= canvas.width;
+                                y1 *= canvas.height;
+                                y2 *= canvas.height;
+                                const width = x2 - x1;
+                                const height = y2 - y1;
+                                const klass = names[classes_data[i]];
+                                const score = scores_data[i].toFixed(2);
 
-                              // Draw the bounding box.
-                              ctx.strokeStyle = "#00FFFF";
-                              ctx.lineWidth = 4;
-                              ctx.strokeRect(x1, y1, width, height);
+                                // Draw the bounding box.
+                                ctx.strokeStyle = "#00FFFF";
+                                ctx.lineWidth = 4;
+                                ctx.strokeRect(x1, y1, width, height);
 
-                              // Draw the label background.
-                              ctx.fillStyle = "#00FFFF";
-                              const textWidth = ctx.measureText(
-                                klass + ":" + score
-                              ).width;
-                              const textHeight = parseInt(font, 10); // base 10
-                              ctx.fillRect(
-                                x1,
-                                y1,
-                                textWidth + 4,
-                                textHeight + 4
-                              );
-                            }
-                          }
-                          for (i = 0; i < valid_detections_data; ++i) {
-                            var score = scores_data[i].toFixed(2);
-                            if (score > 0.9) {
-                              let [x1, y1, ,] = boxes_data.slice(
-                                i * 4,
-                                (i + 1) * 4
-                              );
-                              x1 *= canvas.width;
-                              y1 *= canvas.height;
-                              const klass = names[classes_data[i]];
-                              //가장 최근에 인식된 수어와 현재 인식된 수어를 비교하여 다를 경우 번역 (연속적으로 같은 수화를 인식 하기 때문에 가장 최근과 다를 경우만 번역)
-                              if (lastDetected != klass) {
-                                lastDetected = klass;
-                                console.log(klass);
-                                console.log(self.signMap.get(klass));
-                                self.cardList.push({
-                                  name: klass,
-                                  index: self.cardList.length,
-                                });
-                                console.log(self.cardList);
+                                // Draw the label background.
+                                ctx.fillStyle = "#00FFFF";
+                                const textWidth = ctx.measureText(
+                                  klass + ":" + score
+                                ).width;
+                                const textHeight = parseInt(font, 10); // base 10
+                                ctx.fillRect(
+                                  x1,
+                                  y1,
+                                  textWidth + 4,
+                                  textHeight + 4
+                                );
                               }
-                              // Draw the text last to ensure it's on top.
-                              ctx.fillStyle = "#000000";
-                              ctx.fillText(klass + ":" + score, x1, y1);
                             }
-                          }
-                        });
-                        ctx.drawImage(video, 0, 0, 320, 320);
-                        setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
-                        tf.engine().endScope();
+                            for (i = 0; i < valid_detections_data; ++i) {
+                              var score = scores_data[i].toFixed(2);
+                              if (score > 0.9) {
+                                let [x1, y1, ,] = boxes_data.slice(
+                                  i * 4,
+                                  (i + 1) * 4
+                                );
+                                x1 *= canvas.width;
+                                y1 *= canvas.height;
+                                const klass = names[classes_data[i]];
+                                //가장 최근에 인식된 수어와 현재 인식된 수어를 비교하여 다를 경우 번역 (연속적으로 같은 수화를 인식 하기 때문에 가장 최근과 다를 경우만 번역)
+                                if (lastDetected != klass) {
+                                  lastDetected = klass;
+                                  console.log(klass);
+                                  console.log(self.signMap.get(klass));
+                                  self.cardList.push({
+                                    name: klass,
+                                    index: self.cardList.length,
+                                  });
+                                  console.log(self.cardList);
+                                }
+                                // Draw the text last to ensure it's on top.
+                                ctx.fillStyle = "#000000";
+                                ctx.fillText(klass + ":" + score, x1, y1);
+                              }
+                            }
+                          });
+                          ctx.drawImage(
+                            video,
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                          );
+                          setTimeout(loop, 1000 / FRAME_RATE); // Drawing at 10 fps
+                          tf.engine().endScope();
+                        } else {
+                          ctx.fillStyle = "black";
+                          ctx.fillRect(0, 0, canvas.width, canvas.height);
+                          setTimeout(loop, 1000 / FRAME_RATE);
+                        }
                       }
                     };
                     loop();
@@ -464,7 +490,7 @@ export default {
                     videoSource: signVideoTrack, // The source of video. If undefined default webcam
                     publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                     publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                    resolution: "320x320", // The resolution of your video
+                    resolution: "420x420", // The resolution of your video
                     frameRate: 30, // The frame rate of your video
                     insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                     mirror: false, // Whether to mirror your local video or not
@@ -486,20 +512,39 @@ export default {
               error.message
             );
           })
-          .finally(() => {});
+          .finally(() => {
+            this.$store.commit("openvidu/setSession", this.session);
+          });
       });
 
       window.addEventListener("beforeunload", this.leaveSession);
     },
 
-    // 의사 joinSession
-    joinSessionNoTensor() {
-      // --- Get an OpenVidu object ---
+    preJoin() {
       this.OV = new OpenVidu();
 
       // --- Init a session ---
       this.session = this.OV.initSession();
       // --- Specify the actions when events take place in the session ---
+
+      this.session.on("connectionCreated", (event) => {
+        this.remoteConnectionSize =
+          event.connection.session.remoteConnections.size;
+        console.log(
+          "[connectionCreated] " +
+            event.connection.session.remoteConnections.size
+        );
+
+        // alert(this.session);
+        if (this.remoteConnectionSize >= 2) {
+          this.$alertify.error("참여자 인원 초과");
+          // alert(this.session.connection.creationTime);
+
+          // this.$alertify.error("현재 세션 ID : ");
+          // event.connection.remoteConnections.session.disconnect();
+          // this.leaveSession();
+        }
+      });
 
       // On every new Stream received...
       this.session.on("streamCreated", ({ stream }) => {
@@ -513,19 +558,14 @@ export default {
         } else {
           this.setRomoteName(userName + " 환자");
         }
+        this.addVideoCss();
       });
 
-      // On every Stream destroyed...
       this.session.on("streamDestroyed", ({ stream }) => {
         const index = this.subscribers.indexOf(stream.streamManager, 0);
         if (index >= 0) {
           this.subscribers.splice(index, 1);
         }
-      });
-
-      // On every asynchronous exception...
-      this.session.on("exception", ({ exception }) => {
-        console.warn(exception);
       });
 
       // Receiver of the message (usually before calling 'session.connect')
@@ -549,7 +589,70 @@ export default {
             msg: event.data,
           });
         }
+        this.addVideoCss();
       });
+
+      // On every asynchronous exception...
+      this.session.on("exception", ({ exception }) => {
+        console.warn(exception);
+      });
+    },
+
+    // 의사 joinSession
+    joinSessionNoTensor() {
+      // --- Get an OpenVidu object ---
+
+      // On every new Stream received...
+      // this.session.on("streamCreated", ({ stream }) => {
+      //   const subscriber = this.session.subscribe(stream);
+      //   this.subscribers.push(subscriber);
+
+      //   var afterStr = subscriber.stream.connection.data.split(":");
+      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+      //   if (this.userName == userName) {
+      //     this.setRomoteName(userName + " 의사");
+      //   } else {
+      //     this.setRomoteName(userName + " 환자");
+      //   }
+      //   this.addVideoCss();
+      // });
+
+      // On every Stream destroyed...
+      // this.session.on("streamDestroyed", ({ stream }) => {
+      //   const index = this.subscribers.indexOf(stream.streamManager, 0);
+      //   if (index >= 0) {
+      //     this.subscribers.splice(index, 1);
+      //   }
+      // });
+
+      // On every asynchronous exception...
+      // this.session.on("exception", ({ exception }) => {
+      //   console.warn(exception);
+      // });
+
+      // // Receiver of the message (usually before calling 'session.connect')
+      // this.session.on("signal:" + this.chatChannel, (event) => {
+      //   this.chatSeq = this.chatSeq + 1;
+      //   var chat = {
+      //     chatSeq: this.chatSeq,
+      //     timeStamp: Date.now(),
+      //     date: new Date(),
+      //     creationTime: event.from.creationTime,
+      //     user: event.from.data,
+      //     message: event.data,
+      //   };
+      //   this.chatList.push(chat);
+      //   var afterStr = event.from.data.split(":");
+      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
+      //   if (this.myUserName == userName) {
+      //   } else {
+      //     this.$store.dispatch("chat/addChat", {
+      //       sender: 1,
+      //       msg: event.data,
+      //     });
+      //   }
+      //   this.addVideoCss();
+      // });
 
       // --- Connect to the session with a valid user token ---
 
@@ -560,13 +663,13 @@ export default {
           .connect(token, { clientData: this.myUserName })
           .then(() => {
             // --- Get your own camera stream with the desired properties ---
-
+            console.log("[getToken] " + this.session);
             let publisher = this.OV.initPublisher(undefined, {
               audioSource: this.userAudioSource, // The source of audio. If undefined default microphone
               videoSource: this.userVideoSource, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "320x320", // The resolution of your video
+              resolution: "420x420", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
@@ -588,6 +691,7 @@ export default {
           })
           .finally(() => {
             this.$store.commit("openvidu/setSession", this.session);
+            // this.addVideoCss();
           });
       });
 
@@ -604,6 +708,14 @@ export default {
       this.subscribers = [];
       this.OV = undefined;
 
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: false })
+        .then((mediaStream) => {
+          mediaStream.getTracks().forEach(function (track) {
+            console.log(mediaStream);
+            track.stop();
+          });
+        });
       window.removeEventListener("beforeunload", this.leaveSession);
       navigator.mediaDevices.enumerateDevices().then(this.gotDevices).catch();
       this.addSessionOff();
@@ -765,9 +877,9 @@ export default {
       var videos = document.querySelectorAll("video");
       videos.forEach(
         (element) => (
-          (element.style.borderRadius = "20px"),
-          (element.style.width = "320px"),
-          (element.style.height = "320px")
+          (element.style.borderRadius = "30px"),
+          (element.style.width = "420px"),
+          (element.style.height = "420px")
         )
       );
     },
@@ -844,6 +956,8 @@ export default {
         this.$data.patientList[event.target.value].userId;
     },
     async asyncfunction() {
+      this.preJoin();
+      // alert("async" + this.remoteConnectionSize);
       if (this.isDoctorGetters) {
         this.joinSessionNoTensor();
       } else {
@@ -852,7 +966,7 @@ export default {
         });
         this.joinSession();
       }
-      this.addVideoCss();
+
       this.addSessionOn();
       if (this.isDoctorGetters) {
         this.setLocalName(this.myUserName + " 의사");
@@ -872,12 +986,16 @@ export default {
       chatRoomCreated: (state) => state.chat.session,
       // isDocterstate: (state) => state.login.isDoctor;
       openviduSession: (state) => state.openvidu.session,
+      chatSignOn: (state) => state.openvidu.signwordsend,
     }),
     isDoctorGetters() {
       return this.$store.getters["login/isDoctor"];
     },
   },
   watch: {
+    chatSignOn() {
+      this.sendSign();
+    },
     chatNewChatWatch() {
       this.sendChat(this.addNewChat);
       console.log("new chatting");
@@ -898,6 +1016,20 @@ export default {
         this.audioOff();
       } else {
         this.audioOn();
+      }
+    },
+    previewVideo(getU) {
+      var video = document.querySelector("#prevviewVideoElement");
+
+      if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then(function (stream) {
+            video.srcObject = stream;
+          })
+          .catch(function (err0r) {
+            console.log("Something went wrong!");
+          });
       }
     },
     /*

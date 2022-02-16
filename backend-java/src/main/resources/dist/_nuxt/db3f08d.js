@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[72],{518:function(e,t,n){"use strict";n.r(t);var o=n(174),r=n.n(o),w=localStorage.getItem("jwtToken")||"";t.default=r.a.create({baseURL:"https://xn--3j1b610aimlm4e.site",headers:{"Content-type":"application/json",Authorization:w},responseType:"blob",withCredentials:!0})}}]);

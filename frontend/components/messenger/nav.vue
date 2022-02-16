@@ -115,6 +115,24 @@
               MIC Off
             </div>
           </div>
+          <div v-if="!this.isDoctorGetters">
+            <li>
+              <a
+                class="icon-btn btn-light button-effect"
+                v-on:click="this.signController"
+              >
+                <i
+                  class="fa fa-paper-plane"
+                  v-b-tooltip.hover.topright
+                  title="수화 단어 보내기"
+                  data-tippy-content="수화 단어 보내기"
+                ></i>
+              </a>
+            </li>
+            <div style="width: 100px; text-align: center; margin-top: 10px">
+              수화 단어 보내기
+            </div>
+          </div>
         </div>
       </ul>
     </div>
@@ -147,7 +165,11 @@ export default {
       micOn: (state) => state.chat.micState,
       session: (state) => state.chat.leaveSession,
       roomCreated: (state) => state.chat.session,
+      signOn: (state) => state.openvidu.signwordsend,
     }),
+    isDoctorGetters() {
+      return this.$store.getters["login/isDoctor"];
+    },
   },
   methods: {
     getImgUrl(path) {
@@ -176,6 +198,9 @@ export default {
     micController() {
       this.$store.commit("chat/setMicState", !this.micOn);
       // alert("mic");
+    },
+    signController() {
+      this.$store.commit("openvidu/setSignWordSend", !this.signOn);
     },
   },
 };

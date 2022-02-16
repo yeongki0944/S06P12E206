@@ -71,7 +71,34 @@ export default {
   },
   mounted() {
     if (this.openviduSession) {
-      if (this.openviduSession) this.openviduSession.disconnect();
+      if (this.openviduSession) {
+        this.openviduSession.disconnect();
+      }
+
+      // var medias = null;
+      // var rc = null;
+      // navigator.mediaDevices.getUserMedia({ audio: true }).then((res) => {
+      //   medias = res;
+      //   rc = new MediaRecorder(res, { mimeType: "video/webm;codecs=vp9,opus" });
+      //   rc.start();
+      //   setTimeout(() => {
+      //     console.log("end");
+      //     medias = null; // the indicator will disapear.
+      //     rc.stop();
+      //     rc = null;
+      //   }, 5000);
+      // });
+
+      // navigator.mediaDevices
+      //   .getUserMedia({ video: true, audio: false })
+      //   .then((mediaStream) => {
+      //     mediaStream.getTracks().forEach(function (track) {
+      //       if (track.readyState == "live") {
+      //         console.log("[track] : " + track);
+      //         track.stop();
+      //       }
+      //     });
+      //   });
     }
   },
   computed: {

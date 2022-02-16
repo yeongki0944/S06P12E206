@@ -6,7 +6,7 @@
         <div class="col-12">
           <div class="landing-title">
             <div>
-              <h1 class="mb-5">finger tips</h1>
+              <h1 class="mb-5">수 화 닥 터</h1>
             </div>
           </div>
         </div>
@@ -32,7 +32,7 @@
                   </div></a
                 >
               </li>
-              <li class="nav-item" @click="activemenu(2)">
+              <!-- <li class="nav-item" @click="activemenu(2)">
                 <a
                   class="nav-link"
                   data-toggle="pill"
@@ -46,8 +46,8 @@
                     </div>
                   </div></a
                 >
-              </li>
-              <li class="nav-item" @click="activemenu(3)">
+              </li> -->
+              <!-- <li class="nav-item" @click="activemenu(3)">
                 <a
                   class="nav-link"
                   data-toggle="pill"
@@ -61,7 +61,7 @@
                     </div>
                   </div></a
                 >
-              </li>
+              </li> -->
               <!-- <li class="nav-item" @click="activemenu(4)">
                 <a
                   class="nav-link"
@@ -92,7 +92,7 @@
                   alt="tab-detail-img"
                 />
               </div>
-              <div
+              <!-- <div
                 class="tab-pane container fade"
                 id="tab2"
                 :class="activeitem == 2 ? 'active show' : ''"
@@ -102,8 +102,8 @@
                   src="../../assets/images/landing/finger-tips/main2.jpg"
                   alt="tab-detail-img"
                 />
-              </div>
-              <div
+              </div> -->
+              <!-- <div
                 class="tab-pane container fade"
                 id="tab3"
                 :class="activeitem == 3 ? 'active show' : ''"
@@ -113,8 +113,8 @@
                   src="../../assets/images/landing/finger-tips/main.jpg"
                   alt="tab-detail-img"
                 />
-              </div>
-              <div
+              </div> -->
+              <!-- <div
                 class="tab-pane container fade"
                 id="tab4"
                 :class="activeitem == 4 ? 'active show' : ''"
@@ -124,7 +124,7 @@
                   src="../../assets/images/landing/finger-tips/main.jpg"
                   alt="tab-detail-img"
                 />
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
