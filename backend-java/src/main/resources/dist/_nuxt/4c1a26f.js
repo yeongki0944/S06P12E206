@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[197],{1381:function(n,e,t){"use strict";t.r(e);var l={components:{SignUpClassic:t(1366).default}},c=t(58),component=Object(c.a)(l,(function(){var n=this.$createElement;return(this._self._c||n)("SignUpClassic")}),[],!1,null,null,null);e.default=component.exports}}]);

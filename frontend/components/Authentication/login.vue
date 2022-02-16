@@ -16,7 +16,7 @@
               </div>
               <h3>반갑습니다. 수화닥터 입니다.</h3>
               <h4>Welcome to SignDoctor please login to your account.</h4>
-              <form class="form1">
+              <form class="form1" v-on:submit.prevent>
                 <div class="form-group">
                   <label class="col-form-label" for="inputEmail3">아이디</label>
                   <input
