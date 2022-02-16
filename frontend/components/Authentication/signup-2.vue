@@ -30,16 +30,16 @@
                 </table>
             </div>
             <div class="mt-4" style="height:30px"></div>
-            <div class="shadow-sm rounded border border-5" style="height:160px">
-              <img class="rounded img-fluid" width="100px" style="margin-left:50px" :src="require(`@/assets/images/person.png`)"> 
-              <h3 class="rounded float-right mr-5" style="margin-top:40px;">일반 회원가입하기</h3>
-              <button @click="signUp()" style="position:relative; left:210px; bottom:50px" class="btn btn-primary">가입하기</button>
+            <div class="container shadow-sm rounded border border-5" style="height:160px">
+              <img class="rounded float-left img-fluid" width="100px" style="" :src="require(`@/assets/images/person.png`)"> 
+              <h3 class="rounded float-right mr-5 mt-3" style="">일반 회원가입하기</h3>
+              <button @click="signUp()" style="margin-right:80px" class="float-right btn btn-primary">가입하기</button>
             </div>
             <div class="h-5"></div>
-            <div class="shadow-sm mt-4 rounded border border-5" style="height:160px">
-              <img class="rounded img-fluid" width="100px" style="margin-left:50px" :src="require(`@/assets/images/doctor.png`)">
-              <h3 class="rounded float-right mr-5" style="margin-top:40px;">의사 회원가입하기</h3>
-              <button @click="doctorSignUp()" style="position:relative; left:210px; bottom:50px" class="btn btn-primary">가입하기</button>
+            <div class="container shadow-sm mt-4 rounded border border-5" style="height:160px">
+              <img class="rounded float-left img-fluid" width="100px" style="" :src="require(`@/assets/images/doctor.png`)">
+              <h3 class="rounded float-right mr-5 mt-3" style="">의사 회원가입하기</h3>
+              <button @click="doctorSignUp()" style="margin-right:80px" class="float-right btn btn-primary">가입하기</button>
             </div>
 
 
