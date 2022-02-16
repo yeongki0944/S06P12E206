@@ -43,8 +43,8 @@ export default {
 button.btn {
   background: url("@/assets/images/cards/closecard.png") no-repeat;
   position: absolute;
-  top: -80px;
-  left: 300px;
+  top: -30px;
+  left: 80%;
   width: 50px;
 }
 </style>
