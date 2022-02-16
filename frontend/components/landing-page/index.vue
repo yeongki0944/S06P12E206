@@ -50,6 +50,7 @@ import PricingPlan from "../landing-page/pricing-plan.vue";
 import SubscribeUpdate from "../landing-page/subscribe-update.vue";
 import Footer from "../common/footer/footer.vue";
 import TapTop from "../common/tap-to-top/taptop.vue";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -67,6 +68,16 @@ export default {
     SubscribeUpdate,
     Footer,
     TapTop,
+  },
+  mounted() {
+    if (this.openviduSession) {
+      if (this.openviduSession) this.openviduSession.disconnect();
+    }
+  },
+  computed: {
+    ...mapState({
+      openviduSession: (state) => state.openvidu.session,
+    }),
   },
   head() {
     return {
