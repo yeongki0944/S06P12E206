@@ -37,6 +37,7 @@
                     type="password"
                     v-model="password"
                     placeholder="***********"
+
                   />
                 </div>
                 <div class="form-group">
@@ -51,13 +52,13 @@
                         >아이디 저장</label
                       >
                       <h6>
-                        <a>
+                        <nuxt-link to="/authentication/findId">
                           <span style="color: rgb(100, 100, 100);">아이디 찾기</span>
-                        </a>
+                        </nuxt-link>
                         <span class="ml-1 mr-1"> | </span>
-                        <a>
+                        <nuxt-link to="/authentication/findPassword">
                           <span style="color: rgb(100, 100, 100);">비밀번호 재설정</span>
-                        </a>
+                        </nuxt-link>
                       
                       </h6>
                     </div>
@@ -68,7 +69,6 @@
                     <button
                       class="btn btn-primary button-effect"
                       @click="signUp"
-                      v-on:keyup.enter="signUp"
                       >로그인
                       </button
                     >

@@ -21,7 +21,7 @@
               placeholder="아이디"
               :class="{
                 'is-valid': isUserIdFocusAndValid,
-                'is-invalid': isUserIdFocusAndInvalid,
+                'is-invalid': isUserIdFocusAndInvalid
               }"
               v-model="userId"
               @input="validateUserId"
@@ -83,7 +83,20 @@
               @focus="isUserNameFocus = true"
             />
           </div>
-
+          <div class="form-group">
+            <input
+              class="form-control"
+              id="email"
+              type="email"
+              placeholder="이메일"
+              :class="{ 'is-valid': isUserEmailFocusAndValid , 'is-invalid': isUserEmailFocusAndInValid  }" 
+                        v-model="userEmail" 
+                        @input="validateEmail" 
+                        @focus="isUserEmailFocus = true"
+                        @blur="validateDBEmail"
+            />
+            <h5 style="margin-left:10px; margin-top:10px">이메일 형식으로 입력해주세요. </h5>
+          </div>
           <div class="form-group">
             <input
               class="form-control"
@@ -331,6 +344,28 @@ export default {
       this.isUserEmailValid = regexp.test(this.userEmail) ? true : false;
       console.log(this.isUserEmailValid);
     },
+    validateDBEmail() {
+      let regexp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        if(regexp.test(this.userEmail)) {
+        http.post(
+          "/api/v1/users/email/confirms",
+          {
+            email: this.userEmail,
+          }
+        )
+        .then(({ data }) => {
+          this.$alertify.success('이메일을 사용할 수 있습니다.');
+          this.isUserEmailValid = true;
+
+        })
+        .catch( error => {
+          console.log("RegisterVue: error : ");
+          this.$alertify.error('이메일이 중복됩니다..');
+
+          this.isUserEmailValid = false;
+        });     
+        }   
+    },
     validatePassword() {
       let patternEngAtListOne = new RegExp(/[a-zA-Z]+/); // + for at least one
       let patternSpeAtListOne = new RegExp(/[~!@#$%^&*()_+|<>?:{}]+/); // + for at least one
@@ -407,6 +442,7 @@ export default {
           userName: this.userName,
           userPassword: this.userPassword,
           userId: this.userId,
+          userEmail: this.userEmail
         })
         .then(({ data }) => {
           console.log("RegisterVue: data : ");
