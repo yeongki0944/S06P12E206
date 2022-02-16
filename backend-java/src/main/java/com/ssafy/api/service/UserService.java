@@ -16,4 +16,6 @@ public interface UserService {
 	User saveUser(User user);
 	public boolean verifyId(ValidateIdReq validateIdReq);
 	public boolean verifyEmail(ValidateIdReq validateIdReq);
+
+	void setUserPasswordByEmail(String email,String pw);
 }
