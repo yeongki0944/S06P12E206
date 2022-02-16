@@ -585,6 +585,9 @@ export default {
               error.code,
               error.message
             );
+          })
+          .finally(() => {
+            this.$store.commit("openvidu/setSession", this.session);
           });
       });
 
@@ -856,8 +859,6 @@ export default {
       } else {
         this.setLocalName(this.myUserName + " 환자");
       }
-
-      this.$store.commit("openvidu/setSession", this.session);
     },
   },
 
@@ -870,7 +871,7 @@ export default {
       chatSession: (state) => state.chat.leaveSession,
       chatRoomCreated: (state) => state.chat.session,
       // isDocterstate: (state) => state.login.isDoctor;
-      // openviduSession: (state) => state.OpenVidu/. z
+      openviduSession: (state) => state.openvidu.session,
     }),
     isDoctorGetters() {
       return this.$store.getters["login/isDoctor"];
@@ -910,8 +911,18 @@ export default {
   mounted() {
     this.clearChat();
     this.addSessionOff();
-    if (this.session != undefined) {
-      this.leaveSession();
+    console.log(this.openviduSession);
+    if (this.openviduSession) {
+      if (this.openviduSession) this.openviduSession.disconnect();
+
+      this.session = undefined;
+      this.mainStreamManager = undefined;
+      this.publisher = undefined;
+      this.subscribers = [];
+      this.OV = undefined;
+
+      this.addSessionOff();
+      this.clearChat();
     }
     console.log("Parent mounted");
     console.log(navigator);
