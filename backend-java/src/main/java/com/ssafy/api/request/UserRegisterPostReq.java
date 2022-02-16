@@ -18,4 +18,5 @@ public class UserRegisterPostReq {
 	String userPassword;
 
 	String userName;
+	String userEmail;
 }
