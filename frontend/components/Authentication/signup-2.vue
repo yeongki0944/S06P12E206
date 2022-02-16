@@ -31,13 +31,13 @@
             </div>
             <div class="mt-4" style="height:30px"></div>
             <div class="container shadow-sm rounded border border-5" style="height:160px">
-              <img class="rounded float-left img-fluid" width="100px" style="" :src="require(`@/assets/images/person.png`)"> 
+              <img class="rounded float-left img-fluid" width="100px" style="height:133px" :src="require(`@/assets/images/person.png`)"> 
               <h3 class="rounded float-right mr-5 mt-3" style="">일반 회원가입하기</h3>
               <button @click="signUp()" style="margin-right:80px" class="float-right btn btn-primary">가입하기</button>
             </div>
             <div class="h-5"></div>
             <div class="container shadow-sm mt-4 rounded border border-5" style="height:160px">
-              <img class="rounded float-left img-fluid" width="100px" style="" :src="require(`@/assets/images/doctor.png`)">
+              <img class="rounded float-left img-fluid" width="100px" style="height:133px" :src="require(`@/assets/images/doctor.png`)">
               <h3 class="rounded float-right mr-5 mt-3" style="">의사 회원가입하기</h3>
               <button @click="doctorSignUp()" style="margin-right:80px" class="float-right btn btn-primary">가입하기</button>
             </div>
