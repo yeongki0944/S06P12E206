@@ -338,6 +338,11 @@ export default {
   components: {
     Header,
   },
+  data() {
+    return {
+      fileName: null,
+    };
+  },
 
   computed: {
     listGetters() {
@@ -349,8 +354,9 @@ export default {
       this.$store.dispatch("manager/resumeList");
     },
     downloadFile(userEmail, index) {
-        
-        console.log(this.$store.state.manager.resume.list[index].doctorImageUrl);
+
+        console.log("list : " + this.$store.state.manager.resume.list[index].doctorImageUrl);
+        this.$data.fileName = this.$store.state.manager.resume.list[index].doctorImageUrl;
 
       filehttp
         .get("/manager/download", {
@@ -365,7 +371,7 @@ export default {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `doctor.png`;
+          a.download = this.$data.fileName;
           a.click();
           a.remove();
           window.URL.revokeObjectURL(url);
