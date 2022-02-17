@@ -471,9 +471,9 @@ export default {
             this.$alertify.alert(
             '가입 신청이 완료되었습니다. \n인증이 완료되면 이메일로 알려드리겠습니다',
             function() {
-   
-            }
-          );
+
+            })
+            .set({title: "수화닥터.site"});
             this.$nuxt.$options.router.push('/')
           })
           .catch((error) => {

@@ -48,13 +48,13 @@
         <table class="table table-hover" >
         <thead class="thead-blue">
             <tr>
-            <th class ="text-center" scope="col">#</th>
-            <th class="text-center" scope="col">이름</th>
-            <th class="text-center" scope="col">&nbsp;&nbsp;&nbsp;&nbsp; 진료과</th>
-            <th class="text-center" scope="col">이메일</th>
-            <th class="text-center" scope="col" style="text-indent: 30px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;파일</th>
-            <th class="text-center" scope="col" style="text-indent: 55px;">확인</th>
-            <th class="text-center" scope="col"></th>
+            <th class ="text-center" scope="col-1">#</th>
+            <th class="text-center" scope="col-1">이름</th>
+            <th class="text-center" scope="col-1">&nbsp;&nbsp;&nbsp;&nbsp; 진료과</th>
+            <th class="text-center col-2" scope="col-2">이메일</th>
+            <th class="text-center" scope="col-1" style="text-indent: 30px;">파일</th>
+            <th class="text-center" scope="col-1" style="text-indent: 55px;">확인</th>
+            <th class="text-center" scope="col-1"></th>
             
             </tr>
         </thead>
@@ -68,7 +68,7 @@
             <td class="text-center">{{index}}</td>
             <td class="text-center">{{ resume.name }}</td>
             <td class="text-center">{{ resume.departName }}</td>
-            <td class="text-center">{{resume.email}}</td>
+            <td class="text-center col-2">{{resume.email}}</td>
             <td class="text-center"><a @click="downloadFile(resume.email)" style="color: #4b70fd;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[다운로드]</a></td>
             <td class="text-center">
                 <a

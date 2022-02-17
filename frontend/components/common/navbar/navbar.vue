@@ -172,11 +172,11 @@
           </b-nav-item> -->
 
           <b-dropdown id="dropdown-4" text="mypage" v-if="isLoginGetters">
-            <b-dropdown-item class="nav-link"
+            <!-- <b-dropdown-item class="nav-link"
               ><nuxt-link to="/authentication/mypage"
                 >마이페이지</nuxt-link
               ></b-dropdown-item
-            >
+            > -->
             <b-dropdown-item
               class="nav-link"
               v-if="isLoginGetters && !isManagerGetters && !isDoctorGetters"

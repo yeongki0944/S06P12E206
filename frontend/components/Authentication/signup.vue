@@ -452,8 +452,8 @@ export default {
 
           this.$alertify.alert(
             "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
-            function () {}
-          );
+            function () {})
+            .set({title: "수화닥터.site"});
           this.$nuxt.$options.router.push("/authentication/login");
         })
         .catch((error) => {
