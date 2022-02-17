@@ -21,6 +21,9 @@ const mutations = {
         state.login.userId = payload.id;
         state.login.userName = payload.name;
         state.login.userRole = payload.role;
+        console.log("[userId] " + state.login.userId);
+        console.log("[userName] " + state.login.userName);
+
     },
     SET_MANAGER: (state) => {
         state.isManager = true;
@@ -34,16 +37,16 @@ const mutations = {
 const actions = {};
 
 const getters = {
-    isLogin: function(state) {
+    isLogin: function (state) {
         return state.isLogin;
     },
-    userName: function(state) {
+    userName: function (state) {
         return state.login.userName;
     },
-    isManager: function(state) {
+    isManager: function (state) {
         return state.isManager;
     },
-    isDoctor: function(state) {
+    isDoctor: function (state) {
         return state.isDoctor;
     }
 };

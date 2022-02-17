@@ -18,7 +18,16 @@
             </div>
             <div v-if="isDoctorGetters">
               <h3 class="mt-3">환자의 ID를 입력해주세요.</h3>
-              <input style="width: 100%; height: 40px" />
+              <input
+                style="
+                  width: 100%;
+                  height: 40px;
+                  text-align: center;
+                  font-size: 1rem;
+                  color: #828282;
+                "
+                v-model="inputID"
+              />
             </div>
             <div v-else>
               <h3 class="mt-3">의사에게 자신의 ID를 알려주세요.</h3>
@@ -111,41 +120,55 @@
 
         <!-- <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" /> -->
       </div>
-
-      <div class="main-video" style="height: 100%">
-        <div v-if="this.isDoctorGetters == true">
-          <div id="main-video" class="col-md-6">
-            <user-video
-              :stream-manager="mainStreamManager"
-              style="border-radius: 30px"
-            />
+      <div
+        style="display: flex; flex-direction: row; height: 400px; width: 400px"
+      >
+        <div class="main-video" style="height: 400px; width: 400px">
+          <div v-if="this.isDoctorGetters == true">
+            <div id="main-video" style="height: 400px; width: 400px">
+              <user-video
+                :stream-manager="mainStreamManager"
+                style="border-radius: 30px"
+              />
+            </div>
+          </div>
+          <div v-else>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                height: 400px;
+                width: 400px;
+              "
+            >
+              <canvas
+                id="canvas"
+                style="border-radius: 30px; height: 400px; width: 400px"
+              ></canvas>
+              <p>{{ myUserName }}</p>
+            </div>
           </div>
         </div>
-        <div v-else>
-          <canvas id="canvas" style="border-radius: 30px"></canvas>
+        <div id="video-container" style="height: 400px; width: 400px">
+          <user-video
+            v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stream-manager="sub"
+            @click.native="updateMainVideoStreamManager(sub)"
+          />
         </div>
+      </div>
 
-        <div style="display: flex">
-          <div id="video-container" class="col-md-6">
-            <user-video
-              v-for="sub in subscribers"
-              :key="sub.stream.connection.connectionId"
-              :stream-manager="sub"
-              @click.native="updateMainVideoStreamManager(sub)"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <horizontal-scroll>
-            <sign-card
-              v-for="(card, i) in cardList"
-              :key="card.index"
-              :imageUrl="card.name"
-              :cardList="cardList"
-              :index="i"
-            />
-          </horizontal-scroll>
-        </div>
+      <div class="row">
+        <horizontal-scroll>
+          <sign-card
+            v-for="(card, i) in cardList"
+            :key="card.index"
+            :imageUrl="card.name"
+            :cardList="cardList"
+            :index="i"
+          />
+        </horizontal-scroll>
       </div>
     </div>
   </div>
@@ -246,12 +269,21 @@ export default {
       },
       signMap: new Map(),
       cardList: [],
-      chatChannel: "ch-sixman-",
+      chatChannel: "",
       remoteConnectionSize: 0,
+      inputID: "",
     };
   },
 
   methods: {
+    charToUnicode: (str) => {
+      if (!str) return false; // Escaping if not exist
+      var unicode = "";
+      for (var i = 0, l = str.length; i < l; i++) {
+        unicode += str[i].charCodeAt(0).toString(16);
+      }
+      return unicode;
+    },
     cropToCanvas: (image, canvas, ctx) => {
       // canvas.width = image.width;
       // canvas.height = image.height;
@@ -259,7 +291,8 @@ export default {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(image, 0, 0, 640, 640);
+      // ctx.drawImage(image, 0, 0, 640, 640);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     },
 
     // 환자 joinSession
@@ -279,71 +312,9 @@ export default {
       this.signMap.set("dizzy", "어지러워요");
       this.signMap.set("itchy", "가려워요");
 
-      // // --- Get an OpenVidu object ---
-      // this.OV = new OpenVidu();
-
-      // // --- Init a session ---
-      // this.session = this.OV.initSession();
-
-      // this.session.on("connectionCreated", (event) => {
-      //   console.log("[connectionCreated] " + event.connection);
-      // });
-
-      // // On every new Stream received...
-      // this.session.on("streamCreated", ({ stream }) => {
-      //   const subscriber = this.session.subscribe(stream);
-      //   this.subscribers.push(subscriber);
-
-      //   var afterStr = subscriber.stream.connection.data.split(":");
-      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-      //   if (this.userName == userName) {
-      //     this.setRomoteName(userName + " 환자");
-      //   } else {
-      //     this.setRomoteName(userName + " 의사");
-      //   }
-      // });
-
-      // // On every Stream destroyed...
-      // this.session.on("streamDestroyed", ({ stream }) => {
-      //   const index = this.subscribers.indexOf(stream.streamManager, 0);
-      //   if (index >= 0) {
-      //     this.subscribers.splice(index, 1);
-      //   }
-      // });
-
-      // // On every asynchronous exception...
-      // this.session.on("exception", ({ exception }) => {
-      //   console.warn(exception);
-      // });
-
-      // // Receiver of the message (usually before calling 'session.connect')
-      // this.session.on("signal:" + this.chatChannel, (event) => {
-      //   this.chatSeq = this.chatSeq + 1;
-      //   var chat = {
-      //     chatSeq: this.chatSeq,
-      //     timeStamp: Date.now(),
-      //     date: new Date(),
-      //     creationTime: event.from.creationTime,
-      //     user: event.from.data,
-      //     message: event.data,
-      //   };
-      //   this.chatList.push(chat);
-      //   var afterStr = event.from.data.split(":");
-      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-      //   if (this.myUserName == userName) {
-      //   } else {
-      //     this.$store.dispatch("chat/addChat", {
-      //       sender: 1,
-      //       msg: event.data,
-      //     });
-      //   }
-      // });
-
-      // --- Connect to the session with a valid user token ---
-
       var self = this;
 
-      this.getToken(this.chatChannel).then((token) => {
+      this.getToken(this.mySessionId).then((token) => {
         this.session
           .connect(token, { clientData: this.myUserName })
           .then(() => {
@@ -365,8 +336,8 @@ export default {
                 var canvas = document.getElementById("canvas");
                 // canvas.width = window.innerWidth * 0.5;
                 // canvas.height = window.innerHeight * 0.5;
-                canvas.width = 420;
-                canvas.height = 420;
+                canvas.width = 400;
+                canvas.height = 400;
                 var ctx = canvas.getContext("2d");
 
                 video.onloadedmetadata = function (e) {
@@ -490,7 +461,7 @@ export default {
                     videoSource: signVideoTrack, // The source of video. If undefined default webcam
                     publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
                     publishVideo: true, // Whether you want to start publishing with your video enabled or not
-                    resolution: "420x420", // The resolution of your video
+                    resolution: "400x400", // The resolution of your video
                     frameRate: 30, // The frame rate of your video
                     insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
                     mirror: false, // Whether to mirror your local video or not
@@ -514,9 +485,10 @@ export default {
           })
           .finally(() => {
             this.$store.commit("openvidu/setSession", this.session);
+            this.addVideoCss();
           });
       });
-
+      this.addVideoCss();
       window.addEventListener("beforeunload", this.leaveSession);
     },
 
@@ -558,7 +530,21 @@ export default {
         } else {
           this.setRomoteName(userName + " 환자");
         }
-        this.addVideoCss();
+      });
+
+      // On every new Stream received...
+      this.session.on("videoElementCreated", ({ event }) => {
+        alert("videoElementCreated");
+        event.element.style.borderRadius = "30px";
+        event.element.style.width = "400px";
+        event.element.style.height = "400px";
+        event.element.style.marginLeft = "10px";
+
+        //  (element.style.borderRadius = "30px"),
+        //     (element.style.width = "400px"),
+        //     (element.style.height = "400"),
+        //     (element.style.marginLeft = "10px")
+        // this.addVideoCss();
       });
 
       this.session.on("streamDestroyed", ({ stream }) => {
@@ -600,65 +586,7 @@ export default {
 
     // 의사 joinSession
     joinSessionNoTensor() {
-      // --- Get an OpenVidu object ---
-
-      // On every new Stream received...
-      // this.session.on("streamCreated", ({ stream }) => {
-      //   const subscriber = this.session.subscribe(stream);
-      //   this.subscribers.push(subscriber);
-
-      //   var afterStr = subscriber.stream.connection.data.split(":");
-      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-      //   if (this.userName == userName) {
-      //     this.setRomoteName(userName + " 의사");
-      //   } else {
-      //     this.setRomoteName(userName + " 환자");
-      //   }
-      //   this.addVideoCss();
-      // });
-
-      // On every Stream destroyed...
-      // this.session.on("streamDestroyed", ({ stream }) => {
-      //   const index = this.subscribers.indexOf(stream.streamManager, 0);
-      //   if (index >= 0) {
-      //     this.subscribers.splice(index, 1);
-      //   }
-      // });
-
-      // On every asynchronous exception...
-      // this.session.on("exception", ({ exception }) => {
-      //   console.warn(exception);
-      // });
-
-      // // Receiver of the message (usually before calling 'session.connect')
-      // this.session.on("signal:" + this.chatChannel, (event) => {
-      //   this.chatSeq = this.chatSeq + 1;
-      //   var chat = {
-      //     chatSeq: this.chatSeq,
-      //     timeStamp: Date.now(),
-      //     date: new Date(),
-      //     creationTime: event.from.creationTime,
-      //     user: event.from.data,
-      //     message: event.data,
-      //   };
-      //   this.chatList.push(chat);
-      //   var afterStr = event.from.data.split(":");
-      //   var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-      //   if (this.myUserName == userName) {
-      //   } else {
-      //     this.$store.dispatch("chat/addChat", {
-      //       sender: 1,
-      //       msg: event.data,
-      //     });
-      //   }
-      //   this.addVideoCss();
-      // });
-
-      // --- Connect to the session with a valid user token ---
-
-      // 'getToken' method is simulating what your server-side should do.
-      // 'token' parameter should be retrieved and returned by your own backend
-      this.getToken(this.chatChannel).then((token) => {
+      this.getToken(this.mySessionId).then((token) => {
         this.session
           .connect(token, { clientData: this.myUserName })
           .then(() => {
@@ -669,7 +597,7 @@ export default {
               videoSource: this.userVideoSource, // The source of video. If undefined default webcam
               publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
-              resolution: "420x420", // The resolution of your video
+              resolution: "400x400", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
               mirror: false, // Whether to mirror your local video or not
@@ -691,10 +619,10 @@ export default {
           })
           .finally(() => {
             this.$store.commit("openvidu/setSession", this.session);
-            // this.addVideoCss();
+            this.addVideoCss();
           });
       });
-
+      this.addVideoCss();
       window.addEventListener("beforeunload", this.leaveSession);
     },
 
@@ -878,8 +806,10 @@ export default {
       videos.forEach(
         (element) => (
           (element.style.borderRadius = "30px"),
-          (element.style.width = "420px"),
-          (element.style.height = "420px")
+          (element.style.width = "400px"),
+          (element.style.height = "400"),
+          (element.style.marginLeft = "10px"),
+          (element.style.marginRight = "10px")
         )
       );
     },
@@ -898,7 +828,13 @@ export default {
     setRomoteName: function (payload) {
       this.$store.commit("chat/setRemoteName", payload);
     },
-
+    updateValue: function () {
+      if (this.inputID.length > 0) {
+        this.mySessionId =
+          "ch-session-sixman-" + this.charToUnicode(this.inputID);
+        this.chatChannel = "ch-chat-sixman-" + this.charToUnicode(this.inputID);
+      }
+    },
     gotDevices: function (deviceInfos) {
       const audioInputSelect = document.querySelector("select#audioSource");
       const audioOutputSelect = document.querySelector("select#audioOutput");
@@ -973,6 +909,18 @@ export default {
       } else {
         this.setLocalName(this.myUserName + " 환자");
       }
+      var cmd = `var videos = document.querySelectorAll("video");
+      videos.forEach(
+        (element) => (
+          (element.style.borderRadius = "30px"),
+          (element.style.width = "400px"),
+          (element.style.height = "400"),
+          (element.style.marginLeft = "10px"),
+          (element.style.marginRight = "10px")
+        )
+      );`;
+      setTimeout(cmd, 7000);
+      // this.addVideoCss();
     },
   },
 
@@ -1095,7 +1043,16 @@ export default {
       this.$data.mySessionId = this.$store.state.login.sessionId;
       this.$data.mydoctor = this.$store.state.login.mydoctor;
       this.myUserName = this.$store.state.login.login.userName;
+      // alert(this.mySessionId);
+      this.mySessionId =
+        "ch-session-sixman-" + this.charToUnicode(this.myUserName);
+      this.chatChannel =
+        "ch-chat-sixman-" + this.charToUnicode(this.myUserName);
+      // + this.charToUnicode(this.myUserName)
+      alert(this.mySessionId);
     }
+    const input = document.querySelector("input");
+    input.addEventListener("input", this.updateValue);
     // alert("[mounted] : " + this.myUserName);
   },
 };
