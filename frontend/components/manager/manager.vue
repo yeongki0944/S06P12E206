@@ -387,6 +387,13 @@ export default {
         .then(({ data }) => {
           this.resumeList();
           this.$alertify.success("의사 등록 완료!");
+        })
+        .catch((error) => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+
+          this.$alertify.error("존재하지 않는 이메일 입니다.");
+
         });
     },
   },

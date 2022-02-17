@@ -40,7 +40,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     public DoctorFile getDownloadPath(String email) {
-        DoctorResume doctorResume = doctorResumeRepository.findByEmail((email));
+        DoctorResume doctorResume = doctorResumeRepository.findByEmail(email);
         System.out.println(doctorResume.getId());
         DoctorFile doctorFile;
         doctorFile = doctorFileRepository.findByDoctorResumeId(doctorResume.getId());
@@ -49,13 +49,13 @@ public class ManagerServiceImpl implements ManagerService {
         return doctorFile;
     }
     public String getName(String email) {
-        DoctorResume doctorResume = doctorResumeRepository.findByEmail((email));
+        DoctorResume doctorResume = doctorResumeRepository.findByEmail(email);
         return doctorResume.getName();
     }
 
     @Transactional
     public void deleteResume(String email) {
-        DoctorResume doctorResume = doctorResumeRepository.findByEmail((email));
+        DoctorResume doctorResume = doctorResumeRepository.findByEmail(email);
 
         doctorFileRepository.deleteByDoctorResumeId(doctorResume.getId());
 
@@ -64,7 +64,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     public void register(String email) {
-        DoctorResume doctorResume = doctorResumeRepository.findByEmail((email));
+        DoctorResume doctorResume = doctorResumeRepository.findByEmail(email);
         User user = new User();
         user.setName(doctorResume.getName());
         user.setUserId(doctorResume.getUserId());
