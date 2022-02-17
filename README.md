@@ -65,3 +65,58 @@
 ## 프로젝트 상세 설명
 
 // 개발 환경, 기술 스택, 시스템 구성도, ERD, 기능 상세 설명 등
+
+
+
+
+
+## 수화닥터
+
+WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진료를 도움
+
+## 기획 의도
+
+
+
+---
+
+## 개발 환경
+
+### AI, STT
+
+- YOLOv5
+- TensorFlow.js
+- window.webkit Speech Recognition
+
+### WebRTC
+
+- OpenVidu
+
+### BackEnd
+
+- Java Spring
+
+### FrontEnd
+
+- Vue.js
+- Nuxt.js
+
+### CI/CD
+
+- 
+
+### PM
+
+- Git
+- Jira
+- Notion
+- Mattermost
+- Webex
+- Discord
+
+---
+
+##
+
+
+
