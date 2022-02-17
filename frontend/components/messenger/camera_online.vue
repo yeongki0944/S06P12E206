@@ -1,13 +1,7 @@
 <template>
   <div id="main-container" class="container">
     <div class="vld-parent">
-      <loading
-        :loader="dots"
-        :active.sync="isLoading"
-        :can-cancel="true"
-        :on-cancel="onCancel"
-        :is-full-page="fullPage"
-      ></loading>
+      <loading :active.sync="isLoading" :is-full-page="fullPage"></loading>
     </div>
 
     <div
@@ -136,7 +130,7 @@
     <div id="session" v-if="session" style="heigh: 100%; display: inline">
       <div id="session-header">
         <h1 id="session-title" style="text-align: center">
-          {{ mydoctor }} <span style="font-size: 30px"> 진료실 </span>
+          {{ mydoctor }} <span style="font-size: 30px"> 수화닥터 </span>
         </h1>
 
         <!-- <input type="button" id="ssbtn" class="ssbtn" @click="sendSign" /> -->
@@ -518,6 +512,7 @@ export default {
           .finally(() => {
             this.$store.commit("openvidu/setSession", this.session);
             this.addVideoCss();
+            this.isLoading = false;
           });
       });
       this.addVideoCss();
@@ -660,6 +655,7 @@ export default {
           .finally(() => {
             this.$store.commit("openvidu/setSession", this.session);
             this.addVideoCss();
+            this.isLoading = false;
           });
       });
       this.addVideoCss();

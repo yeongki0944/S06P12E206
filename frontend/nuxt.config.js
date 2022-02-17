@@ -25,16 +25,19 @@ export default {
   },
 
 
+
   router: {
     base: '/chitchat/',
     mode: 'hash',
+
     extendRoutes(routes, resolve) {
       routes.push({
         // name: 'pagenotfound',
         path: '*',
         component: resolve(__dirname, 'pages/pagenotfound/index.vue')
       })
-    }
+    },
+
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
