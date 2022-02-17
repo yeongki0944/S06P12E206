@@ -27,7 +27,7 @@
               />
             </div>
             <div v-if="isDoctorGetters">
-              <h3 class="mt-3">환자의 ID를 입력해주세요.</h3>
+              <h3 class="mt-3">환자의 이름을 입력해주세요.</h3>
               <input
                 style="
                   width: 100%;
@@ -40,7 +40,7 @@
               />
             </div>
             <div v-else>
-              <h3 class="mt-3">의사에게 자신의 ID를 알려주세요.</h3>
+              <h3 class="mt-3">의사에게 자신의 이름을 알려주세요.</h3>
             </div>
 
             <div class="select">
@@ -543,10 +543,18 @@ export default {
 
         var afterStr = subscriber.stream.connection.data.split(":");
         var userName = afterStr[1].slice(1, afterStr[1].length - 2);
-        if (this.userName == userName) {
-          this.setRomoteName(userName + " 의사");
+        if (this.isDoctorGetters) {
+          if (this.userName == userName) {
+            this.setRomoteName(userName + " 의사");
+          } else {
+            this.setRomoteName(userName + " 환자");
+          }
         } else {
-          this.setRomoteName(userName + " 환자");
+          if (this.userName == userName) {
+            this.setRomoteName(userName + " 환자");
+          } else {
+            this.setRomoteName(userName + " 의사");
+          }
         }
       });
 

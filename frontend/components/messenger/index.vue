@@ -24,10 +24,10 @@ import Navbar from "./nav.vue";
 import LeftSideBar from "./left-sidebar.vue";
 import Chat from "./chat.vue";
 import Profile from "./rightsidebar/profile/index.vue";
-import RightSideBar from "../messenger/rightsidebar/index.vue";
+import RightSideBar from "./rightsidebar/index.vue";
 import CustomizerSetting from "./customizer/customizesetting.vue";
 import Customizer from "./customizer/index.vue";
-import Camera from "./camera.vue";
+import Camera from "./camera_online.vue";
 
 export default {
   components: {
