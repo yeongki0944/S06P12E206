@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/reserve/patient/**")
                 .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_USER')")
                 .antMatchers("/manager/**")
-                .access("hasRole('ROLE_MANAGER)")
+                .access("hasRole('ROLE_MANAGER')")
                 .anyRequest().permitAll()
                 .and().cors();
     }
