@@ -137,6 +137,8 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 ### ⚙BackEnd
 
 - Java Spring
+- JWT Authentication
+- JPA DataBase
 
 ### ⚙FrontEnd
 
@@ -175,6 +177,8 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 ---
 
 ## ✔ERD
+
+![image-20220217222657550](README.assets/image-20220217222657550.png)
 
 ---
 
@@ -232,11 +236,33 @@ style : 코드 정리 (공백 등)
 ## ✔팀원 소개
 
 - 김영기
+  - BackEnd
+  - CI / CD
+  - OpenVidu
+  - WebSocket
+
 - 김창민
+  - BackEnd
+  - DB 설계
+  - OpenVidu
+
 - 반형동
+  - AI 수화번역
+  - FrontEnd
+
 - 손한기
+  - STT (Speech To Text)
+  - 발표 PPT
+  - FrontEnd
+
 - 윤찬호
+  - FrontEnd
+
 - 이정원
+  - 팀장
+  - FrontEnd
+  - 
+
 
 ---
 
