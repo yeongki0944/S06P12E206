@@ -80,7 +80,7 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ## ✔기획 의도
 
-
+- 
 
 ---
 
@@ -168,6 +168,10 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ## ✔기능 명세서
 
+![img](README.assets/unknown-16451031080202.png)
+
+![img](https://cdn.discordapp.com/attachments/943832863361613905/943855671089180682/unknown.png)
+
 ---
 
 ## ✔ERD
@@ -182,7 +186,19 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ---
 
+## ✔CI/CD
+
+![img](README.assets/unknown.png)
+
+---
+
 ## ✔Notion
+
+### Daily Scrum
+
+![image-20220217220401709](README.assets/image-20220217220401709.png)
+
+![image-20220217220431025](README.assets/image-20220217220431025.png)
 
 ---
 
@@ -202,6 +218,12 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 - 손한기
 - 윤찬호
 - 이정원
+
+---
+
+## ✔추가 개선가능 사항
+
+- 
 
 ---
 
