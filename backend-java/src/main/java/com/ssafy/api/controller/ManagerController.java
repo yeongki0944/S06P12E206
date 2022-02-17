@@ -71,6 +71,7 @@ public class ManagerController {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
         System.out.println("메일 전송!");
+        System.out.println(email);
         message.setSubject("[수화닥터] 의사 인증이 완료되었습니다.");
         String name = service.getName(email);
         message.setText(name+"의사님 반갑습니다! 회원가입이 완료되었습니다. 이용해주셔서 감사합니다.");
