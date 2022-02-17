@@ -6,7 +6,7 @@ https://수화닥터.site
 
 ### 발표 UCC
 
-▶ https://www.youtube.com/watch?v=fhs5GLlKX7U
+▶ https://youtu.be/Ivp0XKH6kVE
 
 WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진료를 도움
 
