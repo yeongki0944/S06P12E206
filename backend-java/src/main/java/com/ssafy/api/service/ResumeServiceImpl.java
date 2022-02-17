@@ -48,7 +48,7 @@ public class ResumeServiceImpl implements ResumeService {
         String os = System.getProperty("os.name").toLowerCase();
         try {
             doctorResume.setStatus("ready");
-            doctorResumeRepository.save(doctorResume);
+
 
             List<MultipartFile> fileList = request.getFiles("file");
             System.out.println(os);
@@ -88,7 +88,8 @@ public class ResumeServiceImpl implements ResumeService {
                 for (MultipartFile part : fileList) {
 
                     String fileName = part.getOriginalFilename();
-
+                    doctorResume.setDoctorImageUrl(fileName);
+                    doctorResumeRepository.save(doctorResume);
                     //Random File Id
                     UUID uuid = UUID.randomUUID();
 

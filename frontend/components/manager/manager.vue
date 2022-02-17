@@ -73,7 +73,7 @@
                 <td class="text-center">{{ resume.departName }}</td>
                 <td class="text-center col-2">{{ resume.email }}</td>
                 <td class="text-center">
-                  <a @click="downloadFile(resume.email)" style="color: #4b70fd"
+                  <a @click="downloadFile(resume.email, index)" style="color: #4b70fd"
                     >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[다운로드]</a
                   >
                 </td>
@@ -348,7 +348,10 @@ export default {
     resumeList() {
       this.$store.dispatch("manager/resumeList");
     },
-    downloadFile(userEmail) {
+    downloadFile(userEmail, index) {
+        
+        console.log(this.$store.state.manager.resume.list[index].doctorImageUrl);
+
       filehttp
         .get("/manager/download", {
           params: {
