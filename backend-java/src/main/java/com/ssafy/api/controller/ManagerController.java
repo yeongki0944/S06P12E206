@@ -33,6 +33,8 @@ public class ManagerController {
     @Value("${app.wfileupload.uploadPath}")
     private String wUploadPath;
 
+    @Value("${app.lfileupload.uploadPath}")
+    private String lfileupload;
     @Autowired
     ManagerService service;
 
@@ -50,7 +52,7 @@ public class ManagerController {
     public void download(HttpServletResponse response,String email) throws IOException {
 
         DoctorFile doctorFile = service.getDownloadPath(email);
-        File downloadFile = new File(wUploadPath + File.separator + doctorFile.getFileUrl());
+        File downloadFile = new File(lfileupload + File.separator + doctorFile.getFileUrl());
 
         String fileName = doctorFile.getFileName();
         byte[] fileByte = FileUtils.readFileToByteArray(downloadFile);
