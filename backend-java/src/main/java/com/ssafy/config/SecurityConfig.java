@@ -60,9 +60,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService))                    //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
                 .antMatchers("/reserve/doctor/**")
-                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_DOCTOR')")
+                .access("hasRole('ROLE_DOCTOR')")
                 .antMatchers("/reserve/patient/**")
-                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_USER')")
+                .access("hasRole('ROLE_USER')")
                 .antMatchers("/manager/**")
                 .access("hasRole('ROLE_MANAGER')")
                 .anyRequest().permitAll()

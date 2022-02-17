@@ -242,6 +242,9 @@ export default {
       isUserPassword2Valid: false,
       isSecretValid: false,
       isUserNameValid: false,
+
+      // 카운트
+      cnt: 0
     };
   },
   computed: {
@@ -300,6 +303,7 @@ export default {
           number: this.secretNumber,
         })
         .then(({ data }) => {
+          this.cnt = 1;
           this.isSecretValid = true;
           this.originalSN = this.secretNumber;
         })
@@ -399,6 +403,24 @@ export default {
     },
 
     register() {
+      // 한번 체크해주기
+      if(this.cnt == 0) {
+        http
+        .post("/api/v1/users/sms/confirms", {
+          to: this.userPhone,
+          number: this.secretNumber,
+        })
+        .then(({ data }) => {
+          this.cnt = 0;
+          this.isSecretValid = true;
+          this.originalSN = this.secretNumber;
+        })
+        .catch((error) => {
+          console.log("RegisterVue: error : ");
+          this.$alertify.error("인증번호가 틀렸습니다.");
+          this.isSecretValid = false;
+        });
+      }
       if (
         !this.isUserPasswordValid ||
         !this.isUserPassword2Valid ||
