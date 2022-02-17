@@ -322,6 +322,11 @@ export default {
           console.log("sssssssssssss")
           for(var i=0; i<data.appliedList.length; i++) {
             var datestr = data.appliedList[i].reservedDt
+            console.log(data.appliedList[i].doctorInfo.user.name);
+            console.log(data.appliedList[i].user.name);
+            console.log(data.appliedList[i].contents);
+            console.log(datestr);
+            console.log(data.appliedList[i].id);            
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,

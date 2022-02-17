@@ -55,12 +55,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)                   // 토큰 기반 인증이므로 세션 사용 하지않음
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService))                    //HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
                 .authorizeRequests()
-                .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
-    	        	    .anyRequest().permitAll()
+                .antMatchers("/reserve/doctor/**")
+                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_DOCTOR')")
+                .antMatchers("/reserve/patient/**")
+                .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_USER')")
+                .antMatchers("/manager/**")
+                .access("hasRole('ROLE_MANAGER)")
+                .anyRequest().permitAll()
                 .and().cors();
     }
 }
