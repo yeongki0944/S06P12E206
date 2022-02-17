@@ -1,5 +1,15 @@
 <template>
   <div id="main-container" class="container">
+    <div class="vld-parent">
+      <loading
+        :loader="dots"
+        :active.sync="isLoading"
+        :can-cancel="true"
+        :on-cancel="onCancel"
+        :is-full-page="fullPage"
+      ></loading>
+    </div>
+
     <div
       id="join"
       v-if="!session"
@@ -206,6 +216,11 @@ import HorizontalScroll from "vue-horizontal-scroll";
 import "vue-horizontal-scroll/dist/vue-horizontal-scroll.css";
 import * as tf from "@tensorflow/tfjs";
 
+// Import component
+import Loading from "vue-loading-overlay";
+// Import stylesheet
+import "vue-loading-overlay/dist/vue-loading.css";
+
 Vue.use(VueAlertify);
 
 axios.defaults.headers.post["Content-Type"] = "application/json";
@@ -239,10 +254,13 @@ export default {
     CreateRoom,
     SignCard,
     HorizontalScroll,
+    Loading,
   },
 
   data() {
     return {
+      isLoading: false,
+      fullPage: true,
       OV: undefined,
       session: undefined,
       mainStreamManager: undefined,
@@ -892,6 +910,7 @@ export default {
         this.$data.patientList[event.target.value].userId;
     },
     async asyncfunction() {
+      this.isLoading = true;
       this.preJoin();
       // alert("async" + this.remoteConnectionSize);
       if (this.isDoctorGetters) {
@@ -916,10 +935,12 @@ export default {
           (element.style.width = "400px"),
           (element.style.height = "400"),
           (element.style.marginLeft = "10px"),
-          (element.style.marginRight = "10px")
+          (element.style.marginRight = "10px"),
+          (this.isLoading = false)
         )
       );`;
       setTimeout(cmd, 7000);
+
       // this.addVideoCss();
     },
   },
@@ -1049,7 +1070,7 @@ export default {
       this.chatChannel =
         "ch-chat-sixman-" + this.charToUnicode(this.myUserName);
       // + this.charToUnicode(this.myUserName)
-      alert(this.mySessionId);
+      // alert(this.mySessionId);
     }
     const input = document.querySelector("input");
     input.addEventListener("input", this.updateValue);

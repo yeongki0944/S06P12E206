@@ -2,7 +2,6 @@
   <!--SignIn Classic start -->
   <div class="login-page2 animat-rate">
     <div class="login-content-main">
-
       <div class="login-content">
         <div class="login-content-header">
           <img
@@ -11,12 +10,16 @@
             alt="images"
           />
         </div>
-        <h3 v-if="! isIdfind" class="mt-3" style="text-align:left">비밀번호 재설정</h3>
-        <h4 v-if="! isIdfind" style="text-align:left">회원가입 시 등록한 이메일 주소를 입력해주세요.</h4>
+        <h3 v-if="!isIdfind" class="mt-3" style="text-align: left">
+          비밀번호 재설정
+        </h3>
+        <h4 v-if="!isIdfind" style="text-align: left">
+          회원가입 시 등록한 이메일 주소를 입력해주세요.
+        </h4>
         <form class="form2">
-          <div v-if="! isIdfind" class="form-group">
+          <div v-if="!isIdfind" class="form-group">
             <label class="col-form-label" for="inputEmail3"
-              ><span style="font-size:17px; color:red">*</span>이메일</label
+              ><span style="font-size: 17px; color: red">*</span>이메일</label
             >
             <input
               class="form-control"
@@ -26,7 +29,7 @@
             />
           </div>
 
-          <div v-if="! isIdfind" class="form-group mb-0">
+          <div v-if="!isIdfind" class="form-group mb-0">
             <div class="buttons">
               <a class="btn button-effect btn-primary btn-block" @click="findPw"
                 >비밀번호 재설정</a
@@ -102,49 +105,44 @@ export default {
   data() {
     return {
       email: null,
-      isfind: false
+      isfind: false,
     };
   },
   computed: {
     isIdfind() {
       return this.isfind;
-    }
+    },
   },
   methods: {
     // 아이디 찾는 post 보내기
     findPw() {
-
-          this.$alertify.alert(
-          '새 비밀번호를 이메일로 발송하였습니다. 이용해주셔서 감사합니다',
-          function() {
-  
-          }
-        );
-          this.$nuxt.$options.router.push('/')
+      this.$alertify
+        .alert(
+          "새 비밀번호를 이메일로 발송하였습니다. 이용해주셔서 감사합니다",
+          function () {}
+        )
+        .set({ title: "수화닥터.site" });
+      this.$nuxt.$options.router.push("/");
 
       http
         .post("/find/pw", {
-          email: this.email
+          email: this.email,
         })
         .then(({ data }) => {
           // this.isfind = true;
           // this.findId = data.user.userId;
           // console.log(this.findId);
           console.log(data);
-
         })
         .catch((error) => {
           console.log("RegisterVue: error : ");
           this.$alertify.error("등록된 유저정보가 없습니다.");
         });
-    }
-
+    },
 
     // 아이디 받아서 isFind 및 Id 보여주기
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
