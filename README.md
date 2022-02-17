@@ -72,6 +72,8 @@
 
 # 수화닥터
 
+https://수화닥터.site
+
 WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진료를 도움
 
 ---
@@ -84,13 +86,33 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ## ✔산출물
 
-### 1번
+### 일반회원가입
 
-### 2번
+![ezgif.com-gif-maker](README.assets/ezgif.com-gif-maker.gif)
 
-### 3번
+### 로그인
 
-### 4번
+![login](README.assets/login.gif)
+
+### 구글 간편로그인
+
+![GoogleLogin](README.assets/GoogleLogin.gif)
+
+### 예약 신청
+
+![Reservation](README.assets/Reservation.gif)
+
+### 예약 확인
+
+![ReservationConfirm](README.assets/ReservationConfirm.gif)
+
+### 온라인 진료
+
+![online](README.assets/online.gif)
+
+### STT(Speech To Text)
+
+![STT](README.assets/STT.gif)
 
 ### 5번
 
