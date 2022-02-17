@@ -450,12 +450,19 @@ export default {
 
           let $this = this;
 
+<<<<<<< HEAD
           this.$alertify
             .alert(
               "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
               function () {}
             )
             .set({ title: "수화닥터.site" });
+=======
+          this.$alertify.alert(
+            "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
+            function () {})
+            .set({title: "수화닥터.site"});
+>>>>>>> feat/reservationError#S06P12EO206-92
           this.$nuxt.$options.router.push("/authentication/login");
         })
         .catch((error) => {

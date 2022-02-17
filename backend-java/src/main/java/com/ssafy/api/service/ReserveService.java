@@ -20,7 +20,7 @@ public interface ReserveService {
 
     public List getDoctorList(String depart);
 
-    public void applyResume(ApplyBoardReq applyBoardReq);
+    public boolean applyResume(ApplyBoardReq applyBoardReq);
 
     public void setSessionRoomInfo(ApplyBoardReq applyBoardReq);
 }

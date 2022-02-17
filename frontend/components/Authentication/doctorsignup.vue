@@ -483,6 +483,7 @@ export default {
         formData.append("file", attachFiles.files[i]);
       }
       console.log(formData);
+<<<<<<< HEAD
       http
         .post("/api/v1/users/resume", formData, {
           headers: { "Content-Type": "multipart/form-data" },
@@ -502,6 +503,28 @@ export default {
           console.log("doctor apply : error ");
           console.log(error);
         });
+=======
+        http.post(
+          '/api/v1/users/resume',
+          formData,
+          { headers: { 'Content-Type': 'multipart/form-data' } })
+          .then(({ data }) => {
+            console.log(data);
+
+            
+            this.$alertify.alert(
+            '가입 신청이 완료되었습니다. \n인증이 완료되면 이메일로 알려드리겠습니다',
+            function() {
+
+            })
+            .set({title: "수화닥터.site"});
+            this.$nuxt.$options.router.push('/')
+          })
+          .catch((error) => {
+            console.log("doctor apply : error ");
+            console.log(error);
+          });
+>>>>>>> feat/reservationError#S06P12EO206-92
       // http.post(
       //   "/user/register",
       //   {

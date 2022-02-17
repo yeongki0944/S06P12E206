@@ -185,8 +185,8 @@ export default {
           this.$nuxt.$options.router.push("/");
         })
         .catch((error) => {
-          console.log("ChangedVue: error : ");
-          this.$alertify.error("서버에러 발생.");
+          console.log("Duplicate: error : ");
+          this.$alertify.error("이미 해당 의사님과 진료예약이 되어있습니다.");
         });
     },
   },

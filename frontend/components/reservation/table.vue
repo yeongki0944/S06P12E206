@@ -225,25 +225,10 @@ export default {
         )
         .then(({ data }) => {
           console.log(data);
-          this.$data.items1 = [];
           this.$data.items2 = [];
           //for문 객체를 만들어서 변수에 add
-          console.log("ssssssssssss");
-          for(var i=0; i<data.appliedList.length; i++) {
-            var datestr = data.confirmList[i].reservedDt
 
-            var b={
-              isActive: true,
-              담당의: data.appliedList[i].doctorInfo.user.name,
-              환자명: data.appliedList[i].user.name,
-              환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: datestr,
-              id: data.appliedList[i].id              
-            };
-            this.$data.items1.push(b);
-            console.log(this.$data.items1);
-          }
-          console.log("ssssssssssss22222222222222");
+
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
             var datestr = data.confirmList[i].reservedDt
@@ -268,7 +253,7 @@ export default {
     },
     cancel(record) {
       console.log(record);
-      this.$data.items1.splice(record.index,1);
+      this.$data.items2.splice(record.index,1);
       // 승인 post
         http.post(
           "/reserve/doctor/cancel",
@@ -295,22 +280,7 @@ export default {
         )
         .then(({ data }) => {
           console.log(data);
-          this.$data.items1 = [];
           this.$data.items2 = [];
-          //for문 객체를 만들어서 변수에 add
-          for(var i=0; i<data.appliedList.length; i++) {
-            var datestr = data.confirmList[i].reservedDt
-            var b={
-              isActive: true,
-              담당의: data.appliedList[i].doctorInfo.user.name,
-              환자명: data.appliedList[i].user.name,
-              환자정보: data.appliedList[i].contents,
-              진료_예약_날짜: datestr,
-              id: data.appliedList[i].id              
-            };
-            this.$data.items1.push(b);
-            console.log(this.$data.items1);
-          }
 
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
@@ -363,12 +333,12 @@ export default {
             this.$data.items1.push(b);
             console.log(this.$data.items1);
           }
-          console.log("sssssssssssss22222222")
+
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.confirmList.length; i++) {
-            console.log("sssssssss3333333333333333")
+
             var datestr = data.confirmList[i].reservedDt
-            console.log("sssssssss44444444444444")
+
             var c={
               isActive: true,
               담당의: data.confirmList[i].doctorInfo.user.name,
@@ -400,7 +370,7 @@ export default {
 
           //for문 객체를 만들어서 변수에 add
           for(var i=0; i<data.appliedList.length; i++) {
-            var datestr = data.confirmList[i].reservedDt
+            var datestr = data.appliedList[i].reservedDt
             var b={
               isActive: true,
               담당의: data.appliedList[i].doctorInfo.user.name,

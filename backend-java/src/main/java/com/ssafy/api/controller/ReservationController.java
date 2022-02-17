@@ -84,8 +84,10 @@ public class ReservationController {
         System.out.println(applyBoardReq.getContent());
         System.out.println(applyBoardReq.getDate());
 
-        reserveService.applyResume(applyBoardReq);
+        if(reserveService.applyResume(applyBoardReq)) {
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        }
+        return ResponseEntity.status(400).body(BaseResponseBody.of(400, "Failed"));
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 }
