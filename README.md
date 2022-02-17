@@ -114,10 +114,6 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ![STT](README.assets/STT.gif)
 
-### 5번
-
-### ...
-
 ---
 
 ## ✔주요 기능
@@ -146,6 +142,7 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 - Vue.js
 - Nuxt.js
+- SCSS
 
 ### ⚙CI/CD
 
@@ -154,6 +151,7 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 ### ⚙PM
 
 - Git
+- Sourcetree
 - Jira
 - Notion
 - Mattermost
@@ -182,9 +180,22 @@ WebRTC로 환자와 의사를 연결하고 수화번역을 통해 농인의 진�
 
 ## ✔Git 컨벤션
 
+```
+feat : 기능 추가
+fix : 버그 수정
+docs : 문서 수정
+chore : 자잘한 작업
+test : 테스트
+build : 외부 종속성에 영향을 미치는 변경사항(npm 등)
+ci : CI관련
+style : 코드 정리 (공백 등)
+```
+
 ---
 
 ## ✔Git 브랜치 전략
+
+![image-20220217221833451](README.assets/image-20220217221833451.png)
 
 ---
 
