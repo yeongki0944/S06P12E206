@@ -415,18 +415,19 @@ export default {
           this.cnt = 0;
           this.isSecretValid = true;
           this.originalSN = this.secretNumber;
-          if (
-            !this.isUserPasswordValid ||
-            !this.isUserPassword2Valid ||
-            !this.isUserIdValid ||
-            this.userName == "" ||
-            !this.isSecretValid
-          ) {
-            this.$alertify.error("정보를 정확하게 입력해주세요");
-            return;
-          }
-          console.log("register");
-        http
+        if (
+        !this.isUserPasswordValid ||
+        !this.isUserPassword2Valid ||
+        !this.isUserIdValid ||
+        this.userName == "" ||
+        !this.isSecretValid
+      ) {
+        this.$alertify.error("정보를 정확하게 입력해주세요");
+        return;
+      }
+      console.log("register");
+
+      http
         .post("/api/v1/users", {
           userName: this.userName,
           userPassword: this.userPassword,
@@ -462,37 +463,48 @@ export default {
         });
       }
 
+      else{
+      if (
+        !this.isUserPasswordValid ||
+        !this.isUserPassword2Valid ||
+        !this.isUserIdValid ||
+        this.userName == "" ||
+        !this.isSecretValid
+      ) {
+        this.$alertify.error("정보를 정확하게 입력해주세요");
+        return;
+      }
+      console.log("register");
+
+      http
+        .post("/api/v1/users", {
+          userName: this.userName,
+          userPassword: this.userPassword,
+          userId: this.userId,
+          userEmail: this.userEmail,
+        })
+        .then(({ data }) => {
+          console.log("RegisterVue: data : ");
+          console.log(data);
+
+          let $this = this;
 
 
+          this.$alertify.alert(
+            "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
+            function () {})
+            .set({title: "수화닥터.site"});
 
-      // var formData = new FormData();
-      // formData.append("name", this.userName);
-      // formData.append("email", this.userEmail);
-      // formData.append("phone", this.userPhone);
-      // formData.append("userId", this.userId);
-      // formData.append("departName", this.subject);
-      // formData.append("password", this.userPassword);
-      // var attachFiles = document.querySelector("#inputFileUploadInsert");
-      // var cnt = attachFiles.files.length;
-      //   for (var i = 0; i < cnt; i++) {
-      //     formData.append("file", attachFiles.files[i]);
-      //   }
-      // console.log(formData);
-      //   http.post(
-      //     '/api/v1/users/resume',
-      //     formData,
-      //     { headers: { 'Content-Type': 'multipart/form-data' } })
-      //     .then(({ data }) => {
-      //       console.log(data);
-      //       alert('가입 신청이 되었습니다! \n의사 확인이 되면 이메일로 알려드리겠습니다.')
-      //       this.$nuxt.$options.router.push('/')
-      //     })
-      //     .catch((error) => {
-      //       console.log("doctor apply : error ");
-      //       console.log(error);
-      //     });
-
-
+          this.$nuxt.$options.router.push("/authentication/login");
+        })
+        .catch((error) => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+          if (error.response.status == "404") {
+            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
+          }
+          });
+      }
     },
   },
 };
