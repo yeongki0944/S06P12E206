@@ -1,0 +1,311 @@
+﻿CREATE TABLE `user` (
+	`USER_ID`	INT	NOT NULL,
+	`USER_TYPE`	VARCHAR	NULL,
+	`AGE`	INT	NULL,
+	`GENDER`	VARCHAR	NULL,
+	`NAME`	VARCHAR	NULL,
+	`ID`	VARCHAR	NULL,
+	`PASSWORD`	VARCHAR	NULL,
+	`EMAIL`	VARCHAR	NULL,
+	`THUMBNAIL`	VARCHAR	NULL
+);
+
+CREATE TABLE `user_conference` (
+	`user_conf_id`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`CONF_ID`	INT	NOT NULL
+);
+
+CREATE TABLE `conference` (
+	`CONF_ID`	INT	NOT NULL,
+	`ownerId`	INT	NOT NULL,
+	`createdAt`	DATETIME	NULL,
+	`updatedAt`	DATETIME	NULL,
+	`THUMBNAIL`	VARCHAR	NULL,
+	`TITLE`	VARCHAR	NULL,
+	`contents`	VARCHAR	NULL,
+	`IS_ACTIVE`	BOOLEAN	NULL
+);
+
+CREATE TABLE `conf_history` (
+	`CONF_HIST_ID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`CONF_ID`	INT	NOT NULL,
+	`ACTION`	ENUM	NULL,
+	`updatedAt`	DATETIME	NULL
+);
+
+CREATE TABLE `board` (
+	`BOARD_ID`	INT	NOT NULL,
+	`TITLE`	VARCHAR	NULL,
+	`CONTENTS`	TEXT	NULL,
+	`REG_DT`	DATETIME	NULL,
+	`READ_COUNT`	INT	NULL,
+	`USER_ID`	INT	NOT NULL
+);
+
+CREATE TABLE `board_user_read` (
+	`BOARD_ID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL
+);
+
+CREATE TABLE `board_file` (
+	`BOARD_FILE_ID`	INT	NOT NULL,
+	`FILE_NAME`	VARCHAR	NULL,
+	`FILE_SIZE`	INT	NULL,
+	`FILE_CONTENT_TYPE`	VARCHAR	NULL,
+	`FILE_URL`	VARCHAR	NULL,
+	`REG_DT`	DATETIME	NULL,
+	`BOARD_ID`	INT	NOT NULL
+);
+
+CREATE TABLE `reservation` (
+	`REG_ID`	INT	NOT NULL,
+	`TITLE`	VARCHAR	NULL,
+	`CONTENT`	VARCHAR	NULL,
+	`USER_ID`	INT	NOT NULL,
+	`RESERVED_DT`	DATETIME	NULL,
+	`TYPE`	VARCHAR	NULL,
+	`IMG`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `user_reservation` (
+	`USER_RESERV_ID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`REG_ID`	INT	NOT NULL
+);
+
+CREATE TABLE `prevented_time` (
+	`PREVENTED_ID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`PREVENTED_DT`	DATETIME	NULL
+);
+
+CREATE TABLE `CopyOfboard` (
+	`BOARD_ID`	INT	NOT NULL,
+	`Name`	VARCHAR	NULL,
+	`DEPART`	VARCHAR	NULL,
+	`CONTENTS`	TEXT	NULL,
+	`RESERV_DT`	DATETIME	NULL,
+	`REG_DT`	DATETIME	NULL,
+	`USER_ID`	INT	NOT NULL,
+	`STATUS`	ENUM	NULL
+);
+
+CREATE TABLE `doctorInfo` (
+	`InfoID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`departID`	INT	NOT NULL,
+	`STATUS`	VARCHAR	NULL,
+	`hosName`	VARCHAR	NULL,
+	`phone`	VARCHAR	NULL
+);
+
+CREATE TABLE `Review` (
+	`evalID`	INT	NOT NULL,
+	`InfoID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`rating`	INT	NULL,
+	`Contents`	VARCHAR	NULL
+);
+
+CREATE TABLE `sheet` (
+	`sheetID`	INT	NOT NULL,
+	`USER_ID`	INT	NOT NULL,
+	`IMG`	VARCHAR(255)	NULL
+);
+
+CREATE TABLE `department` (
+	`departID`	INT	NOT NULL,
+	`diseaseID`	INT	NOT NULL,
+	`departName`	VARCHAR	NULL
+);
+
+CREATE TABLE `disease` (
+	`diseaseID`	INT	NOT NULL,
+	`diseaseName`	VARCHAR	NULL
+);
+
+ALTER TABLE `user` ADD CONSTRAINT `PK_USER` PRIMARY KEY (
+	`USER_ID`
+);
+
+ALTER TABLE `user_conference` ADD CONSTRAINT `PK_USER_CONFERENCE` PRIMARY KEY (
+	`user_conf_id`,
+	`USER_ID`,
+	`CONF_ID`
+);
+
+ALTER TABLE `conference` ADD CONSTRAINT `PK_CONFERENCE` PRIMARY KEY (
+	`CONF_ID`,
+	`ownerId`
+);
+
+ALTER TABLE `conf_history` ADD CONSTRAINT `PK_CONF_HISTORY` PRIMARY KEY (
+	`CONF_HIST_ID`,
+	`USER_ID`,
+	`CONF_ID`
+);
+
+ALTER TABLE `board` ADD CONSTRAINT `PK_BOARD` PRIMARY KEY (
+	`BOARD_ID`
+);
+
+ALTER TABLE `board_user_read` ADD CONSTRAINT `PK_BOARD_USER_READ` PRIMARY KEY (
+	`BOARD_ID`,
+	`USER_ID`
+);
+
+ALTER TABLE `board_file` ADD CONSTRAINT `PK_BOARD_FILE` PRIMARY KEY (
+	`BOARD_FILE_ID`
+);
+
+ALTER TABLE `reservation` ADD CONSTRAINT `PK_RESERVATION` PRIMARY KEY (
+	`REG_ID`
+);
+
+ALTER TABLE `user_reservation` ADD CONSTRAINT `PK_USER_RESERVATION` PRIMARY KEY (
+	`USER_RESERV_ID`,
+	`USER_ID`,
+	`REG_ID`
+);
+
+ALTER TABLE `prevented_time` ADD CONSTRAINT `PK_PREVENTED_TIME` PRIMARY KEY (
+	`PREVENTED_ID`
+);
+
+ALTER TABLE `CopyOfboard` ADD CONSTRAINT `PK_COPYOFBOARD` PRIMARY KEY (
+	`BOARD_ID`
+);
+
+ALTER TABLE `doctorInfo` ADD CONSTRAINT `PK_DOCTORINFO` PRIMARY KEY (
+	`InfoID`,
+	`USER_ID`,
+	`departID`
+);
+
+ALTER TABLE `Review` ADD CONSTRAINT `PK_REVIEW` PRIMARY KEY (
+	`evalID`,
+	`InfoID`,
+	`USER_ID`
+);
+
+ALTER TABLE `sheet` ADD CONSTRAINT `PK_SHEET` PRIMARY KEY (
+	`sheetID`,
+	`USER_ID`
+);
+
+ALTER TABLE `department` ADD CONSTRAINT `PK_DEPARTMENT` PRIMARY KEY (
+	`departID`,
+	`diseaseID`
+);
+
+ALTER TABLE `disease` ADD CONSTRAINT `PK_DISEASE` PRIMARY KEY (
+	`diseaseID`
+);
+
+ALTER TABLE `user_conference` ADD CONSTRAINT `FK_user_TO_user_conference_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `user_conference` ADD CONSTRAINT `FK_conference_TO_user_conference_1` FOREIGN KEY (
+	`CONF_ID`
+)
+REFERENCES `conference` (
+	`CONF_ID`
+);
+
+ALTER TABLE `conference` ADD CONSTRAINT `FK_user_TO_conference_1` FOREIGN KEY (
+	`ownerId`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `conf_history` ADD CONSTRAINT `FK_user_TO_conf_history_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `conf_history` ADD CONSTRAINT `FK_conference_TO_conf_history_1` FOREIGN KEY (
+	`CONF_ID`
+)
+REFERENCES `conference` (
+	`CONF_ID`
+);
+
+ALTER TABLE `board_user_read` ADD CONSTRAINT `FK_board_TO_board_user_read_1` FOREIGN KEY (
+	`BOARD_ID`
+)
+REFERENCES `board` (
+	`BOARD_ID`
+);
+
+ALTER TABLE `board_user_read` ADD CONSTRAINT `FK_user_TO_board_user_read_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `user_reservation` ADD CONSTRAINT `FK_user_TO_user_reservation_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `user_reservation` ADD CONSTRAINT `FK_reservation_TO_user_reservation_1` FOREIGN KEY (
+	`REG_ID`
+)
+REFERENCES `reservation` (
+	`REG_ID`
+);
+
+ALTER TABLE `doctorInfo` ADD CONSTRAINT `FK_user_TO_doctorInfo_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `doctorInfo` ADD CONSTRAINT `FK_department_TO_doctorInfo_1` FOREIGN KEY (
+	`departID`
+)
+REFERENCES `department` (
+	`departID`
+);
+
+ALTER TABLE `Review` ADD CONSTRAINT `FK_doctorInfo_TO_Review_1` FOREIGN KEY (
+	`InfoID`
+)
+REFERENCES `doctorInfo` (
+	`InfoID`
+);
+
+ALTER TABLE `Review` ADD CONSTRAINT `FK_user_TO_Review_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `sheet` ADD CONSTRAINT `FK_user_TO_sheet_1` FOREIGN KEY (
+	`USER_ID`
+)
+REFERENCES `user` (
+	`USER_ID`
+);
+
+ALTER TABLE `department` ADD CONSTRAINT `FK_disease_TO_department_1` FOREIGN KEY (
+	`diseaseID`
+)
+REFERENCES `disease` (
+	`diseaseID`
+);
+

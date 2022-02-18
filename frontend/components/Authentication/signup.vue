@@ -311,6 +311,7 @@ export default {
           console.log("RegisterVue: error : ");
           this.$alertify.error("인증번호가 틀렸습니다.");
           this.isSecretValid = false;
+          this.cnt = 0;
         });
     },
 
