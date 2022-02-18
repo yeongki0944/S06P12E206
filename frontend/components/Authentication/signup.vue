@@ -405,6 +405,7 @@ export default {
     register() {
       // 한번 체크해주기
       if(this.cnt == 0) {
+        console.log("입력된 인증번호 : " + this.secretNumber);
         http
         .post("/api/v1/users/sms/confirms", {
           to: this.userPhone,
@@ -414,6 +415,45 @@ export default {
           this.cnt = 0;
           this.isSecretValid = true;
           this.originalSN = this.secretNumber;
+          if (
+            !this.isUserPasswordValid ||
+            !this.isUserPassword2Valid ||
+            !this.isUserIdValid ||
+            this.userName == "" ||
+            !this.isSecretValid
+          ) {
+            this.$alertify.error("정보를 정확하게 입력해주세요");
+            return;
+          }
+          console.log("register");
+        http
+        .post("/api/v1/users", {
+          userName: this.userName,
+          userPassword: this.userPassword,
+          userId: this.userId,
+          userEmail: this.userEmail,
+        })
+        .then(({ data }) => {
+          console.log("RegisterVue: data : ");
+          console.log(data);
+
+          let $this = this;
+
+
+          this.$alertify.alert(
+            "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
+            function () {})
+            .set({title: "수화닥터.site"});
+
+          this.$nuxt.$options.router.push("/authentication/login");
+        })
+        .catch((error) => {
+          console.log("RegisterVue: error : ");
+          console.log(error);
+          if (error.response.status == "404") {
+            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
+          }
+          });
         })
         .catch((error) => {
           console.log("RegisterVue: error : ");
@@ -421,17 +461,9 @@ export default {
           this.isSecretValid = false;
         });
       }
-      if (
-        !this.isUserPasswordValid ||
-        !this.isUserPassword2Valid ||
-        !this.isUserIdValid ||
-        this.userName == "" ||
-        !this.isSecretValid
-      ) {
-        this.$alertify.error("정보를 정확하게 입력해주세요");
-        return;
-      }
-      console.log("register");
+
+
+
 
       // var formData = new FormData();
       // formData.append("name", this.userName);
@@ -459,34 +491,8 @@ export default {
       //       console.log("doctor apply : error ");
       //       console.log(error);
       //     });
-      http
-        .post("/api/v1/users", {
-          userName: this.userName,
-          userPassword: this.userPassword,
-          userId: this.userId,
-          userEmail: this.userEmail,
-        })
-        .then(({ data }) => {
-          console.log("RegisterVue: data : ");
-          console.log(data);
-
-          let $this = this;
 
 
-          this.$alertify.alert(
-            "회원가입을 축하합니다. 로그인 페이지로 이동합니다",
-            function () {})
-            .set({title: "수화닥터.site"});
-
-          this.$nuxt.$options.router.push("/authentication/login");
-        })
-        .catch((error) => {
-          console.log("RegisterVue: error : ");
-          console.log(error);
-          if (error.response.status == "404") {
-            this.$alertify.error("Opps!! 서버에 문제가 발생했습니다.");
-          }
-        });
     },
   },
 };
