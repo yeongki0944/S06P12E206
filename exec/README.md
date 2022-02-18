@@ -1,5 +1,3 @@
-## Gitlab 소스 클론 이후 빌드 및 배포
-
 ## 수화닥터 서버
 ### 가동중인 awsstudy 도커 중단 및 삭제 sign-language-doctor:1.0
 - sudo docker ps -a -q --filter "name=sign_doctor” | grep -q . && docker stop sign_doctor && docker rm sign_doctor | true
@@ -23,9 +21,6 @@
 
 
 
-## 프로젝트에서 사용하는 외부 서비스 정보
-
-## DB 덤프 파일 최신본
-
 ## 시연 시나리오
 
+https://www.youtube.com/playlist?list=PL8yWNPee7X0Sqd4lHQ9gcC2BXkvVl-gbu
