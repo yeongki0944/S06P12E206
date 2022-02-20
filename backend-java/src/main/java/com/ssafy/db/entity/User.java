@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.ssafy.oauth.entity.ProviderType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class User{
 
     private String userId;
 
+    ProviderType providerType;
     private String role;
 
     @JsonIgnore

@@ -3,6 +3,17 @@ package com.ssafy.config;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.JwtAuthenticationFilter;
 import com.ssafy.common.auth.SsafyUserDetailService;
+import com.ssafy.config.properties.AppProperties;
+import com.ssafy.db.repository.UserRefreshTokenRepository;
+import com.ssafy.oauth.filter.TokenAuthenticationFilter;
+import com.ssafy.oauth.handler.OAuth2AuthenticationFailureHandler;
+import com.ssafy.oauth.handler.OAuth2AuthenticationSuccessHandler;
+import com.ssafy.oauth.handler.TokenAccessDeniedHandler;
+import com.ssafy.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.ssafy.oauth.service.CustomOAuth2UserService;
+import com.ssafy.oauth.service.CustomUserDetailsService;
+import com.ssafy.oauth.token.AuthTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,11 +32,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
+
+    private final AppProperties appProperties;
+    private final AuthTokenProvider tokenProvider;
+    private final CustomUserDetailsService userDetailsService;
+    private final CustomOAuth2UserService oAuth2UserService;
+    private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
+    private final UserRefreshTokenRepository userRefreshTokenRepository;
+
+
     private SsafyUserDetailService ssafyUserDetailService;
-    
-    @Autowired
+
     private UserService userService;
     
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
@@ -61,6 +80,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
     	        	    .anyRequest().permitAll()
-                .and().cors();
+                .and().cors()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorization")
+                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+                .and()
+                .redirectionEndpoint()
+                .baseUri("/*/oauth2/code/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(oAuth2UserService)
+                .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler())
+                .failureHandler(oAuth2AuthenticationFailureHandler());
+
+    }
+
+    /*
+     * 쿠키 기반 인가 Repository
+     * 인가 응답을 연계 하고 검증할 때 사용.
+     * */
+    @Bean
+    public OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2AuthorizationRequestBasedOnCookieRepository() {
+        return new OAuth2AuthorizationRequestBasedOnCookieRepository();
+    }
+
+    /*
+     * Oauth 인증 성공 핸들러
+     * */
+    @Bean
+    public OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler() {
+        return new OAuth2AuthenticationSuccessHandler(
+                tokenProvider,
+                appProperties,
+                userRefreshTokenRepository,
+                oAuth2AuthorizationRequestBasedOnCookieRepository()
+        );
+    }
+
+    /*
+     * Oauth 인증 실패 핸들러
+     * */
+    @Bean
+    public OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler() {
+        return new OAuth2AuthenticationFailureHandler(oAuth2AuthorizationRequestBasedOnCookieRepository());
     }
 }

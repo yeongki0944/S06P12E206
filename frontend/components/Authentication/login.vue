@@ -82,7 +82,13 @@
               </center>
 
               <div class="medialogo d-flex justify-content-center">
-
+                  <a class="social_btn" href="`${BACKEND_URL}/oauth2/authorization/${socialType}?redirect_uri=${REDIRECT_URI}`">(:href='socialLoginUrl(social.socialType)')
+                    img.social_login(
+                      :src='social.src'
+                      :style='{width: social.width, height: social.height}'
+                    )
+                    | {{ social.comment }}
+                    </a>
                 <div
                   class="google-btn btn-block"
                   @click="handleClickGetAuth"
@@ -251,3 +257,29 @@ export default {
   },
 };
 </script>
+<style scoped>
+.social_login {
+    height: 32px;
+    float: left;
+    margin-top: 5.2px;
+    margin-left: 10px;
+}
+.social_btn:hover {
+  color: #2098f3;
+}
+.social_btn {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 16px;
+  display: block;
+  width: 100%;
+  height: 45px;
+  line-height: 45px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #e8e8e8;
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+}
+</style>
