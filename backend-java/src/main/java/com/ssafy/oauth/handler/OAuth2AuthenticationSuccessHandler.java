@@ -2,7 +2,10 @@ package com.ssafy.oauth.handler;
 
 
 import com.ssafy.api.entity.user.UserRefreshToken;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.util.CookieUtil;
+import com.ssafy.common.util.JwtTokenUtil;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRefreshTokenRepository;
 import com.ssafy.config.properties.AppProperties;
 import com.ssafy.oauth.entity.ProviderType;
@@ -36,7 +39,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final AuthTokenProvider tokenProvider;
+    private UserService userService;
     private final AppProperties appProperties;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
@@ -74,36 +77,46 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         RoleType roleType = hasAuthority(authorities, RoleType.ADMIN.getCode()) ? RoleType.ADMIN : RoleType.USER;
 
         Date now = new Date();
-        AuthToken accessToken = tokenProvider.createAuthToken(
-                userInfo.getId(),
-                roleType.getCode(),
-                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
-        );
-
-        // refresh 토큰 설정
-        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-                appProperties.getAuth().getTokenSecret(),
-                new Date(now.getTime() + refreshTokenExpiry)
-        );
-
-        // DB 저장
-        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userInfo.getId());
-        if (userRefreshToken != null) {
-            userRefreshToken.setRefreshToken(refreshToken.getToken());
-        } else {
-            userRefreshToken = new UserRefreshToken(userInfo.getId(), refreshToken.getToken());
-            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
+        String userEmail = authentication.getName();
+        User user2 = userService.getUserByEmail(userEmail);
+        if(user2 == null) {
+            User nuser = new User();
+            nuser.setEmail(userEmail);
+            nuser.setName(((OidcUser) authentication.getPrincipal()).getName());
+            userService.saveUser(nuser);
         }
 
-        int cookieMaxAge = (int) refreshTokenExpiry / 60;
+        String token = JwtTokenUtil.getToken(userEmail);
+//        AuthToken accessToken = tokenProvider.createAuthToken(
+//                userInfo.getId(),
+//                roleType.getCode(),
+//                new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
+//        );
 
-        CookieUtil.deleteCookie(request, response, authorizationRequestRepository.REFRESH_TOKEN);
-        CookieUtil.addCookie(response, authorizationRequestRepository.REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+        // refresh 토큰 설정
+//        long refreshTokenExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+//
+//        AuthToken refreshToken = tokenProvider.createAuthToken(
+//                appProperties.getAuth().getTokenSecret(),
+//                new Date(now.getTime() + refreshTokenExpiry)
+//        );
+
+        // DB 저장
+//        UserRefreshToken userRefreshToken = userRefreshTokenRepository.findByUserId(userInfo.getId());
+//        if (userRefreshToken != null) {
+//            userRefreshToken.setRefreshToken(refreshToken.getToken());
+//        } else {
+//            userRefreshToken = new UserRefreshToken(userInfo.getId(), refreshToken.getToken());
+//            userRefreshTokenRepository.saveAndFlush(userRefreshToken);
+//        }
+//
+//        int cookieMaxAge = (int) refreshTokenExpiry / 60;
+//
+//        CookieUtil.deleteCookie(request, response, authorizationRequestRepository.REFRESH_TOKEN);
+//        CookieUtil.addCookie(response, authorizationRequestRepository.REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-                .queryParam("token", accessToken.getToken())
+                .queryParam("token", token)
                 .build().toUriString();
     }
 

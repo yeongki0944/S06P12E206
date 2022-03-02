@@ -1,4 +1,4 @@
-package com.ssafy.oauth.service;
+package com.ssafy.api.service;
 
 
 import com.ssafy.db.entity.User;

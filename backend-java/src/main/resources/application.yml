@@ -54,54 +54,55 @@ springfox:
 
 
 spring:
-  oauth2.client:
-    registration:
-      google:
-        clientId: '1090279015530-bn2drlnfrf78o748fji32ebfivlfgoik.apps.googleusercontent.com'
-        clientSecret: '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'
-        scope:
-          - email
-          - profile
-      facebook:
-        clientId: '{페이스북 client-id}'
-        clientSecret: '{페이스북 client-secret}'
-        scope:
-          - email
-          - public_profile
-      naver:
-        clientId: '{네이버 client-id}'
-        clientSecret: '{네이버 client-secret}'
-        clientAuthenticationMethod: post
-        authorizationGrantType: authorization_code
-        redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-        scope:
-          - nickname
-          - email
-          - profile_image
-        clientName: Naver
-      kakao:
-        clientId: '{카카오 client-id}'
-        clientSecret: '{카카오 client-secret}'
-        clientAuthenticationMethod: post
-        authorizationGrantType: authorization_code
-        redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
-        scope:
-          - profile_nickname
-          - profile_image
-          - account_email
-        clientName: Kakao
-    # Provider 설정
-    provider:
-      naver:
-        authorizationUri: https://nid.naver.com/oauth2.0/authorize
-        tokenUri: https://nid.naver.com/oauth2.0/token
-        userInfoUri: https://openapi.naver.com/v1/nid/me
-        userNameAttribute: response
-      kakao:
-        authorizationUri: https://kauth.kakao.com/oauth/authorize
-        tokenUri: https://kauth.kakao.com/oauth/token
-        userInfoUri: https://kapi.kakao.com/v2/user/me
-        userNameAttribute: id
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: '1090279015530-bn2drlnfrf78o748fji32ebfivlfgoik.apps.googleusercontent.com'
+          clientSecret: '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'
+          scope:
+            - email
+            - profile
+        facebook:
+          clientId: '{페이스북 client-id}'
+          clientSecret: '{페이스북 client-secret}'
+          scope:
+            - email
+            - public_profile
+        naver:
+          clientId: '{네이버 client-id}'
+          clientSecret: '{네이버 client-secret}'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - nickname
+            - email
+            - profile_image
+          clientName: Naver
+        kakao:
+          clientId: '{카카오 client-id}'
+          clientSecret: '{카카오 client-secret}'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+      # Provider 설정
+      provider:
+        naver:
+          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+          tokenUri: https://nid.naver.com/oauth2.0/token
+          userInfoUri: https://openapi.naver.com/v1/nid/me
+          userNameAttribute: response
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
 
   mail :
     host : smtp.gmail.com

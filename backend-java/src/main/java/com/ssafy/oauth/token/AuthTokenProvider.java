@@ -4,6 +4,7 @@ import com.ssafy.oauth.exception.TokenValidFailedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,8 +23,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.lang.String;
-@Slf4j
-@Configuration
+
+
 public class AuthTokenProvider {
 
     private Key key;
@@ -55,7 +56,7 @@ public class AuthTokenProvider {
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
 
-            log.debug("claims subject := [{}]", claims.getSubject());
+
             User principal = new User(claims.getSubject(), "", authorities);
 
             return new UsernamePasswordAuthenticationToken(principal, authToken, authorities);

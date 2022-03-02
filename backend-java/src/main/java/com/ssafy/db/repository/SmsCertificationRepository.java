@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;
 
 @RequiredArgsConstructor
-@Repository
+@Component
 public class SmsCertificationRepository {
     private final String PREFIX = "sms:";  // (1)
     private final int LIMIT_TIME = 3 * 60;  // (2)

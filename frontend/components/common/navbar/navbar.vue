@@ -115,7 +115,7 @@
                         >
                     </button>
 
-                    <button v-if="isManagerGetters" id="mystate" type="button" class="btn btn-primary">
+                    <button id="mystate" type="button" class="btn btn-primary">
                         <nuxt-link to="/manager/manager"
                             >관리자페이지</nuxt-link
                         >

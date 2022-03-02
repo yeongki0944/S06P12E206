@@ -82,13 +82,13 @@
               </center>
 
               <div class="medialogo d-flex justify-content-center">
-                  <a class="social_btn" href="`${BACKEND_URL}/oauth2/authorization/${socialType}?redirect_uri=${REDIRECT_URI}`">(:href='socialLoginUrl(social.socialType)')
+                  <!-- <a class="social_btn" href="`${BACKEND_URL}/oauth2/authorization/${socialType}?redirect_uri=${REDIRECT_URI}`">(:href='socialLoginUrl(social.socialType)')
                     img.social_login(
                       :src='social.src'
                       :style='{width: social.width, height: social.height}'
                     )
                     | {{ social.comment }}
-                    </a>
+                    </a> -->
                 <div
                   class="google-btn btn-block"
                   @click="handleClickGetAuth"
