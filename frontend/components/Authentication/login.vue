@@ -185,6 +185,8 @@ export default {
           console.log(data);
 
           localStorage.setItem("jwtToken", data.accessToken);
+          sessionStorage.setItem("jwtToken", data.accessToken);
+          
           let info = jwt_decode(data.accessToken);
           console.log(info);
           this.$store.commit("login/SET_LOGIN", {
@@ -196,6 +198,7 @@ export default {
           });
 
           this.$alertify.success("로그인 성공!");
+          
           this.$nuxt.$options.router.push("/");
         })
         .catch((error) => {

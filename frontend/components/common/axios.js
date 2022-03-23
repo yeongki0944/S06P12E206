@@ -7,7 +7,7 @@ export default axios.create({
   //baseURL: "https://xn--3j1b610aimlm4e.site",
   headers: {
     "Content-type": "application/json",
-    "Authorization": token
+    "Authorization": localStorage.getItem('jwtToken')
   },
   withCredentials: true
 });

@@ -12,11 +12,12 @@ import java.util.List;
 
 public interface ApplyBoardRepository extends JpaRepository<ApplyBoard, Long> {
 
-    List<ApplyBoard> findAllByDoctorInfoIdAndStatus(Long id, RStatus status);
+
+    List<ApplyBoard> findAllByDoctorInfoIdAndStatus(Long id, RStatus status);  // 쿼리메소드
     List<ApplyBoard> findAllByUserIdAndStatus(Long id, RStatus status);
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE ApplyBoard b SET b.status = :status where b.id= :id")
+    @Query("UPDATE ApplyBoard b SET b.status = :status where b.id= :id") // 일반 쿼리
     int updateStatus(RStatus status,Long id);
 
     @Override

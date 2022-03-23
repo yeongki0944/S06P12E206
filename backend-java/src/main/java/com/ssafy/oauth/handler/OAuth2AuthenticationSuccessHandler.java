@@ -16,6 +16,7 @@ import com.ssafy.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieReposit
 import com.ssafy.oauth.token.AuthToken;
 import com.ssafy.oauth.token.AuthTokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -39,7 +40,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    @Autowired
     private UserService userService;
+
     private final AppProperties appProperties;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
@@ -77,16 +80,20 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         RoleType roleType = hasAuthority(authorities, RoleType.ADMIN.getCode()) ? RoleType.ADMIN : RoleType.USER;
 
         Date now = new Date();
-        String userEmail = authentication.getName();
+        String userEmail = userInfo.getEmail();
+        System.out.println("userEmail : " + userEmail);
+//        User user2 = userService.getUserByEmail(userEmail);
+//        if(user2 == null) {
+//            User nuser = new User();
+//            nuser.setEmail(userEmail);
+//            nuser.setName(((OidcUser) authentication.getPrincipal()).getName());
+//            userService.saveUser(nuser);
+//        }
         User user2 = userService.getUserByEmail(userEmail);
-        if(user2 == null) {
-            User nuser = new User();
-            nuser.setEmail(userEmail);
-            nuser.setName(((OidcUser) authentication.getPrincipal()).getName());
-            userService.saveUser(nuser);
-        }
+        System.out.println(user2.getRole());
+        System.out.println(user2.getName());
 
-        String token = JwtTokenUtil.getToken(userEmail);
+        String token = JwtTokenUtil.getToken(userEmail,user2.getRole(),user2.getName());
 //        AuthToken accessToken = tokenProvider.createAuthToken(
 //                userInfo.getId(),
 //                roleType.getCode(),

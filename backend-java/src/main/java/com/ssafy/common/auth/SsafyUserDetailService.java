@@ -24,6 +24,9 @@ public class SsafyUserDetailService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     		User user = userService.getUserByUserId(username);
+		System.out.println("####################################");
+		System.out.println(username);
+		System.out.println("####################################");
     		if(user != null) {
     			SsafyUserDetails userDetails = new SsafyUserDetails(user);
     			return userDetails;

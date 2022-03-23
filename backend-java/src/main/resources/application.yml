@@ -81,11 +81,11 @@ spring:
             - profile_image
           clientName: Naver
         kakao:
-          clientId: '{카카오 client-id}'
-          clientSecret: '{카카오 client-secret}'
+          clientId: 'e9571f1f9b199c076d78f95fd1899db2'
+          clientSecret: '2Gkh9SWv9Aey1rpcNWalc0gbeRwUjvQh'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: "http://localhost:8080/login/oauth2/code/kakao"
           scope:
             - profile_nickname
             - profile_image

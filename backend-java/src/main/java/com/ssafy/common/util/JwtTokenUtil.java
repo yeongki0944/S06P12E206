@@ -71,12 +71,14 @@ public class JwtTokenUtil {
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
-    public static String getToken(String email) {
+    public static String getToken(String email,String role, String userName) {
         Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
         return JWT.create()
                 .withSubject(email)
                 .withExpiresAt(expires)
                 .withIssuer(ISSUER)
+                .withClaim("name",userName)
+                .withClaim("role",role)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }

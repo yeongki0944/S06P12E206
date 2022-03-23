@@ -68,6 +68,12 @@ export default {
     Footer,
     TapTop,
   },
+
+  mounted() {
+    console.log("homepage mounted");
+    console.log(this.$router.currentRoute);
+
+  },
   head() {
     return {
       bodyAttrs: {

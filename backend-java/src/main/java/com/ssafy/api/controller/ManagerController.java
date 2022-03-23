@@ -39,6 +39,7 @@ public class ManagerController {
     @Autowired
     private JavaMailSender mailSender;
     @GetMapping()
+    @CrossOrigin()
     public ResponseEntity<ResumeRes> getResumeList() {
 
         ResumeRes resumeRes;

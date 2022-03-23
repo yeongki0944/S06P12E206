@@ -16,19 +16,17 @@ import javax.servlet.Filter;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        // configuration.addAllowedOrigin("*");
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
+
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .exposedHeaders(JwtTokenUtil.HEADER_STRING)
+                .maxAge(3600L);
     }
 
     @Override

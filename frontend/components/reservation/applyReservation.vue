@@ -17,7 +17,7 @@ import http from "@/components/common/axios.js";
 import Table from "./table2.vue";
 import ForEmptySpace from "./ForEmptySpace.vue";
 
-export default {   
+export default {
     components : {
         Header,
         Table,

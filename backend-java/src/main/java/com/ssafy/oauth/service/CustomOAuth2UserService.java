@@ -12,6 +12,7 @@ import com.ssafy.oauth.info.OAuth2UserInfoFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -45,13 +46,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        Optional<User> savedUser = userRepository.findByUserId(userInfo.getId());
+        User savedUser = userRepository.findByUserId(userInfo.getId());
 
+        System.out.println(savedUser);
         if (savedUser != null) {
-            if (providerType != savedUser.get().getProviderType()) {
+            System.out.println("providerType : " + providerType);
+            System.out.println("디비 providerType" +savedUser.getProviderType());
+            if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "Looks like you're signed up with " + providerType +
-                        " account. Please use your " + savedUser.get().getProviderType() + " account to login."
+                        " account. Please use your " + savedUser.getProviderType() + " account to login."
                 );
             }
             updateUser(savedUser, userInfo);
@@ -62,16 +66,28 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return UserPrincipal.create(savedUser, user.getAttributes());
     }
 
-    private Optional<User> createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+    private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
-        Optional<User> user = Optional.of(new User());
 
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+
+
+
+        User user = new User(
+                userInfo.getId(),
+                userInfo.getName(),
+                userInfo.getEmail(),
+                userInfo.getImageUrl(),
+                providerType,
+                RoleType.USER
+        );
+        user.setPassword(bCryptPasswordEncoder.encode("겟겟인데어"));
         return userRepository.saveAndFlush(user);
     }
 
-    private Optional<User> updateUser(Optional<User> user, OAuth2UserInfo userInfo) {
-        if (userInfo.getName() != null && !user.get().getName().equals(userInfo.getName())) {
-            user.get().setName(userInfo.getName());
+    private User updateUser(User user, OAuth2UserInfo userInfo) {
+        if (userInfo.getName() != null && !user.getName().equals(userInfo.getName())) {
+            user.setName(userInfo.getName());
         }
 
 //        if (userInfo.getImageUrl() != null && !user.get.equals(userInfo.getImageUrl())) {
